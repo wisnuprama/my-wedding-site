@@ -7,6 +7,7 @@ const font = Baskervville({ weight: ["400"], subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Nadia & Wisnu",
   description: "Wedding Invitation",
+  robots: "noindex",
 };
 
 export default function RootLayout({
