@@ -57,8 +57,8 @@ export function RSVP() {
           name="rsvp_response"
           id="rsvp_response"
         >
-          <select placeholder="Please select">
-            <option selected>---</option>
+          <select placeholder="Please select" defaultValue="">
+            <option value="">---</option>
             <option value="yes">Yes</option>
             <option value="no">No</option>
           </select>
