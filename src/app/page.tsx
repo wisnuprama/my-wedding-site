@@ -1,19 +1,45 @@
 import Image from "next/image";
 import { RSVP } from "@/components/RSVP";
 import { AnchorTagSmoothScroll } from "@/components/AnchorTagSmoothScroll";
-// import { useLayoutEffect } from "react";
 
 function Hero() {
   return (
     <div className="px-24 pt-40">
       <h1 className="text-6xl font-bold mb-24">The Wedding</h1>
-      <h2 className="text-4xl font-medium mb-36">
-        Nadia Rizqi Aziza &
-        <br />Wisnu Pramadhitya Ramadhan
-      </h2>
-      <p className="text-2xl font-medium">
-        Place | 2024-07-06
-      </p>
+      <h2 className="text-4xl font-medium mb-8 md:mb-36">Nadia & Wisnu</h2>
+      <p className="text-2xl font-medium">Place | 2024-07-06</p>
+    </div>
+  );
+}
+
+function SectionLeftRightLayout(props: {
+  left: React.ReactNode;
+  right: React.ReactNode;
+}) {
+  return (
+    <div className="flex min-h-screen flex-col md:flex-row p-0 relative md:max-h-screen md:overflow-hidden md:justify-between">
+      <div className={`flex md:w-5/12 flex-col overflow-auto snap-y z-10`}>
+        {props.left}
+      </div>
+      <div className="absolute top-0 bottom-0 left-0 right-0 z-0 opacity-30 md:relative md:opacity-100 md:flex md:w-7/12">
+        {props.right}
+      </div>
+    </div>
+  );
+}
+
+function SectionRightLeftLayout(props: {
+  left: React.ReactNode;
+  right: React.ReactNode;
+}) {
+  return (
+    <div className="flex min-h-screen flex-col md:flex-row p-0 relative md:max-h-screen md:overflow-hidden md:justify-between">
+      <div className="absolute top-0 bottom-0 left-0 right-0 z-0 opacity-30 md:relative md:opacity-100 md:flex md:w-7/12">
+        {props.left}
+      </div>
+      <div className={`flex md:w-5/12 flex-col overflow-auto snap-y z-10`}>
+        {props.right}
+      </div>
     </div>
   );
 }
@@ -22,14 +48,16 @@ export default function Home() {
   return (
     <main>
       <AnchorTagSmoothScroll />
-      <div className="flex min-h-screen max-h-screen flex-row justify-between p-0 overflow-hidden">
-        <div className="flex w-5/12 flex-col overflow-auto snap-y">
-          <Hero />
-          <div className="flex flex-1 px-24 pt-40 justify-center">
-            <a href="#rsvp">{`>> RSVP here<<`}</a>
-          </div>
-        </div>
-        <div className="flex w-7/12">
+      <SectionLeftRightLayout
+        left={
+          <>
+            <Hero />
+            <div className="flex flex-1 px-24 pt-40 justify-center">
+              <a href="#rsvp">{`>> RSVP here <<`}</a>
+            </div>
+          </>
+        }
+        right={
           <Image
             src="/A7400382.jpg"
             alt="Photo of Nadia & Wisnu"
@@ -39,10 +67,10 @@ export default function Home() {
             priority
             style={{ height: "100%" }}
           />
-        </div>
-      </div>
-      <div className="flex min-h-screen max-h-screen flex-row justify-between p-0 overflow-hidden">
-        <div className="flex w-7/12">
+        }
+      />
+      <SectionRightLeftLayout
+        left={
           <Image
             src="/A7400056.jpg"
             alt="Photo of Nadia & Wisnu"
@@ -52,11 +80,13 @@ export default function Home() {
             priority
             style={{ height: "100%" }}
           />
-        </div>
-        <div id="rsvp" className="flex w-5/12 flex-col overflow-auto snap-y">
-          <RSVP />
-        </div>
-      </div>
+        }
+        right={
+          <div id="rsvp">
+            <RSVP />
+          </div>
+        }
+      />
     </main>
   );
 }

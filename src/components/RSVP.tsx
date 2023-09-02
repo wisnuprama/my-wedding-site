@@ -14,8 +14,8 @@ function InputContainer(props: InputProps) {
   const { labelText, helpText, children, ...inputProps } = props;
   return (
     <div className="mb-8">
-      <div className="flex">
-        <label className="mr-2 flex-1" htmlFor={inputProps.name}>
+      <div className="flex flex-col lg:flex-row">
+        <label className="mb-2 lg:mr-2 flex-1" htmlFor={inputProps.name}>
           {labelText}
         </label>
         {React.Children.map(React.Children.only(children), (child) => {
@@ -32,24 +32,13 @@ function InputContainer(props: InputProps) {
 }
 
 export function RSVP() {
-  const [isValidPhone, setIsValidPhone] = useState(false);
-
   return (
     <div className="px-24 pt-40">
-      <h2 className="text-4xl font-medium mb-36">RSVP</h2>
+      <h2 className="text-4xl font-medium mb-16 md:mb-36">RSVP</h2>
 
       <form className="flex flex-col">
-        <InputContainer
-          labelText="Whatsapp"
-          name="phone_number"
-          id="phone_number"
-          helpText="Your whatsapp phone number for receiving OTP"
-        >
-          <input onBlur={() => setIsValidPhone(true)} />
-        </InputContainer>
-
         <InputContainer labelText="Full Name" name="name" id="name">
-          <input />
+          <input type="text" disabled value={"Nadia Rizqi Aziza"} />
         </InputContainer>
 
         <InputContainer
@@ -77,14 +66,10 @@ export function RSVP() {
           </select>
         </InputContainer>
 
-        <InputContainer labelText="OTP" name="otp" id="otp">
-          <input onBlur={() => setIsValidPhone(true)} />
-        </InputContainer>
-
         <button
           type="submit"
-          className="px-4 py-1 text-sm text-white rounded-full border border-pink-200 bg-pink-600 hover:bg-pink-500 hover:border-transparent disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-pink-600 focus:ring-offset-2"
-          disabled={!isValidPhone}
+          className="px-4 py-1 text-sm text-white rounded-full border border-pink-200 bg-pink-600 hover:bg-pink-500 hover:border-transparent disabled:text-slate-600 disabled:text-grey focus:outline-none focus:ring-2 focus:ring-pink-600 focus:ring-offset-2"
+          disabled
         >
           Submit
         </button>
