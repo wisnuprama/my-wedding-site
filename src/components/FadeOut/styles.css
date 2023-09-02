@@ -4,7 +4,7 @@
   transition: opacity 1s ease-in;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 800px) {
   .fade-out.fade {
     opacity: 0.3;
   }

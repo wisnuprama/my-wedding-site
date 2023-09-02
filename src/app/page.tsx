@@ -19,10 +19,12 @@ function SectionLeftRightLayout(props: {
 }) {
   return (
     <div className="flex min-h-screen flex-col md:flex-row p-0 relative md:max-h-screen md:overflow-hidden md:justify-between">
-      <div className={`flex md:w-5/12 flex-1 flex-col overflow-auto snap-y z-10 relative`}>
+      <div
+        className={`flex max-lg:flex-1 lg:w-2/5  flex-col overflow-auto snap-y z-10 relative`}
+      >
         {props.left}
       </div>
-      <div className="absolute flex-1 top-0 bottom-0 left-0 right-0 z-0 md:relative md:opacity-100 md:flex md:w-7/12">
+      <div className="absolute top-0 bottom-0 left-0 right-0 z-0 md:relative md:opacity-100 md:flex max-lg:flex-1 lg:w-4/6">
         {props.right}
       </div>
     </div>
@@ -35,10 +37,12 @@ function SectionRightLeftLayout(props: {
 }) {
   return (
     <div className="flex min-h-screen flex-col md:flex-row p-0 relative md:max-h-screen md:overflow-hidden md:justify-between">
-      <div className="absolute top-0 flex-1 bottom-0 left-0 right-0 z-0 md:relative md:opacity-100 md:flex md:w-7/12">
+      <div className="absolute top-0 bottom-0 left-0 right-0 z-0 md:relative md:opacity-100 md:flex max-lg:flex-1 lg:w-4/6">
         {props.left}
       </div>
-      <div className={`flex md:w-5/12 flex-1 flex-col overflow-auto snap-y z-10`}>
+      <div
+        className={`flex max-lg:flex-1 lg:w-2/5  flex-col overflow-auto snap-y z-10`}
+      >
         {props.right}
       </div>
     </div>
@@ -60,28 +64,39 @@ export default function Home() {
         }
         right={
           <MobileFadeOut className="h-full">
+            <video
+              width={2048}
+              className="h-full object-cover"
+              autoPlay={true}
+              disablePictureInPicture
+              disableRemotePlayback
+              loop
+              muted
+            >
+              <source src="/home.webm" type="video/webm" />
+              {/* <source src="/home.mp4" type="video/mp4" /> */}
+              <Image
+                src="/A7405925.jpg"
+                alt="Your browser does not support the video tag."
+                width={2048}
+                height={1639}
+                className={"object-cover h-full"}
+              />
+            </video>
+          </MobileFadeOut>
+        }
+      />
+      <SectionRightLeftLayout
+        left={
+          <MobileFadeOut className="h-full">
             <Image
               src="/A7400382.jpg"
               alt="Photo of Nadia & Wisnu"
               width={2048}
               height={1639}
               className={"object-cover h-full"}
-              priority
             />
           </MobileFadeOut>
-        }
-      />
-      <SectionRightLeftLayout
-        left={
-          <Image
-            src="/A7400056.jpg"
-            alt="Photo of Nadia & Wisnu"
-            width={2048}
-            height={1639}
-            className="object-cover opacity-30"
-            priority
-            style={{ height: "100%" }}
-          />
         }
         right={
           <div id="rsvp">
