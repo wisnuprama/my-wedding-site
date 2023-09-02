@@ -1,0 +1,11 @@
+
+.fade-out {
+  opacity: 1;
+  transition: opacity 1s ease-in;
+}
+
+@media (max-width: 640px) {
+  .fade-out.fade {
+    opacity: 0.3;
+  }
+ }
