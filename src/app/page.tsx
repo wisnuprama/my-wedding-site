@@ -76,7 +76,7 @@ export default function Home() {
               <source src="/home.webm" type="video/webm" />
               {/* <source src="/home.mp4" type="video/mp4" /> */}
               <Image
-                src="/A7405925.jpg"
+                src="/A7405925.jpeg"
                 alt="Your browser does not support the video tag."
                 width={2048}
                 height={1639}
@@ -90,7 +90,7 @@ export default function Home() {
         left={
           <MobileFadeOut className="h-full">
             <Image
-              src="/A7400382.jpg"
+              src="/A7400382.jpeg"
               alt="Photo of Nadia & Wisnu"
               width={2048}
               height={1639}
