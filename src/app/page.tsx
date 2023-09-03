@@ -49,19 +49,21 @@ function SectionRightLeftLayout(props: {
   );
 }
 
-export default function Home() {
+type HomeProps = {
+  searchParams: {
+    c?: string;
+  };
+};
+
+export default function Home(props: HomeProps) {
+  const { searchParams } = props;
+  const { c = "test23" } = searchParams;
+
   return (
     <main>
       <AnchorTagSmoothScroll />
       <SectionLeftRightLayout
-        left={
-          <>
-            <Hero />
-            <div className="absolute flex flex-1 px-24 bottom-24 left-0 right-0 justify-center">
-              <a href="#rsvp">{`>> RSVP here <<`}</a>
-            </div>
-          </>
-        }
+        left={<Hero />}
         right={
           <MobileFadeOut className="h-full">
             <video
@@ -86,24 +88,26 @@ export default function Home() {
           </MobileFadeOut>
         }
       />
-      <SectionRightLeftLayout
-        left={
-          <MobileFadeOut className="h-full">
-            <Image
-              src="/A7400382.jpeg"
-              alt="Photo of Nadia & Wisnu"
-              width={2048}
-              height={1639}
-              className={"object-cover h-full"}
-            />
-          </MobileFadeOut>
-        }
-        right={
-          <div id="rsvp">
-            <RSVP />
-          </div>
-        }
-      />
+      {c && (
+        <SectionRightLeftLayout
+          left={
+            <MobileFadeOut className="h-full">
+              <Image
+                src="/A7400382.jpeg"
+                alt="Photo of Nadia & Wisnu"
+                width={2048}
+                height={1639}
+                className={"object-cover h-full"}
+              />
+            </MobileFadeOut>
+          }
+          right={
+            <div id="rsvp">
+              <RSVP rsvpCode={c} invitationCode="test123" />
+            </div>
+          }
+        />
+      )}
     </main>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
-import React, { HTMLProps, useState } from "react";
+import React from "react";
+import QRCode from "react-qr-code";
 
 type InputProps = {
   labelText: string;
@@ -31,11 +32,39 @@ function InputContainer(props: InputProps) {
   );
 }
 
-export function RSVP() {
+type RSVPProps = {
+  rsvpCode: string;
+  invitationCode?: string;
+};
+
+export function RSVP(props: RSVPProps) {
+  const { invitationCode } = props;
+
   return (
     <div className="px-24 pt-40">
-      <h2 className="text-4xl font-medium mb-16 md:mb-36">RSVP</h2>
+      {Boolean(invitationCode) && (
+        <>
+          <h2 className="text-4xl font-medium mb-16 md:mb-36">
+            Invitation
+          </h2>
+          <div>
+            {/* @ts-expect-error hack */}
+            <QRCode size={"100%"} value={invitationCode} />
+            <div className="pt-8 flex flex-row">
+              <span className="mr-2">ℹ️</span>
+              <p>
+                Tunjukan QR ini ketika datang atau gunakan kode berikut
+                <b>
+                  <i>{` "${invitationCode}" `}</i>
+                </b>
+                jika ditemukan masalah.
+              </p>
+            </div>
+          </div>
+        </>
+      )}
 
+      <h2 className="text-4xl font-medium mb-16 md:mb-36">RSVP</h2>
       <form className="flex flex-col">
         <InputContainer labelText="Full Name" name="name" id="name">
           <input type="text" disabled value={"Nadia Rizqi Aziza"} />
