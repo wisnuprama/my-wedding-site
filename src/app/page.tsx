@@ -51,13 +51,13 @@ function SectionRightLeftLayout(props: {
 
 type HomeProps = {
   searchParams: {
-    c?: string;
+    rsvp?: string;
   };
 };
 
 export default function Home(props: HomeProps) {
   const { searchParams } = props;
-  const { c = "test23" } = searchParams;
+  const { rsvp = "test23" } = searchParams;
 
   return (
     <main>
@@ -69,11 +69,12 @@ export default function Home(props: HomeProps) {
             <video
               width={2048}
               className="h-full object-cover"
-              autoPlay={true}
+              autoPlay
               disablePictureInPicture
               disableRemotePlayback
               loop
               muted
+              playsInline
             >
               <source src="/home.webm" type="video/webm" />
               {/* <source src="/home.mp4" type="video/mp4" /> */}
@@ -88,7 +89,7 @@ export default function Home(props: HomeProps) {
           </MobileFadeOut>
         }
       />
-      {c && (
+      {rsvp && (
         <SectionRightLeftLayout
           left={
             <MobileFadeOut className="h-full">
@@ -103,7 +104,7 @@ export default function Home(props: HomeProps) {
           }
           right={
             <div id="rsvp">
-              <RSVP rsvpCode={c} invitationCode="test123" />
+              <RSVP rsvpCode={rsvp} invitationCode="test123" />
             </div>
           }
         />
