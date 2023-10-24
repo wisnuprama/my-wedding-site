@@ -2,12 +2,53 @@ import Image from "next/image";
 import { RSVP } from "@/components/RSVP";
 import { AnchorTagSmoothScroll } from "@/components/AnchorTagSmoothScroll";
 import { MobileFadeOut } from "@/components/FadeOut";
+import { jwtVerify } from "jose";
 
 /**
  * We are using cloudflare so, set this to edge
  * https://nextjs.org/docs/app/building-your-application/rendering/edge-and-nodejs-runtimes#segment-runtime-option
  */
-export const runtime = 'edge';
+export const runtime = "edge";
+
+type RSVPTokenData = {
+  id: string;
+  nm: string;
+  t?: string;
+  m?: string
+};
+
+class RSVPManager {
+  private privateKey: Uint8Array | null = null;
+
+  constructor() {
+    const encoder = new TextEncoder();
+    this.privateKey = process.env.RSVP_PRIVATE_KEY
+      ? encoder.encode(process.env.RSVP_PRIVATE_KEY)
+      : null;
+  }
+
+  async verifyAndDecodeToken(
+    token: string | null | undefined
+  ): Promise<[true, RSVPTokenData] | [false, null]> {
+    if (!token) {
+      return [false, null];
+    }
+
+    if (!this.privateKey) {
+      throw new Error("No private key found");
+    }
+
+    try {
+      const res = await jwtVerify(token, this.privateKey, {
+        algorithms: ["HS256"],
+        typ: "JWT",
+      });
+      return [true, res.payload as RSVPTokenData];
+    } catch (error) {
+      return [false, null];
+    }
+  }
+}
 
 function Hero() {
   return (
@@ -61,9 +102,15 @@ type HomeProps = {
   };
 };
 
-export default function Home(props: HomeProps) {
+const rsvpManager = new RSVPManager();
+
+export default async function Home(props: HomeProps) {
   const { searchParams } = props;
-  const { rsvp = "test23" } = searchParams;
+  const { rsvp } = searchParams;
+
+  const [validRsvp, rsvpInitialData] = await rsvpManager.verifyAndDecodeToken(
+    rsvp
+  );
 
   return (
     <main>
@@ -76,14 +123,12 @@ export default function Home(props: HomeProps) {
               width={2048}
               className="h-full object-cover"
               autoPlay
-              disablePictureInPicture
-              disableRemotePlayback
               loop
               muted
               playsInline
             >
               <source src="/home.webm" type="video/webm" />
-              {/* <source src="/home.mp4" type="video/mp4" /> */}
+              <source src="/home.mp4" type="video/mp4" />
               <Image
                 src="/A7405925.jpeg"
                 alt="Your browser does not support the video tag."
@@ -95,7 +140,7 @@ export default function Home(props: HomeProps) {
           </MobileFadeOut>
         }
       />
-      {rsvp && (
+      {validRsvp && (
         <SectionRightLeftLayout
           left={
             <MobileFadeOut className="h-full">
@@ -110,7 +155,12 @@ export default function Home(props: HomeProps) {
           }
           right={
             <div id="rsvp">
-              <RSVP rsvpCode={rsvp} invitationCode="test123" />
+              <RSVP
+                title={rsvpInitialData.t}
+                name={rsvpInitialData.nm}
+                message={rsvpInitialData.m}
+                invitationCode={rsvpInitialData.id}
+              />
             </div>
           }
         />

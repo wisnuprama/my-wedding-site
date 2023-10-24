@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import QRCode from "react-qr-code";
 
 type InputProps = {
@@ -33,23 +33,33 @@ function InputContainer(props: InputProps) {
 }
 
 type RSVPProps = {
-  rsvpCode: string;
+  title?: string;
+  name: string;
+  message?: string;
   invitationCode?: string;
 };
 
 export function RSVP(props: RSVPProps) {
-  const { invitationCode } = props;
+  const { invitationCode, title, name, message } = props;
+
+  const personalMessage = useMemo(() => {
+    if (message) {
+      const t = title ? title + ". " : "";
+      return message.replaceAll("$nm", name).replaceAll("$t", t);
+    }
+
+    const finalName = `${title ? title + ". " : ""}${name}`
+    return `Selamat datang ${finalName},`;
+  }, [name, title, message]);
 
   return (
     <div className="px-24 pt-40">
       {Boolean(invitationCode) && (
         <>
-          <h2 className="text-4xl font-medium mb-16 md:mb-36">
-            Invitation
-          </h2>
+          <h2 className="text-4xl font-medium mb-16 md:mb-36">Invitation</h2>
           <div>
             {/* @ts-expect-error hack */}
-            <QRCode size={"100%"} value={invitationCode} />
+            <QRCode size={200} value={invitationCode} />
             <div className="pt-8 flex flex-row">
               <span className="mr-2">ℹ️</span>
               <p>
@@ -65,9 +75,10 @@ export function RSVP(props: RSVPProps) {
       )}
 
       <h2 className="text-4xl font-medium mb-16 md:mb-36">RSVP</h2>
+      <div className="text-xl mb-8">{personalMessage}</div>
       <form className="flex flex-col">
         <InputContainer labelText="Full Name" name="name" id="name">
-          <input type="text" disabled value={"Nadia Rizqi Aziza"} />
+          <input type="text" disabled value={name} />
         </InputContainer>
 
         <InputContainer
@@ -89,7 +100,6 @@ export function RSVP(props: RSVPProps) {
           helpText="Excluding children(s)"
         >
           <select placeholder="Please select" defaultValue={0}>
-            <option value={0}>0</option>
             <option value={1}>1</option>
             <option value={2}>2</option>
           </select>
