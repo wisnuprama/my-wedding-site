@@ -2,6 +2,9 @@ import Image from "next/image";
 import { RSVP } from "@/components/RSVP";
 import { AnchorTagSmoothScroll } from "@/components/AnchorTagSmoothScroll";
 import { MobileFadeOut } from "@/components/FadeOut";
+import { NON_STATIC_RUNTIME } from "@/config";
+
+export const runtime = NON_STATIC_RUNTIME;
 
 function Hero() {
   return (

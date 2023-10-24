@@ -1,5 +1,8 @@
+import { NON_STATIC_RUNTIME } from "@/config";
 import { Scanner } from "./components/Scanner";
 import { redirect } from "next/navigation";
+
+export const runtime = NON_STATIC_RUNTIME;
 
 const PASSWORD = process.env.ADMIN_PASSWORD;
 
