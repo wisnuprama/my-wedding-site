@@ -1,8 +1,11 @@
-import { NON_STATIC_RUNTIME } from "@/config";
 import { Scanner } from "./components/Scanner";
 import { redirect } from "next/navigation";
 
-export const runtime = NON_STATIC_RUNTIME;
+/**
+ * We are using cloudflare so, set this to edge
+ * https://nextjs.org/docs/app/building-your-application/rendering/edge-and-nodejs-runtimes#segment-runtime-option
+ */
+export const runtime = 'edge';
 
 const PASSWORD = process.env.ADMIN_PASSWORD;
 

@@ -2,9 +2,12 @@ import Image from "next/image";
 import { RSVP } from "@/components/RSVP";
 import { AnchorTagSmoothScroll } from "@/components/AnchorTagSmoothScroll";
 import { MobileFadeOut } from "@/components/FadeOut";
-import { NON_STATIC_RUNTIME } from "@/config";
 
-export const runtime = NON_STATIC_RUNTIME;
+/**
+ * We are using cloudflare so, set this to edge
+ * https://nextjs.org/docs/app/building-your-application/rendering/edge-and-nodejs-runtimes#segment-runtime-option
+ */
+export const runtime = 'edge';
 
 function Hero() {
   return (
