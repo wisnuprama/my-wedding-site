@@ -32,14 +32,14 @@ function InputContainer(props: InputProps) {
   );
 }
 
-type RSVPProps = {
+type RSVPFormProps = {
   title?: string;
   name: string;
   message?: string;
   invitationCode?: string;
 };
 
-export function RSVP(props: RSVPProps) {
+export function RSVPForm(props: RSVPFormProps) {
   const { invitationCode, title, name, message } = props;
 
   const personalMessage = useMemo(() => {
@@ -48,7 +48,7 @@ export function RSVP(props: RSVPProps) {
       return message.replaceAll("$nm", name).replaceAll("$t", t);
     }
 
-    const finalName = `${title ? title + ". " : ""}${name}`
+    const finalName = `${title ? title + ". " : ""}${name}`;
     return `Selamat datang ${finalName},`;
   }, [name, title, message]);
 
