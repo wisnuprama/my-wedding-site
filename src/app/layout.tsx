@@ -5,6 +5,10 @@ import { Baskervville } from "next/font/google";
 
 const font = Baskervville({ weight: ["400"], subsets: ["latin"] });
 
+/**
+ * We are using cloudflare so, set this to edge
+ * https://nextjs.org/docs/app/building-your-application/rendering/edge-and-nodejs-runtimes#segment-runtime-option
+ */
 export const runtime = "edge";
 
 export const metadata: Metadata = {
