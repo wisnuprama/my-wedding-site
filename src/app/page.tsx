@@ -22,12 +22,9 @@ export default async function Home(props: HomeProps) {
     <RSVPContextProvider value={rsvpContextValue}>
       <main>
         <Navbar />
-        <section id="pg-1" className="h-screen">
-          <OpeningSection rsvpToken={rsvpToken} />
-        </section>
+        <OpeningSection rsvpToken={rsvpToken} />
         <section id="pg-2" className="h-screen"></section>
         <section id="pg-3" className="h-screen"></section>
-        <section id="pg-4" className="h-screen"></section>
       </main>
       <AnchorTagSmoothScroll />
     </RSVPContextProvider>
