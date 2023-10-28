@@ -1,9 +1,9 @@
-import { DoubleUnderline } from "@/components/DoubleUnderline";
 import { useServerI18n } from "@/core/i18n";
 import React from "react";
 import { AttendeeGreeting } from "./AttendeeGreeting";
 import Image from "next/image";
 import Link from "next/link";
+import { PrimaryLink } from "@/components/Link";
 
 export type OpeningSectionProps = {
   rsvpToken: string | null | undefined;
@@ -35,10 +35,9 @@ export function OpeningSection(props: OpeningSectionProps) {
           <div className="flex flex-col items-center">
             <span className="text-xl">{i18n.t("label_wedding_date")}</span>
             <AttendeeGreeting className="mt-11" />
-            <Link href={invitationURL} className="uppercase text-xl mt-4">
+            <PrimaryLink href={invitationURL}>
               {i18n.t("label_open_invitation")}
-              <DoubleUnderline />
-            </Link>
+            </PrimaryLink>
           </div>
         </div>
 
@@ -49,7 +48,7 @@ export function OpeningSection(props: OpeningSectionProps) {
               alt="Go to next section"
               width={48}
               height={30}
-              className="object-cover"
+              className="object-cover drop-shadow pointer-events-none"
               priority
             />
           </Link>
@@ -61,7 +60,7 @@ export function OpeningSection(props: OpeningSectionProps) {
         style={{ zIndex: -1, opacity: 0.3 }}
       >
         <video
-          width={2048}
+          width={4096}
           className="h-full object-cover"
           autoPlay
           loop
