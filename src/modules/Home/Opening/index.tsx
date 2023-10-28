@@ -22,7 +22,7 @@ export function OpeningSection(props: OpeningSectionProps) {
         style={{ height: "calc(100vh/2)" }}
       >
         <h1
-          className={`text-4xl sm:text-5xl md:text-7xl font-bold ${fontCursive.className}`}
+          className={`text-4xl sm:text-5xl md:text-7xl ${fontCursive.className}`}
         >
           The Wedding of
           <br />

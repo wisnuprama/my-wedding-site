@@ -7,6 +7,7 @@ import { OpeningSection } from "@/modules/Home";
 import { Navbar } from "@/modules/Home/Navbar";
 import { QuranSection } from "@/modules/Home/QuranSection";
 import { Footer } from "@/modules/Home/Footer";
+import { LoveGiftSection } from "@/modules/Home/LoveGiftSection";
 
 type HomeProps = {
   searchParams: {
@@ -26,7 +27,7 @@ export default async function Home(props: HomeProps) {
         <Navbar />
         <OpeningSection rsvpToken={rsvpToken} />
         <QuranSection />
-        <section id="pg-3" className="h-screen"></section>
+        <LoveGiftSection />
         <Footer />
       </main>
       <AnchorTagSmoothScroll />

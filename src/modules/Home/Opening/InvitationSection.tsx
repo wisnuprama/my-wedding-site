@@ -18,7 +18,7 @@ export function InvitationSection(props: { invitationURL: string }) {
           <div className="flex flex-col items-center">
             <span className="text-xl">{i18n.t("label_wedding_date")}</span>
             <AttendeeGreeting className="mt-11" />
-            <PrimaryLink href={invitationURL}>
+            <PrimaryLink href={invitationURL} className="text-xl mt-4">
               {i18n.t("label_open_invitation")}
             </PrimaryLink>
           </div>
