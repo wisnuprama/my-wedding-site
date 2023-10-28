@@ -118,6 +118,11 @@ export function useServerI18n() {
 export const getServerI18n = useServerI18n;
 
 export function useClientI18n() {
+  if (typeof window === "undefined") {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    return useServerI18n();
+  }
+
   const i18n = I18nManager.getInstance(getClientLocale);
   return i18n;
 }
