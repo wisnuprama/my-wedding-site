@@ -5,6 +5,8 @@ import { Baskervville } from "next/font/google";
 
 const font = Baskervville({ weight: ["400"], subsets: ["latin"] });
 
+export const runtime = "edge";
+
 export const metadata: Metadata = {
   title: "Nadia & Wisnu",
   description: "Wedding Invitation",
@@ -16,7 +18,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const i18n = useServerI18n()
+  const i18n = useServerI18n();
   return (
     <html lang={i18n.getLocale()}>
       <body className={font.className}>{children}</body>
