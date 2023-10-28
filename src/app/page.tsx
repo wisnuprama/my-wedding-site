@@ -5,6 +5,7 @@ import {
 } from "@/modules/RSVP";
 import { OpeningSection } from "@/modules/Home";
 import { Navbar } from "@/modules/Navbar";
+import { QuranSection } from "@/modules/Home/QuranSection";
 
 type HomeProps = {
   searchParams: {
@@ -23,7 +24,7 @@ export default async function Home(props: HomeProps) {
       <main>
         <Navbar />
         <OpeningSection rsvpToken={rsvpToken} />
-        <section id="pg-2" className="h-screen"></section>
+        <QuranSection />
         <section id="pg-3" className="h-screen"></section>
       </main>
       <AnchorTagSmoothScroll />
