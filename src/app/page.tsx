@@ -4,7 +4,7 @@ import {
   useRSVPManagerContextValue,
 } from "@/modules/RSVP";
 import { OpeningSection } from "@/modules/Home";
-import { Navbar } from "@/modules/Navbar";
+import { Navbar } from "@/modules/Home/Navbar";
 import { QuranSection } from "@/modules/Home/QuranSection";
 
 type HomeProps = {

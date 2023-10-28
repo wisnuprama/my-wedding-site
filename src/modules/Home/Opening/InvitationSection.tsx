@@ -4,7 +4,7 @@ import { AttendeeGreeting } from "./AttendeeGreeting";
 import Image from "next/image";
 import Link from "next/link";
 import { PrimaryLink } from "@/components/Link";
-import { NAVBAR_HEIGHT } from "@/modules/Navbar";
+import { NAVBAR_HEIGHT } from "@/modules/Home/Navbar";
 
 export function InvitationSection(props: { invitationURL: string }) {
   const { invitationURL } = props;
