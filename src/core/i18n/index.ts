@@ -1,5 +1,5 @@
-import id from "./id.json";
-import en from "./en.json";
+import id from "./strings/id.json";
+import en from "./strings/en.json";
 import { setCookie, getCookie } from "cookies-next";
 import invariant from "invariant";
 
