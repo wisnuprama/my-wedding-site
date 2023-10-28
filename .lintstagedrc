@@ -1,0 +1,4 @@
+{
+  "*.{ts,tsx,js}": ["prettier --write", "eslint --fix", "git add"],
+  "*.md": "prettier --list-different"
+}

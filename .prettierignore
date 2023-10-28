@@ -1,0 +1,7 @@
+.next
+.husky
+node_modules
+build
+dist
+coverage
+cache

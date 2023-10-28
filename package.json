@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "",
+    "prepare": "husky install"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "dependencies": {
     "@types/node": "20.5.7",
@@ -15,7 +20,6 @@
     "@yudiel/react-qr-scanner": "^1.1.10",
     "autoprefixer": "10.4.15",
     "cookies-next": "^4.0.0",
-    "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
     "invariant": "^2.2.4",
     "jose": "^4.15.4",
@@ -29,6 +33,9 @@
     "typescript": "5.2.2"
   },
   "devDependencies": {
-    "@types/invariant": "^2.2.36"
+    "@types/invariant": "^2.2.36",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.0.2",
+    "prettier": "3.0.3"
   }
 }
