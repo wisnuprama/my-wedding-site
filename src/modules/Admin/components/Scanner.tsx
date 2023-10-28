@@ -18,7 +18,7 @@ const initialState: InvitationQRState = {
 
 function qrReducer(
   state: InvitationQRState,
-  action: { type: string; payload: unknown }
+  action: { type: string; payload: unknown },
 ): InvitationQRState {
   switch (action.type) {
     case "scanning-result": {
@@ -44,7 +44,7 @@ export function Scanner(props: ScannerProps) {
     switch (state.loadingState) {
       case "scanning":
         return (
-          <div style={{ width: 500, height: 500 }}>
+          <div className="h-full w-full">
             <QrScanner
               tracker={false}
               scanDelay={1000}
@@ -101,9 +101,7 @@ export function Scanner(props: ScannerProps) {
 
   return (
     <div className="flex flex-col">
-      <div>
-        <h1 className="text-6xl">Scan invitation QR</h1>
-      </div>
+      <h1 className="text-xl">Scan invitation QR</h1>
       {content}
     </div>
   );

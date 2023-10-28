@@ -15,8 +15,8 @@ export default function Admin({ searchParams }: AdminProps) {
   }
 
   return (
-    <main className="p-16">
-      <div className="flex justify-center">
+    <main className="m-0 p-0">
+      <div className="flex">
         <Scanner />
       </div>
     </main>
