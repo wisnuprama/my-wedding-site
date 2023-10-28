@@ -1,10 +1,10 @@
 "use client";
 
-import { Locale, useClientI18n } from "@/core/i18n";
+import { Locale, useI18n } from "@/core/i18n";
 import Image from "next/image";
 
 export function Language() {
-  const i18n = useClientI18n();
+  const i18n = useI18n();
 
   const changeLanguageAndRefresh = (l: Locale) => {
     i18n.switchLanguage(l);

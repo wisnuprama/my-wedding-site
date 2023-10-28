@@ -1,6 +1,6 @@
 "use client";
 
-import { useClientI18n } from "@/core/i18n";
+import { useI18n } from "@/core/i18n";
 import { RSVPContext } from "@/modules/RSVP";
 import { memo, useContext } from "react";
 
@@ -11,7 +11,7 @@ type AttendeeGreetingProps = {
 function InnerAttendeeGreeting(props: AttendeeGreetingProps) {
   const { className } = props;
   const rsvp = useContext(RSVPContext);
-  const i18n = useClientI18n();
+  const i18n = useI18n();
 
   if (!rsvp.isValidRSVP) {
     return null;

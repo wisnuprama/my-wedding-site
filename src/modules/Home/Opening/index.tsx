@@ -1,5 +1,5 @@
 import React from "react";
-import { fontCursive } from "@/app/layout";
+import { fontCursive } from "@/core/styles";
 import { CountdownSection } from "./CountdownSection";
 import { InvitationSection } from "./InvitationSection";
 

@@ -1,10 +1,7 @@
 import { useServerI18n } from "@/core/i18n";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Hurricane, Jomolhari } from "next/font/google";
-
-const font = Jomolhari({ weight: ["400"], subsets: ["latin"] });
-export const fontCursive = Hurricane({ weight: ["400"], subsets: ["latin"] });
+import { font } from "@/core/styles";
 
 /**
  * We are using cloudflare so, set this to edge
