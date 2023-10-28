@@ -1,4 +1,4 @@
-import { Scanner } from "./components/Scanner";
+import { Scanner } from "@/modules/Admin/components/Scanner";
 import { redirect } from "next/navigation";
 
 /**

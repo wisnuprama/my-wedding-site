@@ -55,7 +55,6 @@ export async function useRSVPManagerContextValue(
     data: {
       name: tokenData.nm,
       userId: tokenData.id,
-      userTitle: tokenData.t,
       message: tokenData.m,
     },
   };

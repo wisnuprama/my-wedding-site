@@ -4,6 +4,7 @@ import {
   useRSVPManagerContextValue,
 } from "@/modules/RSVP";
 import { OpeningSection } from "@/modules/Home";
+import { Navbar } from "@/modules/Navbar";
 
 /**
  * We are using cloudflare so, set this to edge
@@ -19,27 +20,22 @@ type HomeProps = {
 
 export default async function Home(props: HomeProps) {
   const { searchParams } = props;
-  const { rsvp } = searchParams;
+  const { rsvp: rsvpToken } = searchParams;
 
-  const rsvpContextValue = await useRSVPManagerContextValue(rsvp);
+  const rsvpContextValue = await useRSVPManagerContextValue(rsvpToken);
 
   return (
     <RSVPContextProvider value={rsvpContextValue}>
       <main>
-        <AnchorTagSmoothScroll />
+        <Navbar />
         <section id="pg-1" className="h-screen">
-          <OpeningSection />
+          <OpeningSection rsvpToken={rsvpToken} />
         </section>
-        <section id="pg-2" className="h-screen">
-          <OpeningSection />
-        </section>
-        <section id="pg-3" className="h-screen">
-          <OpeningSection />
-        </section>
-        <section id="pg-4" className="h-screen">
-          <OpeningSection />
-        </section>
+        <section id="pg-2" className="h-screen"></section>
+        <section id="pg-3" className="h-screen"></section>
+        <section id="pg-4" className="h-screen"></section>
       </main>
+      <AnchorTagSmoothScroll />
     </RSVPContextProvider>
   );
 }
