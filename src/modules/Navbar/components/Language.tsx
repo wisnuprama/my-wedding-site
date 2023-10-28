@@ -12,7 +12,7 @@ export function Language() {
   };
 
   return (
-    <div id="language" className="flex flex-row">
+    <div id="language" className="flex flex-row cursor-pointer">
       <Image
         src="/images/ic_language.png"
         alt="Change Language"
