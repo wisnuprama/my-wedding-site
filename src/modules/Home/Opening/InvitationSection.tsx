@@ -1,6 +1,6 @@
 import { useServerI18n } from "@/core/i18n";
 import React from "react";
-import { AttendeeGreeting } from "./AttendeeGreeting";
+import { AttendeeGreeting } from "./components/AttendeeGreeting";
 import Image from "next/image";
 import Link from "next/link";
 import { PrimaryLink } from "@/components/Link";

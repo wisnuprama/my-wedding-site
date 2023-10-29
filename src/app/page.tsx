@@ -3,11 +3,14 @@ import {
   RSVPContextProvider,
   useRSVPManagerContextValue,
 } from "@/modules/RSVP";
-import { OpeningSection } from "@/modules/Home";
-import { Navbar } from "@/modules/Home/Navbar";
-import { QuranSection } from "@/modules/Home/QuranSection";
-import { Footer } from "@/modules/Home/Footer";
-import { LoveGiftSection } from "@/modules/Home/LoveGiftSection";
+import {
+  OpeningSection,
+  Navbar,
+  QuranSection,
+  Footer,
+  LoveGiftSection,
+  BrideGroomSection,
+} from "@/modules/Home";
 
 type HomeProps = {
   searchParams: {
@@ -27,6 +30,7 @@ export default async function Home(props: HomeProps) {
         <Navbar />
         <OpeningSection rsvpToken={rsvpToken} />
         <QuranSection />
+        <BrideGroomSection />
         <LoveGiftSection />
         <Footer />
       </main>

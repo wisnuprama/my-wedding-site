@@ -49,7 +49,7 @@ function InnerLoveGiftEntrance() {
         {i18n.t("title_love_gift")}
       </h1>
 
-      <div className="flex flex-col items-center h-full pb-4">
+      <div className="flex flex-col items-center h-full pb-4 max-w-screen-md">
         {isShowingLoveGiftContent
           ? renderLoveGiftContent()
           : renderLoveGiftEntrance()}{" "}
