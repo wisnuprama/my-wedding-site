@@ -11,31 +11,31 @@
     "prepare": "husky install"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "dependencies": {
-    "@types/node": "20.5.7",
-    "@types/react": "18.2.21",
-    "@types/react-dom": "18.2.7",
+    "@types/node": "20.9.0",
+    "@types/react": "18.2.37",
+    "@types/react-dom": "18.2.15",
     "@yudiel/react-qr-scanner": "^1.1.10",
-    "autoprefixer": "10.4.15",
+    "autoprefixer": "10.4.16",
     "cookies-next": "^4.0.0",
-    "eslint-config-next": "13.4.19",
+    "eslint-config-next": "14.0.2",
     "invariant": "^2.2.4",
-    "jose": "^4.15.4",
-    "next": "^13.5.6",
-    "postcss": "^8.4.31",
+    "jose": "5.1.0",
+    "next": "14.0.2",
+    "postcss": "8.4.31",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-qr-code": "^2.0.12",
     "sharp": "^0.32.6",
-    "tailwindcss": "3.3.3",
+    "tailwindcss": "3.3.5",
     "typescript": "5.2.2"
   },
   "devDependencies": {
     "@types/invariant": "^2.2.36",
     "husky": "^8.0.0",
     "lint-staged": "^15.0.2",
-    "prettier": "3.0.3"
+    "prettier": "3.1.0"
   }
 }
