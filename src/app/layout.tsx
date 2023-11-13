@@ -6,6 +6,8 @@ import { font } from "@/core/styles";
 /**
  * We are using cloudflare so, set this to edge
  * https://nextjs.org/docs/app/building-your-application/rendering/edge-and-nodejs-runtimes#segment-runtime-option
+ *
+ * NOTE: disabled because of https://github.com/vercel/next.js/issues/48490
  */
 // export const runtime = "edge";
 
