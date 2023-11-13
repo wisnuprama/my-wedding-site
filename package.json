@@ -11,10 +11,10 @@
     "prepare": "husky install"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=18.17"
   },
   "dependencies": {
-    "@types/node": "20.9.0",
+    "@types/node": "18.17.19",
     "@types/react": "18.2.37",
     "@types/react-dom": "18.2.15",
     "@yudiel/react-qr-scanner": "^1.1.10",
