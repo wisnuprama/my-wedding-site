@@ -1,5 +1,7 @@
 import { useServerI18n } from "@/core/i18n";
 import { fontCursive } from "@/core/styles";
+import { Countdown } from "./components/Countdown";
+import config from "@/core/config";
 
 export function CountdownSection() {
   const i18n = useServerI18n();
@@ -11,10 +13,9 @@ export function CountdownSection() {
         <h2 className={`mt-4 text-3xl ${fontCursive.className}`}>
           {i18n.t("label_counting_down")}
         </h2>
-        <div
-          className="mt-3 p-3 bg-red-400 w-full"
-          style={{ height: "5rem" }}
-        ></div>
+        <div className="mt-3 p-3 bg-red-400 w-full" style={{ height: "5rem" }}>
+          <Countdown deadline={config.WEDDING_DAY_TIMESTAMP} />
+        </div>
       </div>
     </section>
   );
