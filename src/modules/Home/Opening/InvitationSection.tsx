@@ -39,7 +39,7 @@ export function InvitationSection(props: { invitationURL: string }) {
       </div>
 
       <div
-        className="absolute top-0 bottom-0"
+        className="fixed top-0 bottom-0"
         style={{ zIndex: -1, opacity: 0.3 }}
       >
         <video
