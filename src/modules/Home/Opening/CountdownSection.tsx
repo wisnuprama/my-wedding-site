@@ -13,7 +13,7 @@ export function CountdownSection() {
         <h2 className={`mt-4 text-3xl ${fontCursive.className}`}>
           {i18n.t("label_counting_down")}
         </h2>
-        <div className="mt-3 p-3 bg-red-400 w-full" style={{ height: "5rem" }}>
+        <div className="mt-5 p-3 w-full md:max-w-screen-md">
           <Countdown deadline={config.WEDDING_DAY_TIMESTAMP} />
         </div>
       </div>
