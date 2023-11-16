@@ -11,6 +11,7 @@ import {
   LoveGiftSection,
   BrideGroomSection,
 } from "@/modules/Home";
+import { redirect } from "next/navigation";
 
 type HomeProps = {
   searchParams: {
@@ -23,6 +24,12 @@ export default async function Home(props: HomeProps) {
   const { rsvp: rsvpToken } = searchParams;
 
   const rsvpContextValue = await useRSVPManagerContextValue(rsvpToken);
+
+  // remove rsvpToken from URL if it's invalid
+  // redirect to home page
+  if (rsvpToken && !rsvpContextValue.isValidRSVP) {
+    redirect("/");
+  }
 
   return (
     <RSVPContextProvider value={rsvpContextValue}>
