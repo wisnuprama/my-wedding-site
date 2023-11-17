@@ -2,6 +2,7 @@ import { useServerI18n } from "@/core/i18n";
 import "./globals.css";
 import type { Metadata } from "next";
 import { font } from "@/core/styles";
+import { Analytics } from "@vercel/analytics/react";
 
 /**
  * We are using cloudflare so, set this to edge
@@ -25,7 +26,10 @@ export default function RootLayout({
   const i18n = useServerI18n();
   return (
     <html lang={i18n.getLocale()}>
-      <body className={font.className}>{children}</body>
+      <body className={font.className}>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
