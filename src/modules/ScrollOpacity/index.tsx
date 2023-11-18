@@ -19,13 +19,20 @@ export function useScrollOpacity(tagID: string, acceleration: number = 1) {
       const elementBottom = element.offsetTop + element.clientHeight;
       const scrollPosition = window.scrollY + window.innerHeight;
 
-      let opacity = 1;
-      if (scrollPosition > elementTop + elementBottom) {
-        opacity =
+      // TODO: improve the calculation
+      const opacity =
+        1 -
+        Math.abs(
           1 -
-          Math.abs((elementBottom - scrollPosition) / element.clientHeight) *
-            acceleration;
-      }
+            Math.abs((elementBottom - scrollPosition) / element.clientHeight) *
+              acceleration,
+        );
+
+      console.log({
+        opacity,
+        scrollPosition,
+        el: elementTop + elementBottom,
+      });
 
       if (opacity >= 0 && opacity <= 1) {
         element?.setAttribute("style", `opacity: ${opacity}`);
