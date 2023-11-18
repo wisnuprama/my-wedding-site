@@ -2,6 +2,7 @@ import React from "react";
 import { fontCursive } from "@/core/styles";
 import { CountdownSection } from "./CountdownSection";
 import { InvitationSection } from "./InvitationSection";
+import { NAVBAR_HEIGHT } from "..";
 
 export type OpeningSectionProps = {
   rsvpToken: string | null | undefined;
@@ -70,7 +71,9 @@ const styles = {
     /**
      * Push up from the 25% of the pageOneContainer
      */
-    paddingBottom: `calc(100vh * ${USED_SPACE_FOR_TITLE})`,
+    paddingBottom: `calc(100vh * ${
+      USED_SPACE_FOR_TITLE + 0.1
+    } + ${NAVBAR_HEIGHT}px)`,
   },
   pageTwoContainer: {
     /**
