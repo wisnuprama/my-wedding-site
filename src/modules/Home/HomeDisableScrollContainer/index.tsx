@@ -24,10 +24,17 @@ export function ScrollableCheck() {
       return;
     }
 
-    if (w.scrollY > 0) {
-      enableScroll();
-    }
-  });
+    // trigger in the next event loop
+    const timeout = setTimeout(() => {
+      if (w.scrollY > 0) {
+        enableScroll();
+      }
+    });
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [enableScroll]);
 
   return null;
 }
