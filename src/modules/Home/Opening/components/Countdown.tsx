@@ -3,6 +3,7 @@
 import { useI18n } from "@/core/i18n";
 import { TimerConfig, TimerPresets, useTimer } from "@/modules/useTimer";
 import { font } from "@/core/styles";
+import { useClientRender } from "@/modules/common";
 
 export type CountdownProps = {
   /**
@@ -15,31 +16,45 @@ export function Countdown(props: CountdownProps) {
   const { deadline } = props;
   const i18n = useI18n();
 
+  const isClientRender = useClientRender();
+
+  // Avoid rendering on server
+  // because timer result can be different
+  // between server and client by the time it's rendered in client
   return (
     <div className="flex flex-row justify-evenly">
-      <Timer
-        label={i18n.t("label_counting_day")}
-        deadline={deadline}
-        timerConfig={TimerPresets.DAYS}
-      />
-      <Timer
-        label={i18n.t("label_counting_hour")}
-        deadline={deadline}
-        timerConfig={TimerPresets.HOURS}
-      />
-      <Timer
-        label={i18n.t("label_counting_minute")}
-        deadline={deadline}
-        timerConfig={TimerPresets.MINUTES}
-      />
-      <Timer
-        label={i18n.t("label_counting_second")}
-        deadline={deadline}
-        timerConfig={TimerPresets.SECONDS}
-      />
+      {isClientRender ? (
+        <>
+          <Timer
+            label={i18n.t("label_counting_day")}
+            deadline={deadline}
+            timerConfig={TimerPresets.DAYS}
+          />
+          <Timer
+            label={i18n.t("label_counting_hour")}
+            deadline={deadline}
+            timerConfig={TimerPresets.HOURS}
+          />
+          <Timer
+            label={i18n.t("label_counting_minute")}
+            deadline={deadline}
+            timerConfig={TimerPresets.MINUTES}
+          />
+          <Timer
+            label={i18n.t("label_counting_second")}
+            deadline={deadline}
+            timerConfig={TimerPresets.SECONDS}
+          />
+        </>
+      ) : (
+        <div style={{ height: TIMER_CONTAINER_HEIGHT }} />
+      )}
     </div>
   );
 }
+
+const TIMER_HEIGHT = 75;
+const TIMER_CONTAINER_HEIGHT = TIMER_HEIGHT;
 
 type TimerProps = {
   label: string;
@@ -71,8 +86,8 @@ function Timer(props: TimerProps) {
 const styles = {
   timerContainerStyle: {
     borderWidth: 0.5,
-    width: 75,
-    height: 75,
+    width: TIMER_HEIGHT,
+    height: TIMER_HEIGHT,
     borderColor: "rgb(90, 82, 82)",
   },
 } as const;
