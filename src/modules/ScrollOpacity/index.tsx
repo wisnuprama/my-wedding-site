@@ -20,13 +20,17 @@ export function useScrollOpacity(tagID: string, acceleration: number = 1) {
       const scrollPosition = window.scrollY + window.innerHeight;
 
       // TODO: improve the calculation
-      const opacity =
+      let opacity =
         1 -
         Math.abs(
           1 -
             Math.abs((elementBottom - scrollPosition) / element.clientHeight) *
               acceleration,
         );
+
+      if (opacity > 0.5) {
+        opacity = 1;
+      }
 
       console.log({
         opacity,
