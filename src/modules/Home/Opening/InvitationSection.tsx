@@ -4,15 +4,14 @@ import { AttendeeGreeting } from "./components/AttendeeGreeting";
 import Image from "next/image";
 import Link from "next/link";
 import { PrimaryLink } from "@/components/Link";
-import { NAVBAR_HEIGHT } from "@/modules/Home/Navbar";
 
 export function InvitationSection(props: { invitationURL: string }) {
   const { invitationURL } = props;
   const i18n = useServerI18n();
 
   return (
-    <section style={{ height: `calc(100vh/2 - ${NAVBAR_HEIGHT}px)` }}>
-      <div className="flex flex-col h-full justify-between md:pt-24">
+    <section className="h-screen">
+      <div className="flex flex-col h-full justify-center md:pt-24">
         <div className="flex flex-col items-center justify-evenly">
           <div key="block" />
           <div className="flex flex-col items-center">
@@ -24,7 +23,7 @@ export function InvitationSection(props: { invitationURL: string }) {
           </div>
         </div>
 
-        <div className="flex flex-col items-center pb-4">
+        <div className="flex flex-col items-center mt-8 pb-4">
           <Link href="#pg-2">
             <Image
               src="/images/ic_arrow_down.png"
