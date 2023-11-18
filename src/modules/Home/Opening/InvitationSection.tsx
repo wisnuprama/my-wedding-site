@@ -1,17 +1,25 @@
 import { useServerI18n } from "@/core/i18n";
 import React from "react";
 import { AttendeeGreeting } from "./components/AttendeeGreeting";
-import Image from "next/image";
-import Link from "next/link";
 import { PrimaryLink } from "@/components/Link";
+import { ArrowDownToNextSection } from "./components/ArrowDown";
+import { ScrollOpacity } from "../../ScrollOpacity";
 
-export function InvitationSection(props: { invitationURL: string }) {
-  const { invitationURL } = props;
+type InvitationSectionProps = {
+  invitationURL: string;
+  containerStyle?: React.CSSProperties;
+};
+
+export function InvitationSection(props: InvitationSectionProps) {
+  const { invitationURL, containerStyle } = props;
   const i18n = useServerI18n();
 
   return (
-    <section className="h-screen">
-      <div className="flex flex-col h-full justify-center md:pt-24">
+    <section className="h-screen" style={containerStyle}>
+      <div
+        id="open-invitation"
+        className="flex flex-col h-full justify-end md:pt-24"
+      >
         <div className="flex flex-col items-center justify-evenly">
           <div key="block" />
           <div className="flex flex-col items-center">
@@ -23,18 +31,10 @@ export function InvitationSection(props: { invitationURL: string }) {
           </div>
         </div>
 
-        <div className="flex flex-col items-center mt-8 pb-4">
-          <Link href="#pg-2">
-            <Image
-              src="/images/ic_arrow_down.png"
-              alt="Go to next section"
-              width={48}
-              height={30}
-              className="object-cover drop-shadow pointer-events-none"
-              priority
-            />
-          </Link>
+        <div className="flex flex-col items-center mt-24 pb-4">
+          <ArrowDownToNextSection />
         </div>
+        <ScrollOpacity tagID="open-invitation" acceleration={3} />
       </div>
 
       <div

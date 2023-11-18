@@ -10,6 +10,7 @@ import {
   Footer,
   LoveGiftSection,
   BrideGroomSection,
+  HomeDisableScrollContainer,
 } from "@/modules/Home";
 import { redirect } from "next/navigation";
 
@@ -33,15 +34,17 @@ export default async function Home(props: HomeProps) {
 
   return (
     <RSVPContextProvider value={rsvpContextValue}>
-      <main>
+      <HomeDisableScrollContainer>
         <Navbar />
-        <OpeningSection rsvpToken={rsvpToken} />
-        <QuranSection />
-        <BrideGroomSection />
-        <LoveGiftSection />
+        <main>
+          <OpeningSection rsvpToken={rsvpToken} />
+          <QuranSection />
+          <BrideGroomSection />
+          <LoveGiftSection />
+        </main>
         <Footer />
-      </main>
-      <AnchorTagSmoothScroll />
+        <AnchorTagSmoothScroll />
+      </HomeDisableScrollContainer>
     </RSVPContextProvider>
   );
 }

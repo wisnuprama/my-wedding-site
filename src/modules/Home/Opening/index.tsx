@@ -29,12 +29,13 @@ export function OpeningSection(props: OpeningSectionProps) {
             </span>
           </h1>
         </div>
-        <InvitationSection invitationURL={invitationURL} />
+        <InvitationSection
+          invitationURL={invitationURL}
+          containerStyle={styles.invitationContainer}
+        />
         <div id="pg-2" style={styles.anchorToPage2} />
       </div>
-      <div style={styles.pageTwoContainer}>
-        <CountdownSection />
-      </div>
+      <CountdownSection containerStyle={styles.pageTwoContainer} />
     </div>
   );
 }
@@ -64,6 +65,12 @@ const styles = {
      * This is the height of the first page
      */
     top: "100vh",
+  },
+  invitationContainer: {
+    /**
+     * Push up from the 25% of the pageOneContainer
+     */
+    paddingBottom: `calc(100vh * ${USED_SPACE_FOR_TITLE})`,
   },
   pageTwoContainer: {
     /**
