@@ -17,14 +17,14 @@ export function BrideGroomSection() {
           name={i18n.t("label_name_of_the_bride")}
           subtitle={i18n.t("label_daughter")}
           description={i18n.t("label_bride_parents")}
-          containerClassName="mt-14"
+          containerClassName="mt-14 md:mt-14"
         />
         <PersonInfo
           imageSrc="/images/groom.jpeg"
           name={i18n.t("label_the_groom")}
           subtitle={i18n.t("label_son")}
           description={i18n.t("Label_groom_parents")}
-          containerClassName="mt-20"
+          containerClassName="mt-20 md:mt-14"
         />
       </div>
     </section>

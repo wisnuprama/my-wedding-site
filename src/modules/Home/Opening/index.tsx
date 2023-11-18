@@ -78,7 +78,9 @@ const styles = {
   pageTwoContainer: {
     /**
      * The N% space is used for the sticky title
+     * Using dvh here for handling browser bottom bar
      */
-    height: `calc(100vh * ${SECOND_PAGE_SCREEN_RATIO})`,
+    height: `calc(100dvh * ${SECOND_PAGE_SCREEN_RATIO})`,
+    // paddingBottom: `env(safe-area-inset-bottom)`,
   },
 } as const;
