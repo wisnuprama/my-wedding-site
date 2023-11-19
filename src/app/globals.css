@@ -6,15 +6,21 @@
   --foreground-rgb: 90, 82, 82;
   --background-start-rgb: 250, 191, 205, 0.3;
   --background-end-rgb: 255, 255, 255;
+  --background-paper: 255, 255, 255, 0.70;
+  --background-dialog: 255, 255, 255, 0.1;
 }
 
-/* @media (prefers-color-scheme: dark) {
+/* and (max-width: 600px) { */
+
+@media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 250, 191, 205, 0.3;
-    --background-end-rgb: 0, 0, 0, 0.5;
+    --background-start-rgb: 0, 0, 0, 0.5;
+    --background-end-rgb: 0, 0, 0, 1;
+    --background-paper: 0, 0, 0, 0.70;
+    --background-dialog: 0, 0, 0, 0.1;
   }
-} */
+}
 
 body {
   color: rgb(var(--foreground-rgb));
