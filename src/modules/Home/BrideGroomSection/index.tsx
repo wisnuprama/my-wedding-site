@@ -7,7 +7,7 @@ export function BrideGroomSection() {
   return (
     <section className="min-h-screen px-8 py-24 md:flex md:flex-col">
       <h1
-        className={`text-4xl sm:text-5xl md:text-7xl ${fontCursive.className} text-center`}
+        className={`text-4xl sm:text-5xl ${fontCursive.className} text-center`}
       >
         {i18n.t("title_bride_and_groom")}
       </h1>

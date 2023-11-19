@@ -4,7 +4,7 @@ export function QuranSection() {
   const i18n = useServerI18n();
 
   return (
-    <section className="h-screen flex flex-col justify-center items-center">
+    <section className="min-h-screen flex flex-col justify-center items-center">
       <h1 className="text-xl underline underline-offset-8">
         {i18n.t("title_quran_section")}
       </h1>
