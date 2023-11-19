@@ -5,3 +5,5 @@ export * from "./QuranSection";
 export * from "./LoveGiftSection";
 export * from "./BrideGroomSection";
 export * from "./HomeDisableScrollContainer";
+export * from "./WeddingEventInfo";
+export * from "./RSVPWishesSection";
