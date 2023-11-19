@@ -21,6 +21,17 @@ export function PrimaryLink(props: PrimaryLinkProps) {
   );
 }
 
+export function PrimaryAnchor(props: HTMLProps<HTMLAnchorElement>) {
+  const { children, ...restProps } = props;
+
+  return (
+    <a {...restProps} className={`uppercase drop-shadow-md ${props.className}`}>
+      {props.children}
+      <DoubleUnderline />
+    </a>
+  );
+}
+
 export type PrimaryButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
 export function PrimaryButton(props: PrimaryButtonProps) {
