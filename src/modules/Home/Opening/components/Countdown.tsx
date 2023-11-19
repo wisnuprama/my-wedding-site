@@ -85,9 +85,9 @@ function Timer(props: TimerProps) {
 
 const styles = {
   timerContainerStyle: {
-    borderWidth: 0.5,
+    borderWidth: 1,
     width: TIMER_HEIGHT,
     height: TIMER_HEIGHT,
-    borderColor: "rgb(90, 82, 82)",
+    borderColor: "rgb(var(--foreground-rgb))",
   },
 } as const;

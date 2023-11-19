@@ -35,6 +35,7 @@ function InnerLoveGiftEntrance() {
         <PrimaryButton className="mt-8" onClick={openDialog}>
           {i18n.t("label_click_account")}
         </PrimaryButton>
+        <p className="mt-32">{i18n.t("label_thank_you")}</p>
       </div>
     </div>
   );
@@ -61,7 +62,6 @@ function InnerLoveGiftEntrance() {
 
       <div className="flex flex-col items-center h-full pb-4 max-w-screen-md">
         {renderLoveGiftEntrance()}
-        <p>{i18n.t("label_thank_you")}</p>
       </div>
 
       <div className="fixed opacity-0" style={{ zIndex: -1 }}>
@@ -70,9 +70,11 @@ function InnerLoveGiftEntrance() {
 
       <dialog
         ref={dialogRef}
-        className="p-8"
+        className="p-8 rounded-md backdrop-blur-2xl shadow-md"
         style={{
           height: dialogHeight,
+          background: "rgba(var(--background-dialog))",
+          color: "rgb(var(--foreground-rgb))",
         }}
       >
         {renderLoveGiftContent()}

@@ -11,7 +11,7 @@ import {
   LoveGiftSection,
   BrideGroomSection,
   HomeDisableScrollContainer,
-  WeddingEventInfo,
+  WeddingEventInfoSection,
   RSVPWishesSection,
 } from "@/modules/Home";
 import { redirect } from "next/navigation";
@@ -42,7 +42,7 @@ export default async function Home(props: HomeProps) {
           <OpeningSection rsvpToken={rsvpToken} />
           <QuranSection />
           <BrideGroomSection />
-          <WeddingEventInfo />
+          <WeddingEventInfoSection />
           <RSVPWishesSection />
           <LoveGiftSection />
         </main>

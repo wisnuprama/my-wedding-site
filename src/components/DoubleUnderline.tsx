@@ -1,6 +1,6 @@
 export type DoubleUnderlineProps = {};
 
-const style = { height: 1, background: "#5A5252" };
+const style = { height: 1, background: "rgb(var(--foreground-rgb))" };
 
 export function DoubleUnderline(_: DoubleUnderlineProps) {
   return (
