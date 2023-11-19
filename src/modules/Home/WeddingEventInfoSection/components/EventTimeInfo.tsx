@@ -77,7 +77,7 @@ const styles = {
   border: {
     borderLeftWidth: 1,
     borderRightWidth: 1,
-    borderColor: "rgb(90, 82, 82)",
+    borderColor: "rgb(var(--foreground-rgb))",
   },
 } as const;
 
