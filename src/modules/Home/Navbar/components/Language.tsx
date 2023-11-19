@@ -18,7 +18,7 @@ export function Language() {
         alt="Change Language"
         width={14}
         height={14}
-        style={{ paddingTop: 2, marginRight: 2, width: 14, height: 14 }}
+        style={{ marginTop: 1, marginRight: 2, width: 14, height: 14 }}
       />
       <span className="text-xs">
         <span onClick={() => changeLanguageAndRefresh(Locale.EN)}>ENG</span>
