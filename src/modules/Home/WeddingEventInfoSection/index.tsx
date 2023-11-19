@@ -1,9 +1,9 @@
 import { useServerI18n } from "@/core/i18n";
 import { fontCursive } from "@/core/styles";
 
-export type WeddingEventInfoProps = {};
+export type WeddingEventInfoSectionProps = {};
 
-export function WeddingEventInfo(_: WeddingEventInfoProps) {
+export function WeddingEventInfoSection(_: WeddingEventInfoSectionProps) {
   const i18n = useServerI18n();
   return (
     <section className="h-screen px-8 py-24 md:flex md:flex-col">
