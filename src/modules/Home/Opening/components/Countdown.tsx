@@ -3,7 +3,7 @@
 import { useI18n } from "@/core/i18n";
 import { TimerConfig, TimerPresets, useTimer } from "@/modules/useTimer";
 import { font } from "@/core/styles";
-import { useClientRender } from "@/modules/common";
+import { useClientRender } from "@/common";
 
 export type CountdownProps = {
   /**

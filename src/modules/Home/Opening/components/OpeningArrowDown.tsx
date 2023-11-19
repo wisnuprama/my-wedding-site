@@ -2,7 +2,7 @@
 import React, { useCallback, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { DisableScrollContext } from "@/modules/DisableScroll/context";
+import { DisableScrollContext } from "@/components/DisableScroll/context";
 import "./OpeningArrowDown.css";
 
 export function OpeningArrowDown() {

@@ -3,7 +3,7 @@ import React from "react";
 import { AttendeeGreeting } from "./components/AttendeeGreeting";
 import { PrimaryLink } from "@/components/Link";
 import { OpeningArrowDown } from "./components/OpeningArrowDown";
-import { ScrollOpacity } from "../../ScrollOpacity";
+import { ScrollOpacity } from "@/components/ScrollOpacity";
 
 type InvitationSectionProps = {
   invitationURL: string;

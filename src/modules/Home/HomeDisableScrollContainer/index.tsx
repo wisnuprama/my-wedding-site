@@ -2,8 +2,8 @@
 import {
   DisableScrollContainer,
   DisableScrollProps,
-} from "@/modules/DisableScroll";
-import { DisableScrollContext } from "@/modules/DisableScroll/context";
+} from "@/components/DisableScroll";
+import { DisableScrollContext } from "@/components/DisableScroll/context";
 import { useContext, useLayoutEffect, useMemo } from "react";
 
 export type HomeDisableScrollProps = {
