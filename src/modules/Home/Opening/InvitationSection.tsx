@@ -2,7 +2,7 @@ import { useServerI18n } from "@/core/i18n";
 import React from "react";
 import { AttendeeGreeting } from "./components/AttendeeGreeting";
 import { PrimaryLink } from "@/components/Link";
-import { ArrowDownToNextSection } from "./components/ArrowDown";
+import { OpeningArrowDown } from "./components/OpeningArrowDown";
 import { ScrollOpacity } from "../../ScrollOpacity";
 
 type InvitationSectionProps = {
@@ -32,7 +32,7 @@ export function InvitationSection(props: InvitationSectionProps) {
         </div>
 
         <div className="flex flex-col items-center mt-24 pb-4">
-          <ArrowDownToNextSection />
+          <OpeningArrowDown />
         </div>
         <ScrollOpacity tagID="open-invitation" acceleration={3} />
       </div>
