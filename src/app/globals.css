@@ -3,9 +3,11 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 90, 82, 82;
-  --background-start-rgb: 250, 191, 205, 0.3;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: 90, 82, 82, 1;
+  --background-start-rgb: 250, 204, 204, 0.3;
+  --background-end-rgb: 250, 204, 204, 1;
+
+  --primary-color: 250, 204, 204, 1;
   --background-paper: 255, 255, 255, 0.70;
   --background-dialog: 255, 255, 255, 0.1;
 }
@@ -14,9 +16,11 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
+    --foreground-rgb: 255, 255, 255, 1;
     --background-start-rgb: 0, 0, 0, 0.5;
     --background-end-rgb: 0, 0, 0, 1;
+
+    --primary-color: 250, 204, 204, 1;
     --background-paper: 0, 0, 0, 0.70;
     --background-dialog: 0, 0, 0, 0.1;
   }

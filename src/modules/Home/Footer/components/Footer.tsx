@@ -22,8 +22,11 @@ function FooterIcon() {
 export function Footer() {
   return (
     <footer
-      className="bg-pink-200 flex flex-col items-center justify-center py-8"
-      style={{ maxHeight: FOOTER_HEIGHT }}
+      className="flex flex-col items-center justify-center py-8"
+      style={{
+        maxHeight: FOOTER_HEIGHT,
+        background: "rgba(var(--primary-color))",
+      }}
     >
       <small>
         &copy; Copyright {config.COPYRIGHT_YEAR}, {config.COPYRIGHT_AUTHOR}
