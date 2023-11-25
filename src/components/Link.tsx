@@ -13,7 +13,7 @@ export function PrimaryLink(props: PrimaryLinkProps) {
   return (
     <Link
       {...restProps}
-      className={`uppercase drop-shadow-md ${props.className}`}
+      className={`uppercase drop-shadow-md hover:bg-white hover:bg-opacity-50 ${props.className}`}
     >
       {props.children}
       <DoubleUnderline />
@@ -25,7 +25,10 @@ export function PrimaryAnchor(props: HTMLProps<HTMLAnchorElement>) {
   const { children, ...restProps } = props;
 
   return (
-    <a {...restProps} className={`uppercase drop-shadow-md ${props.className}`}>
+    <a
+      {...restProps}
+      className={`uppercase drop-shadow-md hover:bg-white hover:bg-opacity-50  ${props.className}`}
+    >
       {props.children}
       <DoubleUnderline />
     </a>
@@ -38,10 +41,21 @@ export function PrimaryButton(props: PrimaryButtonProps) {
   return (
     <button
       {...props}
-      className={`uppercase drop-shadow-md ${props.className}`}
+      className={`uppercase drop-shadow-md hover:bg-white hover:bg-opacity-50 ${props.className}`}
     >
       {props.children}
       <DoubleUnderline />
+    </button>
+  );
+}
+
+export function IcButton(props: PrimaryButtonProps) {
+  return (
+    <button
+      {...props}
+      className={`flex justify-center items-center drop-shadow-md rounded-full p-1 w-10 h-10 backdrop-blur-sm hover:bg-white hover:bg-opacity-5 ${props.className}`}
+    >
+      {props.children}
     </button>
   );
 }

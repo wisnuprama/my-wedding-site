@@ -1,7 +1,7 @@
 "use client";
 
 import { Locale, useI18n } from "@/core/i18n";
-import Image from "next/image";
+import IcLanguage from "@material-ui/icons/Language";
 
 export function Language() {
   const i18n = useI18n();
@@ -13,13 +13,7 @@ export function Language() {
 
   return (
     <div id="language" className="flex flex-row cursor-pointer">
-      <Image
-        src="/images/ic_language.png"
-        alt="Change Language"
-        width={14}
-        height={14}
-        style={{ marginTop: 1, marginRight: 2, width: 14, height: 14 }}
-      />
+      <IcLanguage fontSize="inherit" style={{ marginRight: 2 }} />
       <span className="text-xs">
         <span onClick={() => changeLanguageAndRefresh(Locale.EN)}>ENG</span>
         {" | "}

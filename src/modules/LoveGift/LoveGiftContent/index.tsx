@@ -1,7 +1,8 @@
-import { PrimaryButton } from "@/components/Link";
+import { IcButton } from "@/components/Link";
 import { useI18n } from "@/core/i18n";
 import Image from "next/image";
 import { memo } from "react";
+import IcFileCopy from "@material-ui/icons/FileCopy";
 
 type BankAccountProps = {
   iconSrc: string;
@@ -31,9 +32,9 @@ function BankAccount(props: BankAccountProps) {
         <div>{accountName}</div>
       </div>
 
-      <PrimaryButton onClick={copyBankNumber} className="mt-2">
-        {i18n.t("label_copy_account")}
-      </PrimaryButton>
+      <IcButton onClick={copyBankNumber} className="mt-2">
+        <IcFileCopy fontSize="inherit" />
+      </IcButton>
     </div>
   );
 }
