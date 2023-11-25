@@ -32,12 +32,6 @@ export function useScrollOpacity(tagID: string, acceleration: number = 1) {
         opacity = 1;
       }
 
-      console.log({
-        opacity,
-        scrollPosition,
-        el: elementTop + elementBottom,
-      });
-
       if (opacity >= 0 && opacity <= 1) {
         element?.setAttribute("style", `opacity: ${opacity}`);
       }

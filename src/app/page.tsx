@@ -13,6 +13,7 @@ import {
   HomeDisableScrollContainer,
   WeddingEventInfoSection,
   RSVPWishesSection,
+  MusicPlayer,
 } from "@/modules/Home";
 import { redirect } from "next/navigation";
 
@@ -45,6 +46,7 @@ export default async function Home(props: HomeProps) {
           <WeddingEventInfoSection />
           <RSVPWishesSection />
           <LoveGiftSection />
+          <MusicPlayer />
         </main>
         <Footer />
         <AnchorTagSmoothScroll />
