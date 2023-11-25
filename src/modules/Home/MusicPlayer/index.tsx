@@ -1,7 +1,7 @@
 "use client";
 
 import IcMusic from "@material-ui/icons/MusicNote";
-import IcArrowLeft from "@material-ui/icons/ArrowLeft";
+import IcClose from "@material-ui/icons/Close";
 import {
   CSSProperties,
   memo,
@@ -54,7 +54,11 @@ function _MusicPlayer() {
     containerStyle["left"] = -MUSIC_PLAYER_WIDTH;
   }
 
-  const IcArrow = isHiding ? <IcMusic /> : <IcArrowLeft fontSize="large" />;
+  const IcArrow = isHiding ? (
+    <IcMusic />
+  ) : (
+    <IcClose fontSize="small" style={{ marginTop: -3 }} />
+  );
 
   return (
     <div
