@@ -7,3 +7,4 @@ export * from "./BrideGroomSection";
 export * from "./HomeDisableScrollContainer";
 export * from "./WeddingEventInfoSection";
 export * from "./RSVPWishesSection";
+export * from "./MusicPlayer";
