@@ -11,6 +11,7 @@ interface Config {
     startTime: number;
     endTime: number;
   }>;
+  SPOTIFY_URL?: string;
 }
 
 declare const config: Config;

@@ -13,6 +13,7 @@ import {
 import debounce from "lodash.debounce";
 
 import "./index.css";
+import config from "@/core/config";
 
 const MUSIC_PLAYER_WIDTH = 320;
 const SCROLL_THRESHOLD = 100;
@@ -63,7 +64,7 @@ function _MusicPlayer() {
     >
       <iframe
         className="rounded-md"
-        src="https://open.spotify.com/embed/playlist/3nTWE0ZIJ7vmCMz0URQ6gQ?utm_source=generator"
+        src={config.SPOTIFY_URL}
         height={100}
         width={MUSIC_PLAYER_WIDTH}
         frameBorder="0"
