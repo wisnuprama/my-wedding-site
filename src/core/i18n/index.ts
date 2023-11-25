@@ -24,11 +24,23 @@ function getBrowserLanguage(getLang: () => string) {
   return DEFAULT_LANG;
 }
 
+const sanitizeLocale = (locale: Locale | string | undefined): Locale => {
+  if (!locale) {
+    return DEFAULT_LANG;
+  }
+
+  if (locale.includes("en")) {
+    return Locale.EN;
+  }
+
+  return DEFAULT_LANG;
+};
+
 const getServerLocale = (): Locale => {
   const cookies = require("next/headers").cookies;
   const locale = cookies().get("locale")?.value;
   if (locale) {
-    return locale as Locale;
+    return sanitizeLocale(locale);
   }
 
   const l = getBrowserLanguage(() => {
@@ -47,7 +59,7 @@ const getClientLocale = (): Locale => {
 
   const locale = getCookie("locale");
   if (locale) {
-    return locale as Locale;
+    return sanitizeLocale(locale);
   }
 
   const l = getBrowserLanguage(() => window.navigator.language);
