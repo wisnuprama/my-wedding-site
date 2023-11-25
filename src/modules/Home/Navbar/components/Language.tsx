@@ -12,9 +12,9 @@ export function Language() {
   };
 
   return (
-    <div id="language" className="flex flex-row cursor-pointer">
+    <div id="language" className="flex flex-row cursor-pointer text-xs">
       <IcLanguage fontSize="inherit" style={{ marginRight: 2 }} />
-      <span className="text-xs">
+      <span>
         <span onClick={() => changeLanguageAndRefresh(Locale.EN)}>ENG</span>
         {" | "}
         <span onClick={() => changeLanguageAndRefresh(Locale.ID)}>ID</span>
