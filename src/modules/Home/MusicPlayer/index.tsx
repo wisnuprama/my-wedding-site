@@ -27,7 +27,6 @@ function _MusicPlayer() {
     const handleScroll = debounce(
       () => {
         const { scrollY } = window;
-        console.log("scrollY", scrollY, prevStopScrollPosition.current);
         const isScrolling =
           Math.abs(prevStopScrollPosition.current - scrollY) > SCROLL_THRESHOLD;
 
