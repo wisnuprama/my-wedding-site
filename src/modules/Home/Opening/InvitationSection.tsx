@@ -50,8 +50,8 @@ export function InvitationSection(props: InvitationSectionProps) {
           playsInline
           poster="/images/fallback-opening-video.jpeg"
         >
-          <source src="/home.webm" type="video/webm" />
-          <source src="/home.mp4" type="video/mp4" />
+          <source src="/videos/home.webm" type="video/webm" />
+          <source src="/videos/home.mp4" type="video/mp4" />
         </video>
       </div>
     </section>
