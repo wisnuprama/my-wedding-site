@@ -11,13 +11,21 @@ export function CountdownSection(props: CountdownSectionProps) {
   const { containerStyle } = props;
   const i18n = useServerI18n();
 
+  const formatter = new Intl.DateTimeFormat(i18n.getLocale(), {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
     <section
       className="flex flex-col justify-end items-center pb-8"
       style={containerStyle}
     >
-      {/* TODO: change wedding date to use config instead of translation */}
-      <div className="text-xl">{i18n.t("label_wedding_date")}</div>
+      <p className="text-xl">
+        {formatter.format(config.WEDDING_DAY_TIMESTAMP * 1000)}
+      </p>
       <h2 className={`mt-5 text-3xl ${fontCursive.className}`}>
         {i18n.t("label_counting_down")}
       </h2>

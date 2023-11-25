@@ -5,7 +5,7 @@ import invariant from "invariant";
 
 export enum Locale {
   ID = "id",
-  EN = "en",
+  EN = "en-GB",
 }
 
 const DEFAULT_LANG = Locale.ID;
@@ -73,9 +73,9 @@ class I18nManager {
     return I18nManager.instance;
   }
 
-  private store: Record<Locale, Record<string, string>> = {
-    id,
-    en,
+  private readonly store: Readonly<Record<Locale, Record<string, string>>> = {
+    [Locale.ID]: id,
+    [Locale.EN]: en,
   };
 
   private locale: Locale;

@@ -4,6 +4,7 @@ import { AttendeeGreeting } from "./components/AttendeeGreeting";
 import { PrimaryLink } from "@/components/Link";
 import { OpeningArrowDown } from "./components/OpeningArrowDown";
 import { ScrollOpacity } from "@/components/ScrollOpacity";
+import config from "@/core/config";
 
 type InvitationSectionProps = {
   invitationURL: string;
@@ -14,6 +15,13 @@ export function InvitationSection(props: InvitationSectionProps) {
   const { invitationURL, containerStyle } = props;
   const i18n = useServerI18n();
 
+  const formatter = new Intl.DateTimeFormat(i18n.getLocale(), {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
     <section className="h-screen" style={containerStyle}>
       <div
@@ -23,7 +31,9 @@ export function InvitationSection(props: InvitationSectionProps) {
         <div className="flex flex-col items-center justify-evenly">
           <div key="block" />
           <div className="flex flex-col items-center">
-            <span className="text-xl">{i18n.t("label_wedding_date")}</span>
+            <span className="text-xl">
+              {formatter.format(config.WEDDING_DAY_TIMESTAMP * 1000)}
+            </span>
             <AttendeeGreeting className="mt-11" />
             <PrimaryLink href={invitationURL} className="text-xl mt-4">
               {i18n.t("label_open_invitation")}
