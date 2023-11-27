@@ -53,7 +53,7 @@ export function RSVPForm(props: RSVPFormProps) {
   }, [estimatedPax]);
 
   return (
-    <div className="md:px-24 mt-12">
+    <div className="mt-12 md:w-1/2 w-full self-center">
       <form className="flex flex-col">
         <InputContainer labelText="Full Name" name="name" id="name">
           <input type="text" disabled value={name} required />
