@@ -1,8 +1,7 @@
 import { jwtVerify } from "jose";
 import { RSVPTokenData } from "./types";
-import { RSVPContextValue } from "./context";
 
-export class RSVPManager {
+export class RSVPTokenManager {
   private privateKey: Uint8Array | null = null;
 
   constructor() {
@@ -12,8 +11,8 @@ export class RSVPManager {
       : null;
   }
 
-  async verifyAndDecodeToken(
-    token: string | null | undefined
+  public async verifyAndDecodeToken(
+    token: string | null | undefined,
   ): Promise<[true, RSVPTokenData] | [false, null]> {
     if (!token) {
       return [false, null];
@@ -33,29 +32,4 @@ export class RSVPManager {
       return [false, null];
     }
   }
-}
-
-export async function useRSVPManagerContextValue(
-  rsvpToken: string | undefined
-): Promise<RSVPContextValue> {
-  const manager = new RSVPManager();
-
-  const [isValidRSVP, tokenData] = await manager.verifyAndDecodeToken(
-    rsvpToken
-  );
-
-  if (!isValidRSVP) {
-    return {
-      isValidRSVP: false,
-    };
-  }
-
-  return {
-    isValidRSVP,
-    data: {
-      name: tokenData.nm,
-      userId: tokenData.id,
-      message: tokenData.m,
-    },
-  };
 }

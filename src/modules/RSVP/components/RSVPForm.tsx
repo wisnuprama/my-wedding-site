@@ -1,7 +1,5 @@
-"use client";
-
+import { PrimaryButton } from "@/components/Link";
 import React, { useMemo } from "react";
-import QRCode from "react-qr-code";
 
 type InputProps = {
   labelText: string;
@@ -16,14 +14,16 @@ function InputContainer(props: InputProps) {
   return (
     <div className="mb-8">
       <div className="flex flex-col lg:flex-row">
-        <label className="mb-2 lg:mr-2 flex-1" htmlFor={inputProps.name}>
+        <label className="mb-2 lg:mr-2 md:flex-1" htmlFor={inputProps.name}>
           {labelText}
         </label>
         {React.Children.map(React.Children.only(children), (child) => {
           return React.cloneElement(child, {
             ...inputProps,
+            // @ts-expect-error
+            style: { backgroundColor: "rgba(var(--backgroud-input))" },
             className:
-              "flex-grow border border-gray-300 rounded-md px-2 focus:outline-none focus:ring-1 focus:ring-pink-600 focus:border-transparent",
+              "md:flex-1 backdrop-blur-sm flex-grow border border-gray-300 rounded-md px-2 focus:outline-none focus:ring-1 focus:ring-pink-600 focus:border-transparent",
           });
         })}
       </div>
@@ -33,60 +33,38 @@ function InputContainer(props: InputProps) {
 }
 
 type RSVPFormProps = {
-  title?: string;
   name: string;
-  message?: string;
-  invitationCode?: string;
+  estimatedPax: number;
 };
 
 export function RSVPForm(props: RSVPFormProps) {
-  const { invitationCode, title, name, message } = props;
+  const { name, estimatedPax } = props;
 
-  const personalMessage = useMemo(() => {
-    if (message) {
-      const t = title ? title + ". " : "";
-      return message.replaceAll("$nm", name).replaceAll("$t", t);
+  const attendancesOptions = useMemo(() => {
+    const options = [];
+    for (let i = 1; i <= estimatedPax; i++) {
+      options.push(
+        <option key={i} value={i}>
+          {i}
+        </option>,
+      );
     }
-
-    const finalName = `${title ? title + ". " : ""}${name}`;
-    return `Selamat datang ${finalName},`;
-  }, [name, title, message]);
+    return options;
+  }, [estimatedPax]);
 
   return (
-    <div className="px-24 pt-40">
-      {Boolean(invitationCode) && (
-        <>
-          <h2 className="text-4xl font-medium mb-16 md:mb-36">Invitation</h2>
-          <div>
-            {/* @ts-expect-error hack */}
-            <QRCode size={200} value={invitationCode} />
-            <div className="pt-8 flex flex-row">
-              <span className="mr-2">ℹ️</span>
-              <p>
-                Tunjukan QR ini ketika datang atau gunakan kode berikut
-                <b>
-                  <i>{` "${invitationCode}" `}</i>
-                </b>
-                jika ditemukan masalah.
-              </p>
-            </div>
-          </div>
-        </>
-      )}
-
-      <h2 className="text-4xl font-medium mb-16 md:mb-36">RSVP</h2>
-      <div className="text-xl mb-8">{personalMessage}</div>
+    <div className="md:px-24 mt-12">
       <form className="flex flex-col">
         <InputContainer labelText="Full Name" name="name" id="name">
-          <input type="text" disabled value={name} />
+          <input type="text" disabled value={name} required />
         </InputContainer>
 
         <InputContainer
-          labelText="Will you attend?"
+          labelText="Will you join us?"
           name="rsvp_response"
           id="rsvp_response"
         >
-          <select placeholder="Please select" defaultValue="">
+          <select placeholder="Please select" defaultValue="" required>
             <option value="">---</option>
             <option value="yes">Yes</option>
             <option value="no">No</option>
@@ -94,24 +72,27 @@ export function RSVPForm(props: RSVPFormProps) {
         </InputContainer>
 
         <InputContainer
-          labelText="Attendant"
-          name="num_of_attendant"
-          id="num_of_attendant"
+          labelText="attendances"
+          name="num_of_attendances"
+          id="num_of_attendances"
           helpText="Excluding children(s)"
         >
-          <select placeholder="Please select" defaultValue={0}>
-            <option value={1}>1</option>
-            <option value={2}>2</option>
+          <select
+            placeholder="Please select"
+            defaultValue={props.estimatedPax ?? 1}
+            required
+          >
+            {attendancesOptions}
           </select>
         </InputContainer>
 
-        <button
-          type="submit"
-          className="px-4 py-1 text-sm text-white rounded-full border border-pink-200 bg-pink-600 hover:bg-pink-500 hover:border-transparent disabled:text-slate-600 disabled:text-grey focus:outline-none focus:ring-2 focus:ring-pink-600 focus:ring-offset-2"
-          disabled
-        >
+        <InputContainer labelText="Wishes" name="wishes" id="wishes">
+          <textarea />
+        </InputContainer>
+
+        <PrimaryButton className="self-center" type="submit" disabled>
           Submit
-        </button>
+        </PrimaryButton>
       </form>
     </div>
   );

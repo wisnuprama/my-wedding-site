@@ -10,6 +10,7 @@
   --primary-color: 250, 204, 204, 1;
   --background-paper: 255, 255, 255, 0.70;
   --background-dialog: 255, 255, 255, 0.1;
+  --backgroud-input: 255, 255, 255, 0.5;
 }
 
 /* and (max-width: 600px) { */
@@ -23,6 +24,7 @@
     --primary-color: 250, 204, 204, 1;
     --background-paper: 183, 112, 112, 0.70;
     --background-dialog: 0, 0, 0, 0.1;
+    --backgroud-input: 255, 255, 255, 0.2;
   }
 }
 

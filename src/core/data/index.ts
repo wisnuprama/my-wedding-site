@@ -1,8 +1,8 @@
-import { RSVPService } from "./RSVP/service";
 import { sheetdb } from "./db";
 
-sheetdb.connect();
+export * from "./RSVP/RSVPSheetModel";
+export * from "./Wishes/WishesSheetModel";
 
-export const rsvpService = RSVPService.createRSVPServiceWithSheet(
-  sheetdb.spreadsheet,
-);
+sheetdb.connect(); // prefetch early
+
+export { sheetdb };

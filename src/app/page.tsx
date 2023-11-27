@@ -1,7 +1,8 @@
 import { AnchorTagSmoothScroll } from "@/components/AnchorTagSmoothScroll";
 import {
   RSVPContextProvider,
-  useRSVPManagerContextValue,
+  RSVPContextValue,
+  getRSVPViewModel,
 } from "@/modules/RSVP";
 import {
   OpeningSection,
@@ -12,8 +13,8 @@ import {
   BrideGroomSection,
   HomeDisableScrollContainer,
   WeddingEventInfoSection,
-  RSVPWishesSection,
   MusicPlayer,
+  RSVPWishesSection,
 } from "@/modules/Home";
 import { redirect } from "next/navigation";
 
@@ -27,13 +28,22 @@ export default async function Home(props: HomeProps) {
   const { searchParams } = props;
   const { rsvp: rsvpToken } = searchParams;
 
-  const rsvpContextValue = await useRSVPManagerContextValue(rsvpToken);
+  const rsvpViewModel = await getRSVPViewModel(rsvpToken);
 
   // remove rsvpToken from URL if it's invalid
   // redirect to home page
-  if (rsvpToken && !rsvpContextValue.isValidRSVP) {
+  if (rsvpToken && !rsvpViewModel.isValidRSVP) {
     redirect("/");
   }
+
+  const rsvpContextValue: RSVPContextValue = !rsvpViewModel.isValidRSVP
+    ? {
+        isValidRSVP: rsvpViewModel.isValidRSVP,
+      }
+    : {
+        isValidRSVP: rsvpViewModel.isValidRSVP,
+        data: rsvpViewModel.rsvpUserData,
+      };
 
   return (
     <RSVPContextProvider value={rsvpContextValue}>
@@ -44,7 +54,7 @@ export default async function Home(props: HomeProps) {
           <QuranSection />
           <BrideGroomSection />
           <WeddingEventInfoSection />
-          <RSVPWishesSection />
+          <RSVPWishesSection rsvpViewModel={rsvpViewModel} />
           <LoveGiftSection />
           <MusicPlayer />
         </main>

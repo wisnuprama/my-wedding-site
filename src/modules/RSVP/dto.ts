@@ -9,6 +9,7 @@ export class RSVPFormDTO {
     this.accessibility = accessibility;
   }
 
+  // TODO: estabilish validation framework
   public validate() {
     if (!this.actualPax || this.actualPax < 0) {
       throw new Error("Actual pax cannot be negative");
@@ -27,6 +28,14 @@ export class RSVPFormDTO {
       throw new Error("Will attend must be a boolean");
     }
 
+    return {
+      actualPax: this.actualPax,
+      willAttend: this.willAttend,
+      accessibility: this.accessibility,
+    };
+  }
+
+  toObject() {
     return {
       actualPax: this.actualPax,
       willAttend: this.willAttend,

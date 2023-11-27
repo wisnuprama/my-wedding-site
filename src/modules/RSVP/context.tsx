@@ -9,7 +9,7 @@ export type RSVPContextValue =
       isValidRSVP: true;
       data: {
         name: string;
-        userId: string;
+        rsvpID: string;
         message?: string;
       };
     };
