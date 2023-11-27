@@ -72,7 +72,7 @@ export function RSVPForm(props: RSVPFormProps) {
         </InputContainer>
 
         <InputContainer
-          labelText="attendances"
+          labelText="Attendances"
           name="num_of_attendances"
           id="num_of_attendances"
           helpText="Excluding children(s)"
@@ -83,6 +83,18 @@ export function RSVPForm(props: RSVPFormProps) {
             required
           >
             {attendancesOptions}
+          </select>
+        </InputContainer>
+
+        <InputContainer
+          labelText="Acessibility"
+          name="rsvp_response"
+          id="rsvp_response"
+        >
+          <select placeholder="Please select" defaultValue="" required>
+            <option value="">---</option>
+            <option value="no">Old</option>
+            <option value="yes">Wheelchair Access</option>
           </select>
         </InputContainer>
 
