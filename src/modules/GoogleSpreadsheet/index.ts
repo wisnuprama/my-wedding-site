@@ -19,6 +19,7 @@ export function createGoogleSpreadsheet() {
 
   const jwt = new JWT({
     email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+    // Need to replace \n accordingly based on https://github.com/vercel/next.js/issues/45578
     key: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY.replace(/\\n/g, "\n"),
     scopes: SCOPES,
   });
