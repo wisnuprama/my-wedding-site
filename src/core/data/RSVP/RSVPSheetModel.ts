@@ -1,8 +1,11 @@
+import config from "@/core/config";
 import {
   GoogleSpreadsheet,
+  GoogleSpreadsheetRow,
   GoogleSpreadsheetWorksheet,
 } from "google-spreadsheet";
 import invariant from "invariant";
+import schedule from "node-schedule";
 
 export type RSVPRow = {
   id: string;
@@ -20,29 +23,29 @@ export type RSVPRow = {
 
 export class RSVPSheetModel {
   private readonly sheet: GoogleSpreadsheetWorksheet;
-  private hasLoadedCells = false;
+  private rowCache: Map<RSVPRow["id"], GoogleSpreadsheetRow<RSVPRow>> =
+    new Map();
 
-  /**
-   * For mutex lock when refreshing cache and
-   * prevent multiple refreshes at the same time.
-   */
-  private refreshCachePromise: Promise<void> | null = null;
+  private refreshCacheJob: ReturnType<typeof schedule.scheduleJob>;
 
   constructor(sheet: GoogleSpreadsheetWorksheet) {
     this.sheet = sheet;
+
+    const interval = config.CACHE_REFRESH_SCHEDULE ?? "0 0 * * *";
+    this.refreshCacheJob = schedule.scheduleJob(interval, () => {
+      console.info("[RSVPSheetModel] running refreshCache per-schedule");
+      this.refreshCache();
+    });
   }
 
   public async refreshCache() {
-    if (this.refreshCachePromise) {
-      return this.refreshCachePromise;
-    }
+    this.rowCache = new Map();
 
-    this.hasLoadedCells = true;
-    this.refreshCachePromise = this.sheet.loadCells();
+    const rows = await this.sheet.getRows<RSVPRow>();
 
-    await this.refreshCachePromise;
-
-    this.refreshCachePromise = null;
+    rows.forEach((row) => {
+      this.rowCache.set(row.get("id"), row);
+    });
   }
 
   /**
@@ -51,27 +54,32 @@ export class RSVPSheetModel {
    * @returns CellRow | undefined
    */
   public async findByIdFromCache(id: string) {
-    if (!this.hasLoadedCells) {
+    if (this.rowCache.size === 0) {
+      // load cache first, cheaper than calling Google Sheets API everytime we get a request
       await this.refreshCache();
     }
 
-    // find from cache
-    const row = (await this.sheet.getRows<RSVPRow>()).find(
-      (row) => row.get("id") === id,
-    );
+    const row = this.rowCache.get(id);
 
     return row;
   }
 
   public async findById(id: string) {
     const row = (await this.findAll()).find((row) => row.get("id") === id);
-
+    // NOTE: no need to update cache here because findAll will update the cache
+    // accordingly.
     return row;
   }
 
   public async findAll() {
-    await this.refreshCache();
     const rows = await this.sheet.getRows<RSVPRow>();
+
+    queueMicrotask(() => {
+      // update cache accordingly
+      rows.forEach((row) => {
+        this.rowCache.set(row.get("id"), row);
+      });
+    });
 
     return rows;
   }

@@ -29,6 +29,7 @@
     "jose": "5.1.0",
     "lodash.debounce": "^4.0.8",
     "next": "14.0.2",
+    "node-schedule": "^2.1.1",
     "postcss": "8.4.31",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -40,6 +41,7 @@
   "devDependencies": {
     "@types/invariant": "^2.2.36",
     "@types/lodash.debounce": "^4.0.9",
+    "@types/node-schedule": "^2.1.4",
     "husky": "^8.0.0",
     "lint-staged": "^15.0.2",
     "prettier": "3.1.0"

@@ -1,3 +1,4 @@
+"use server";
 import { AnchorTagSmoothScroll } from "@/components/AnchorTagSmoothScroll";
 import {
   RSVPContextProvider,
@@ -17,6 +18,9 @@ import {
   RSVPWishesSection,
 } from "@/modules/Home";
 import { redirect } from "next/navigation";
+
+// TODO: not sure where we should put this
+import "./initializer";
 
 type HomeProps = {
   searchParams: {

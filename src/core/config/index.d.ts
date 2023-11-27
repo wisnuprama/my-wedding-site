@@ -12,6 +12,11 @@ interface Config {
     endTime: number;
   }>;
   SPOTIFY_URL?: string;
+
+  /**
+   * In cronjob syntax. Default daily at 00:00.
+   */
+  CACHE_REFRESH_SCHEDULE?: string;
 }
 
 declare const config: Config;

@@ -1,4 +1,5 @@
 import { createGoogleSpreadsheet } from "@/modules/GoogleSpreadsheet";
+import { withPerfTraceLog } from "@/modules/PerfTrace";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import invariant from "invariant";
 
@@ -38,7 +39,9 @@ class GoogleSpreadsheetDatabase implements Database<{}> {
     );
 
     try {
-      await this.init();
+      await withPerfTraceLog("GoogleSpreadsheetDatabase.connect", () =>
+        this.init(),
+      );
       console.info(
         "[GoogleSpreadsheetDatabase] connected to Google Spreadsheet: ",
         {

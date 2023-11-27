@@ -9,3 +9,15 @@ export function evalOnce<T>(fn: () => T): () => T {
     return r;
   };
 }
+
+export function callOnce(fn: () => void): () => void {
+  let called = false;
+
+  return () => {
+    if (called) {
+      return;
+    }
+
+    fn();
+  };
+}

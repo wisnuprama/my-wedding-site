@@ -5,6 +5,7 @@ import { RSVPTokenManager } from "../RSVPTokenManager";
 import { submitRSVP } from "./submitRSVP";
 import { RSVPFormExtraData, RSVPUserData, RSVPViewModel } from "../types";
 import { ServiceError } from "@/modules/ServiceError";
+import { withPerfTraceLog } from "@/modules/PerfTrace";
 
 interface RSVPService {
   getUserData: (
@@ -37,12 +38,9 @@ export async function getRSVPViewModel(
 
   const rsvpService: RSVPService = await getRSVPService();
 
-  const start = performance.now();
-  const [userDataFromDb, err] = await rsvpService.getUserData(tokenData.id);
-  console.info(
-    "[Profiler] rsvpService.getUserData took",
-    performance.now() - start,
-    "ms",
+  const [userDataFromDb, err] = await withPerfTraceLog(
+    "rsvpService.getUserData",
+    () => rsvpService.getUserData(tokenData.id),
   );
 
   // replace with data from db if available
@@ -58,15 +56,9 @@ export async function getRSVPViewModel(
     rsvpUserData: userData,
     submit: submitRSVP,
     getFormExtraData: async () => {
-      const start = performance.now();
-      const extraData = await rsvpService.getFormExtraData(tokenData.id);
-      console.info(
-        "[Profiler] rsvpService.getFormExtraData took",
-        performance.now() - start,
-        "ms",
+      return withPerfTraceLog("rsvpService.getFormExtraData", () =>
+        rsvpService.getFormExtraData(tokenData.id),
       );
-
-      return extraData;
     },
   };
 }
