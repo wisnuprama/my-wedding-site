@@ -87,7 +87,7 @@ export function RSVPForm(props: RSVPFormProps) {
         </InputContainer>
 
         <InputContainer labelText="Wishes" name="wishes" id="wishes">
-          <textarea />
+          <textarea rows={4} />
         </InputContainer>
 
         <PrimaryButton className="self-center" type="submit" disabled>

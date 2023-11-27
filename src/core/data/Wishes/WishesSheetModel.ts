@@ -1,8 +1,11 @@
+import config from "@/core/config";
 import {
   GoogleSpreadsheet,
+  GoogleSpreadsheetRow,
   GoogleSpreadsheetWorksheet,
 } from "google-spreadsheet";
 import invariant from "invariant";
+import schedule from "node-schedule";
 
 export type WishRow = {
   from: string;
@@ -12,42 +15,38 @@ export type WishRow = {
 
 export class WishesSheetModel {
   private readonly sheet: GoogleSpreadsheetWorksheet;
-  private hasLoadedCells = false;
-
-  /**
-   * For mutex lock when refreshing cache and
-   * prevent multiple refreshes at the same time.
-   */
-  private refreshCachePromise: Promise<void> | null = null;
+  private rowCache: Array<GoogleSpreadsheetRow<WishRow>> | null = null;
+  private refreshCacheJob: ReturnType<typeof schedule.scheduleJob>;
 
   constructor(sheet: GoogleSpreadsheetWorksheet) {
     this.sheet = sheet;
+
+    const interval = config.CACHE_REFRESH_SCHEDULE ?? "0 0 * * *";
+    this.refreshCacheJob = schedule.scheduleJob(interval, () => {
+      console.info("[WishesSheetModel] running refreshCache per-schedule");
+      this.refreshCache();
+    });
   }
 
-  /**
-   * TODO: call this after users submit an RSVP
-   */
   public async refreshCache() {
-    if (this.refreshCachePromise) {
-      return this.refreshCachePromise;
-    }
+    this.rowCache = await this.sheet.getRows<WishRow>();
+  }
 
-    this.hasLoadedCells = true;
-    this.refreshCachePromise = this.sheet.loadCells();
+  public createWish(from: string, message: string) {
+    this.sheet.addRow({
+      from,
+      message,
+      ctime: Date.now(),
+    });
+  }
 
-    await this.refreshCachePromise;
-
-    this.refreshCachePromise = null;
+  public async findAllFromCache() {
+    return this.rowCache ?? this.findAll();
   }
 
   public async findAll() {
-    if (!this.hasLoadedCells) {
-      await this.refreshCache();
-    }
-
-    const rows = await this.sheet.getRows<WishRow>();
-
-    return rows;
+    this.rowCache = await this.sheet.getRows<WishRow>();
+    return this.rowCache;
   }
 
   public static createWishesSheetModel(spreadsheet: GoogleSpreadsheet) {
