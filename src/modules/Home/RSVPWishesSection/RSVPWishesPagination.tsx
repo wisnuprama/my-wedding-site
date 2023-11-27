@@ -89,7 +89,7 @@ export function RSVPWishesPagination(props: RSVPWishesPaginationProps) {
 
   return (
     <div
-      className="mt-10 p-2 backdrop-blur-md rounded-xl relative"
+      className="mt-10 p-2 backdrop-blur-md rounded-xl relative md:w-1/2 w-full self-center"
       style={{
         height: 500 + 20,
         background: "rgba(var(--background-paper))",
