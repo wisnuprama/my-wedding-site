@@ -84,9 +84,13 @@ export class RSVPSheetModel {
     return rows;
   }
 
-  public static createRSVPSheetModel(spreadsheet: GoogleSpreadsheet) {
-    const sheet = spreadsheet.sheetsByTitle["RSVP"];
-    invariant(sheet, "RSVP sheet not found");
-    return new RSVPSheetModel(sheet);
+  private static instance: RSVPSheetModel | null = null;
+  public static getInstance(spreadsheet: GoogleSpreadsheet) {
+    if (!RSVPSheetModel.instance) {
+      const sheet = spreadsheet.sheetsByTitle["RSVP"];
+      invariant(sheet, "RSVP sheet not found");
+      RSVPSheetModel.instance = new RSVPSheetModel(sheet);
+    }
+    return RSVPSheetModel.instance;
   }
 }

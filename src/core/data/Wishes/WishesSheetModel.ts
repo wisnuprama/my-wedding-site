@@ -32,12 +32,14 @@ export class WishesSheetModel {
     this.rowCache = await this.sheet.getRows<WishRow>();
   }
 
-  public createWish(from: string, message: string) {
-    this.sheet.addRow({
+  public async createWish(from: string, message: string) {
+    const r = await this.sheet.addRow({
       from,
       message,
       ctime: Date.now(),
     });
+
+    return r;
   }
 
   public async findAllFromCache() {
@@ -49,9 +51,14 @@ export class WishesSheetModel {
     return this.rowCache;
   }
 
-  public static createWishesSheetModel(spreadsheet: GoogleSpreadsheet) {
-    const sheet = spreadsheet.sheetsByTitle["Wishes"];
-    invariant(sheet, "Wishes sheet not found");
-    return new WishesSheetModel(sheet);
+  private static instance: WishesSheetModel | null = null;
+  public static getInstance(spreadsheet: GoogleSpreadsheet) {
+    if (!WishesSheetModel.instance) {
+      const sheet = spreadsheet.sheetsByTitle["Wishes"];
+      invariant(sheet, "Wishes sheet not found");
+      WishesSheetModel.instance = new WishesSheetModel(sheet);
+    }
+
+    return WishesSheetModel.instance;
   }
 }
