@@ -89,28 +89,34 @@ export function RSVPWishesPagination(props: RSVPWishesPaginationProps) {
 
   return (
     <div
-      className="mt-10 p-2 backdrop-blur-md rounded-xl"
+      className="mt-10 p-2 backdrop-blur-md rounded-xl relative"
       style={{
         height: 500 + 20,
         background: "rgba(var(--background-paper))",
       }}
     >
-      <AutoSizer>
-        {({ width }) => (
-          <FixedSizeList<WishItem[]>
-            itemCount={parsedWishes.length}
-            width={width}
-            height={500}
-            itemSize={140}
-            itemKey={(index, data) =>
-              data[index].ctime + data[index].from + index
-            }
-            itemData={parsedWishes}
-          >
-            {Wish}
-          </FixedSizeList>
-        )}
-      </AutoSizer>
+      {parsedWishes.length > 0 ? (
+        <AutoSizer>
+          {({ width }) => (
+            <FixedSizeList<WishItem[]>
+              itemCount={parsedWishes.length}
+              width={width}
+              height={500}
+              itemSize={140}
+              itemKey={(index, data) =>
+                data[index].ctime + data[index].from + index
+              }
+              itemData={parsedWishes}
+            >
+              {Wish}
+            </FixedSizeList>
+          )}
+        </AutoSizer>
+      ) : (
+        <div className="text-3xl flex justify-center items-center h-full">
+          ❤️
+        </div>
+      )}
     </div>
   );
 }

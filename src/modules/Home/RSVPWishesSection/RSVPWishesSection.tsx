@@ -20,13 +20,14 @@ export async function RSVPWishesSection(props: RSVPWishesSectionProps) {
     "use server";
 
     let rows: WishItem[] = [];
-
     try {
       rows = (
-        await WishesSheetModel.createWishesSheetModel(
+        await WishesSheetModel.getInstance(
           await sheetdb.getSpreadsheet(),
         ).findAllFromCache()
-      ).map((row): WishItem => deserializeSheetData(row.toObject() as WishRow));
+      )
+        .map((row): WishItem => deserializeSheetData(row.toObject() as WishRow))
+        .sort((a, b) => b.ctime - a.ctime);
     } catch (e) {
       // TODO: log error
     }
