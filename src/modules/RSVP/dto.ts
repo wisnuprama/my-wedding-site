@@ -1,12 +1,14 @@
 export class RSVPFormDTO {
-  readonly actualPax: number | undefined;
-  readonly willAttend: boolean | undefined;
-  readonly accessibility?: string | undefined;
-
-  constructor(actualPax: number, willAttend: boolean, accessibility: string) {
+  constructor(
+    public readonly actualPax: number,
+    public readonly willAttend: boolean,
+    public readonly accessibility?: string | undefined,
+    public readonly wishMessage?: string | undefined,
+  ) {
     this.actualPax = actualPax;
     this.willAttend = willAttend;
     this.accessibility = accessibility;
+    this.wishMessage = wishMessage;
   }
 
   // TODO: estabilish validation framework
@@ -28,10 +30,15 @@ export class RSVPFormDTO {
       throw new Error("Will attend must be a boolean");
     }
 
+    if (typeof this.wishMessage !== "string") {
+      throw new Error("Wishes must be a string");
+    }
+
     return {
       actualPax: this.actualPax,
       willAttend: this.willAttend,
       accessibility: this.accessibility,
+      wishMessage: this.wishMessage,
     };
   }
 

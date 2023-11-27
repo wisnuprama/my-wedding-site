@@ -4,7 +4,7 @@ import { GoogleSpreadsheet } from "google-spreadsheet";
 import { RSVPRow, RSVPSheetModel } from "@/core/data/RSVP/RSVPSheetModel";
 import { getServerI18n } from "@/core/i18n";
 import { ServiceErrorCode } from "@/modules/ServiceError/errorcode";
-import { sheetdb } from "@/core/data";
+import { WishesSheetModel, sheetdb } from "@/core/data";
 import { deserializeSheetData, serializeSheetData } from "@/core/data/utils";
 import { evalOnce } from "@/common/helper";
 import { RSVPFormExtraData, RSVPUserData } from "./types";
@@ -24,11 +24,21 @@ export interface RSVPModel {
   findAll(): Promise<RSVPInstance[]>;
 }
 
+export interface WishesModel {
+  createWish(from: string, message: string): Promise<unknown>;
+  refreshCache(): Promise<void>;
+}
+
 export class RSVPService {
   private rsvpModel!: RSVPModel;
+  private wishesModel!: WishesModel;
 
   protected setRsvpModel(model: RSVPModel) {
     this.rsvpModel = model;
+  }
+
+  protected setWishesModel(model: WishesModel) {
+    this.wishesModel = model;
   }
 
   private async getRSVPByIdOrCache(
@@ -149,6 +159,9 @@ export class RSVPService {
     queueMicrotask(() => {
       this.rsvpModel.refreshCache();
     });
+    queueMicrotask(() => {
+      this.wishesModel.refreshCache();
+    });
 
     type Struct = ReturnType<typeof input.validate>;
     type Key = keyof ReturnType<typeof input.validate>;
@@ -165,14 +178,18 @@ export class RSVPService {
     if (data.accessibility) {
       rsvp.set("accessibility", data.accessibility);
     }
+
+    // NOTE: might be good idea to make this atomic
     rsvp.save();
+    this.wishesModel.createWish(rsvp.get("nama"), data.wishMessage);
   }
 
   public static createRSVPServiceWithSheet(spreadsheet: GoogleSpreadsheet) {
-    const rsvpModel = RSVPSheetModel.createRSVPSheetModel(spreadsheet);
-
     const service = new RSVPService();
-    service.setRsvpModel(rsvpModel);
+
+    service.setRsvpModel(RSVPSheetModel.getInstance(spreadsheet));
+    service.setWishesModel(WishesSheetModel.getInstance(spreadsheet));
+
     return service;
   }
 }
