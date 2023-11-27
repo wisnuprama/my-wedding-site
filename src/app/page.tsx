@@ -19,9 +19,6 @@ import {
 } from "@/modules/Home";
 import { redirect } from "next/navigation";
 
-// TODO: not sure where we should put this
-import "./initializer";
-
 type HomeProps = {
   searchParams: {
     rsvp?: string;

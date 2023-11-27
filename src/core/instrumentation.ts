@@ -3,10 +3,13 @@ import { sheetdb } from "@/core/data";
 import schedule from "node-schedule";
 
 const init = callOnce(() => {
-  sheetdb.connect();
+  console.info("[core.instrumentation] Initializing instrumentation...");
+
   process.on("SIGINT", function () {
     schedule.gracefulShutdown().then(() => process.exit(0));
   });
+
+  return Promise.all([sheetdb.connect()]);
 });
 
-init();
+export default init();
