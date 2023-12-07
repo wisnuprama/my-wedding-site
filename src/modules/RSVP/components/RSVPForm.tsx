@@ -1,4 +1,5 @@
 import { PrimaryButton } from "@/components/Link";
+import { useI18n } from "@/core/i18n";
 import React, { useMemo } from "react";
 
 type InputProps = {
@@ -40,6 +41,8 @@ type RSVPFormProps = {
 export function RSVPForm(props: RSVPFormProps) {
   const { name, estimatedPax } = props;
 
+  const i18n = useI18n();
+
   const attendancesOptions = useMemo(() => {
     const options = [];
     for (let i = 1; i <= estimatedPax; i++) {
@@ -66,8 +69,8 @@ export function RSVPForm(props: RSVPFormProps) {
         >
           <select placeholder="Please select" defaultValue="" required>
             <option value="">---</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
+            <option value="yes">{i18n.t("label_yes")}</option>
+            <option value="no">{i18n.t("label_no")}</option>
           </select>
         </InputContainer>
 
@@ -91,10 +94,11 @@ export function RSVPForm(props: RSVPFormProps) {
           name="rsvp_response"
           id="rsvp_response"
         >
-          <select placeholder="Please select" defaultValue="" required>
+          <select placeholder="Please select" defaultValue="">
             <option value="">---</option>
-            <option value="no">Old</option>
-            <option value="yes">Wheelchair Access</option>
+            <option value="Chair for Elderly">
+              {i18n.t("label_accessibility_elderly_chair")}
+            </option>
           </select>
         </InputContainer>
 
