@@ -17,5 +17,6 @@
   ],
   "SPOTIFY_URL": "https://open.spotify.com/embed/playlist/3nTWE0ZIJ7vmCMz0URQ6gQ?utm_source=generator",
   "VENUE_MAP_URL": "https://maps.app.goo.gl/EqxH4ztv4D7DMJPM7",
-  "CALENDAR_URL": "https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NWQxcjY5c2duMTYxcGlkN3E0czI1b3A0cmIgd2lzbnVwcmFtYTAxNEBt&tmsrc=wisnuprama014%40gmail.com"
+  "CALENDAR_URL": "https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NWQxcjY5c2duMTYxcGlkN3E0czI1b3A0cmIgd2lzbnVwcmFtYTAxNEBt&tmsrc=wisnuprama014%40gmail.com",
+  "CACHE_REFRESH_SCHEDULE":  "0 0 * * *"
 }

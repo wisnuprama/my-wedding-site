@@ -9,7 +9,9 @@
 
   --primary-color: 250, 204, 204, 1;
   --background-paper: 255, 255, 255, 0.70;
+  --background-card:  250, 204, 204, 0.75;
   --background-dialog: 255, 255, 255, 0.1;
+  --backgroud-input: 255, 255, 255, 0.5;
 }
 
 /* and (max-width: 600px) { */
@@ -22,7 +24,9 @@
 
     --primary-color: 250, 204, 204, 1;
     --background-paper: 183, 112, 112, 0.70;
+    --background-card: 90, 82, 82, 0.3;
     --background-dialog: 0, 0, 0, 0.1;
+    --backgroud-input: 255, 255, 255, 0.2;
   }
 }
 
@@ -79,4 +83,12 @@ thead,
 tfoot {
   background-color: #333;
   color: #fff;
+}
+
+.text-truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

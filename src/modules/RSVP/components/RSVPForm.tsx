@@ -1,7 +1,11 @@
 "use client";
-
-import React, { useMemo } from "react";
-import QRCode from "react-qr-code";
+import { PrimaryButton } from "@/components/Link";
+import { useI18n } from "@/core/i18n";
+import React, { useEffect, useMemo } from "react";
+import { RSVPFormState } from "../actions/submitRSVP";
+import { useFormState, useFormStatus } from "react-dom";
+import IcWarning from "@material-ui/icons/Warning";
+import IcCheck from "@material-ui/icons/Check";
 
 type InputProps = {
   labelText: string;
@@ -16,14 +20,16 @@ function InputContainer(props: InputProps) {
   return (
     <div className="mb-8">
       <div className="flex flex-col lg:flex-row">
-        <label className="mb-2 lg:mr-2 flex-1" htmlFor={inputProps.name}>
+        <label className="mb-2 lg:mr-2 md:flex-1" htmlFor={inputProps.name}>
           {labelText}
         </label>
         {React.Children.map(React.Children.only(children), (child) => {
           return React.cloneElement(child, {
             ...inputProps,
+            // @ts-expect-error
+            style: { backgroundColor: "rgba(var(--backgroud-input))" },
             className:
-              "flex-grow border border-gray-300 rounded-md px-2 focus:outline-none focus:ring-1 focus:ring-pink-600 focus:border-transparent",
+              "md:flex-1 backdrop-blur-sm flex-grow border border-gray-300 rounded-md px-2 focus:outline-none focus:ring-1 focus:ring-pink-600 focus:border-transparent",
           });
         })}
       </div>
@@ -33,86 +39,135 @@ function InputContainer(props: InputProps) {
 }
 
 type RSVPFormProps = {
-  title?: string;
+  submit: (state: RSVPFormState, formData: FormData) => Promise<RSVPFormState>;
   name: string;
-  message?: string;
-  invitationCode?: string;
+  estimatedPax: number;
+  rsvpToken: string;
+};
+
+const initialState: RSVPFormState = {
+  status: null,
+  message: null,
 };
 
 export function RSVPForm(props: RSVPFormProps) {
-  const { invitationCode, title, name, message } = props;
+  const { name, estimatedPax, submit, rsvpToken } = props;
 
-  const personalMessage = useMemo(() => {
-    if (message) {
-      const t = title ? title + ". " : "";
-      return message.replaceAll("$nm", name).replaceAll("$t", t);
+  const [state, formAction] = useFormState(submit, initialState);
+
+  useEffect(() => {
+    if (state.status !== "ok") {
+      return;
     }
 
-    const finalName = `${title ? title + ". " : ""}${name}`;
-    return `Selamat datang ${finalName},`;
-  }, [name, title, message]);
+    const timeout = setTimeout(() => {
+      location?.reload?.();
+    }, 2000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [state.status]);
+
+  const i18n = useI18n();
+
+  const attendancesOptions = useMemo(() => {
+    const options = [];
+    for (let i = 1; i <= estimatedPax; i++) {
+      options.push(
+        <option key={i} value={i}>
+          {i}
+        </option>,
+      );
+    }
+    return options;
+  }, [estimatedPax]);
 
   return (
-    <div className="px-24 pt-40">
-      {Boolean(invitationCode) && (
-        <>
-          <h2 className="text-4xl font-medium mb-16 md:mb-36">Invitation</h2>
-          <div>
-            {/* @ts-expect-error hack */}
-            <QRCode size={200} value={invitationCode} />
-            <div className="pt-8 flex flex-row">
-              <span className="mr-2">ℹ️</span>
-              <p>
-                Tunjukan QR ini ketika datang atau gunakan kode berikut
-                <b>
-                  <i>{` "${invitationCode}" `}</i>
-                </b>
-                jika ditemukan masalah.
-              </p>
-            </div>
-          </div>
-        </>
-      )}
-
-      <h2 className="text-4xl font-medium mb-16 md:mb-36">RSVP</h2>
-      <div className="text-xl mb-8">{personalMessage}</div>
-      <form className="flex flex-col">
+    <div className="mt-12 md:w-1/2 w-full self-center">
+      <form className="flex flex-col" action={formAction}>
+        <input type="hidden" value={rsvpToken} name="rsvpToken" />
         <InputContainer labelText="Full Name" name="name" id="name">
-          <input type="text" disabled value={name} />
+          <input type="text" disabled value={name} required />
         </InputContainer>
 
         <InputContainer
-          labelText="Will you attend?"
-          name="rsvp_response"
-          id="rsvp_response"
+          labelText="Will you join us?"
+          name="willAttend"
+          id="willAttend"
+        >
+          <select placeholder="Please select" defaultValue="" required>
+            <option value="">---</option>
+            <option value="true">{i18n.t("label_yes")}</option>
+            <option value="false">{i18n.t("label_no")}</option>
+          </select>
+        </InputContainer>
+
+        <InputContainer
+          labelText="Attendances"
+          name="actualPax"
+          id="actualPax"
+          helpText="Excluding children(s)"
+        >
+          <select
+            placeholder="Please select"
+            defaultValue={props.estimatedPax ?? 1}
+            required
+          >
+            {attendancesOptions}
+          </select>
+        </InputContainer>
+
+        <InputContainer
+          labelText="Acessibility"
+          name="accessibility"
+          id="accessibility"
         >
           <select placeholder="Please select" defaultValue="">
             <option value="">---</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
+            <option value="Chair for Elderly">
+              {i18n.t("label_accessibility_elderly_chair")}
+            </option>
           </select>
         </InputContainer>
 
-        <InputContainer
-          labelText="Attendant"
-          name="num_of_attendant"
-          id="num_of_attendant"
-          helpText="Excluding children(s)"
-        >
-          <select placeholder="Please select" defaultValue={0}>
-            <option value={1}>1</option>
-            <option value={2}>2</option>
-          </select>
+        <InputContainer labelText="Wishes" name="wishMessage" id="wishMessage">
+          <textarea rows={4} />
         </InputContainer>
 
-        <button
-          type="submit"
-          className="px-4 py-1 text-sm text-white rounded-full border border-pink-200 bg-pink-600 hover:bg-pink-500 hover:border-transparent disabled:text-slate-600 disabled:text-grey focus:outline-none focus:ring-2 focus:ring-pink-600 focus:ring-offset-2"
-          disabled
-        >
-          Submit
-        </button>
+        {state.message ? (
+          <div
+            className={`rounded-md p-4 flex mb-4 backdrop-blur-md bg-opacity-75 ${
+              state.status === "ok" ? "bg-green-500" : "bg-red-500"
+            }`}
+          >
+            {state.status === "ok" ? (
+              <IcCheck className="mr-2 " />
+            ) : (
+              <IcWarning className="mr-2" />
+            )}
+            <p aria-live="polite">{state?.message}</p>
+          </div>
+        ) : null}
+
+        <SubmitButton />
       </form>
     </div>
+  );
+}
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  const i18n = useI18n();
+
+  return (
+    <PrimaryButton
+      className="self-center"
+      type="submit"
+      style={{ cursor: "pointer" }}
+    >
+      {pending ? i18n.t("label_submit_pending") : i18n.t("label_submit")}
+    </PrimaryButton>
   );
 }

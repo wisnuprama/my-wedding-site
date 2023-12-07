@@ -12,7 +12,9 @@ export function OpeningSection(props: OpeningSectionProps) {
   const { rsvpToken } = props;
 
   const invitationURL = (() => {
-    if (!rsvpToken) return "/invitation";
+    if (!rsvpToken) {
+      return null;
+    }
     return "/invitation?rsvp=" + rsvpToken;
   })();
 
