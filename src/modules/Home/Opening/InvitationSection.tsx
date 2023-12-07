@@ -7,7 +7,7 @@ import { ScrollOpacity } from "@/components/ScrollOpacity";
 import config from "@/core/config";
 
 type InvitationSectionProps = {
-  invitationURL: string;
+  invitationURL: string | null;
   containerStyle?: React.CSSProperties;
 };
 
@@ -35,9 +35,11 @@ export function InvitationSection(props: InvitationSectionProps) {
               {formatter.format(config.WEDDING_DAY_TIMESTAMP * 1000)}
             </span>
             <AttendeeGreeting className="mt-11" />
-            <PrimaryLink href={invitationURL} className="text-xl mt-4">
-              {i18n.t("label_open_invitation")}
-            </PrimaryLink>
+            {invitationURL && (
+              <PrimaryLink href={invitationURL} className="text-xl mt-4">
+                {i18n.t("label_open_invitation")}
+              </PrimaryLink>
+            )}
           </div>
         </div>
 
