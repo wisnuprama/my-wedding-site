@@ -5,6 +5,7 @@ import { PrimaryLink } from "@/components/Link";
 import { OpeningArrowDown } from "./components/OpeningArrowDown";
 import { ScrollOpacity } from "@/components/ScrollOpacity";
 import config from "@/core/config";
+import { VideoAutoPlay } from "./components/VideoAutoPlay";
 
 type InvitationSectionProps = {
   invitationURL: string | null;
@@ -54,6 +55,7 @@ export function InvitationSection(props: InvitationSectionProps) {
         style={{ zIndex: -1, opacity: 0.3 }}
       >
         <video
+          id="home-video"
           width={4096}
           className="h-full object-cover"
           autoPlay
@@ -65,6 +67,7 @@ export function InvitationSection(props: InvitationSectionProps) {
           <source src="/videos/home.webm" type="video/webm" />
           <source src="/videos/home.mp4" type="video/mp4" />
         </video>
+        <VideoAutoPlay />
       </div>
     </section>
   );
