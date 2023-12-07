@@ -17,6 +17,10 @@ class GoogleSpreadsheetDatabase implements Database<{}> {
   }
 
   private async init() {
+    if (this.initialize) {
+      return this.initialize;
+    }
+
     const initialize: Promise<unknown>[] = [];
 
     initialize.push(this.spreadsheet.loadInfo());
@@ -60,7 +64,4 @@ class GoogleSpreadsheetDatabase implements Database<{}> {
 
 export const sheetdb = new GoogleSpreadsheetDatabase(createGoogleSpreadsheet());
 
-if (process.env.NODE_ENV === "development") {
-  // instrumentation does not get triggered after hot reload
-  sheetdb.connect();
-}
+sheetdb.connect();

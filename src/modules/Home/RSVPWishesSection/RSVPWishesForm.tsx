@@ -33,6 +33,14 @@ export async function RSVPWishesForm(props: RSVPWishesFormProps) {
     );
   }
 
+  if (formExtraData.filled && !formExtraData.willAttend) {
+    return (
+      <div className="p-8 flex justify-center items-center">
+        <p>{i18n.t("msg_thank_you_responding")}</p>
+      </div>
+    );
+  }
+
   const { name } = rsvpViewModel.rsvpUserData;
 
   return (

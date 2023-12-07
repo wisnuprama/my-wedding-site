@@ -131,7 +131,7 @@ export class RSVPService {
     return [
       deserializeSheetData({
         filled: rsvp.get("rsvp_done"),
-        willAttend: rsvp.get("attended"),
+        willAttend: rsvp.get("will_attend"),
         estimatedPax: rsvp.get("estimated_pax"),
       }),
       undefined,

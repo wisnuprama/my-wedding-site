@@ -52,5 +52,7 @@
   "label_accessibility_elderly_chair": "Chair for Elderly",
   "label_submit_pending": "Please wait...",
   "msg_submit_error": "Error, please try again",
-  "msg_submit_success": "Thank you for your RSVP"
+  "msg_submit_success": "Thank you for your RSVP",
+  "msg_thank_you_responding": "",
+  "msg_thank_you_attending": ""
 }
