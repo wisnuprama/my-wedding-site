@@ -36,8 +36,10 @@ export class WishesSheetModel {
     const r = await this.sheet.addRow({
       from,
       message,
-      ctime: Date.now(),
+      ctime: Date.now() / 1000,
     });
+
+    await this.refreshCache();
 
     return r;
   }

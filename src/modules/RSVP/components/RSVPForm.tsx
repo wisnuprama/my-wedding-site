@@ -1,6 +1,11 @@
+"use client";
 import { PrimaryButton } from "@/components/Link";
 import { useI18n } from "@/core/i18n";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
+import { RSVPFormState } from "../actions/submitRSVP";
+import { useFormState, useFormStatus } from "react-dom";
+import IcWarning from "@material-ui/icons/Warning";
+import IcCheck from "@material-ui/icons/Check";
 
 type InputProps = {
   labelText: string;
@@ -34,12 +39,35 @@ function InputContainer(props: InputProps) {
 }
 
 type RSVPFormProps = {
+  submit: (state: RSVPFormState, formData: FormData) => Promise<RSVPFormState>;
   name: string;
   estimatedPax: number;
+  rsvpToken: string;
+};
+
+const initialState: RSVPFormState = {
+  status: null,
+  message: null,
 };
 
 export function RSVPForm(props: RSVPFormProps) {
-  const { name, estimatedPax } = props;
+  const { name, estimatedPax, submit, rsvpToken } = props;
+
+  const [state, formAction] = useFormState(submit, initialState);
+
+  useEffect(() => {
+    if (state.status !== "ok") {
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      location?.reload?.();
+    }, 2000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [state.status]);
 
   const i18n = useI18n();
 
@@ -57,27 +85,28 @@ export function RSVPForm(props: RSVPFormProps) {
 
   return (
     <div className="mt-12 md:w-1/2 w-full self-center">
-      <form className="flex flex-col">
+      <form className="flex flex-col" action={formAction}>
+        <input type="hidden" value={rsvpToken} name="rsvpToken" />
         <InputContainer labelText="Full Name" name="name" id="name">
           <input type="text" disabled value={name} required />
         </InputContainer>
 
         <InputContainer
           labelText="Will you join us?"
-          name="rsvp_response"
-          id="rsvp_response"
+          name="willAttend"
+          id="willAttend"
         >
           <select placeholder="Please select" defaultValue="" required>
             <option value="">---</option>
-            <option value="yes">{i18n.t("label_yes")}</option>
-            <option value="no">{i18n.t("label_no")}</option>
+            <option value="true">{i18n.t("label_yes")}</option>
+            <option value="false">{i18n.t("label_no")}</option>
           </select>
         </InputContainer>
 
         <InputContainer
           labelText="Attendances"
-          name="num_of_attendances"
-          id="num_of_attendances"
+          name="actualPax"
+          id="actualPax"
           helpText="Excluding children(s)"
         >
           <select
@@ -91,8 +120,8 @@ export function RSVPForm(props: RSVPFormProps) {
 
         <InputContainer
           labelText="Acessibility"
-          name="rsvp_response"
-          id="rsvp_response"
+          name="accessibility"
+          id="accessibility"
         >
           <select placeholder="Please select" defaultValue="">
             <option value="">---</option>
@@ -102,14 +131,43 @@ export function RSVPForm(props: RSVPFormProps) {
           </select>
         </InputContainer>
 
-        <InputContainer labelText="Wishes" name="wishes" id="wishes">
+        <InputContainer labelText="Wishes" name="wishMessage" id="wishMessage">
           <textarea rows={4} />
         </InputContainer>
 
-        <PrimaryButton className="self-center" type="submit" disabled>
-          Submit
-        </PrimaryButton>
+        {state.message ? (
+          <div
+            className={`rounded-md p-4 flex mb-4 backdrop-blur-md bg-opacity-75 ${
+              state.status === "ok" ? "bg-green-500" : "bg-red-500"
+            }`}
+          >
+            {state.status === "ok" ? (
+              <IcCheck className="mr-2 " />
+            ) : (
+              <IcWarning className="mr-2" />
+            )}
+            <p aria-live="polite">{state?.message}</p>
+          </div>
+        ) : null}
+
+        <SubmitButton />
       </form>
     </div>
+  );
+}
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  const i18n = useI18n();
+
+  return (
+    <PrimaryButton
+      className="self-center"
+      type="submit"
+      style={{ cursor: "pointer" }}
+    >
+      {pending ? i18n.t("label_submit_pending") : i18n.t("label_submit")}
+    </PrimaryButton>
   );
 }

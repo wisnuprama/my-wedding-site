@@ -1,6 +1,7 @@
 import { ServiceErrorCode } from "@/modules/ServiceError/errorcode";
 import { type } from "os";
 import { ServiceError } from "../ServiceError";
+import { RSVPFormState } from "./actions/submitRSVP";
 
 export type RSVPTokenData = {
   /**
@@ -37,7 +38,8 @@ export type RSVPUserData = {
 export type ValidRSVPViewModel = {
   isValidRSVP: true;
   rsvpUserData: RSVPUserData;
-  submit: (formData: FormData) => Promise<void>;
+  rsvpToken: string;
+  submit: (state: RSVPFormState, formData: FormData) => Promise<RSVPFormState>;
   getFormExtraData: () => Promise<
     [RSVPFormExtraData, undefined] | [undefined, ServiceError]
   >;

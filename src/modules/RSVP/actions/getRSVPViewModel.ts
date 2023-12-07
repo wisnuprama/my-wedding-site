@@ -24,7 +24,7 @@ export async function getRSVPViewModel(
   const [isValidRSVP, tokenData] =
     await manager.verifyAndDecodeToken(rsvpToken);
 
-  if (!isValidRSVP) {
+  if (!isValidRSVP || !rsvpToken) {
     return {
       isValidRSVP: false,
     };
@@ -53,6 +53,7 @@ export async function getRSVPViewModel(
 
   return {
     isValidRSVP,
+    rsvpToken,
     rsvpUserData: userData,
     submit: submitRSVP,
     getFormExtraData: async () => {

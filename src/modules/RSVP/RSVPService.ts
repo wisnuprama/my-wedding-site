@@ -144,7 +144,7 @@ export class RSVPService {
   ): Promise<{
     error: ServiceErrorCode;
     errorMsg?: string;
-  } | void> {
+  }> {
     const i18n = getServerI18n();
     const rsvp = await this.rsvpModel.findById(id);
 
@@ -163,13 +163,13 @@ export class RSVPService {
       this.wishesModel.refreshCache();
     });
 
-    type Struct = ReturnType<typeof input.validate>;
-    type Key = keyof ReturnType<typeof input.validate>;
+    type Struct = ReturnType<typeof input.toObject>;
+    type Key = keyof ReturnType<typeof input.toObject>;
     type StructDB = {
       [K in Key]: Struct[K] extends boolean ? "TRUE" | "FALSE" : string;
     };
 
-    const data = serializeSheetData<Struct, StructDB>(input.validate());
+    const data = serializeSheetData<Struct, StructDB>(input.toObject());
 
     rsvp.set("rsvp_done", "TRUE");
     rsvp.set("actual_pax", data.actualPax);
@@ -180,8 +180,12 @@ export class RSVPService {
     }
 
     // NOTE: might be good idea to make this atomic
-    rsvp.save();
+    await rsvp.save();
     this.wishesModel.createWish(rsvp.get("nama"), data.wishMessage);
+
+    return {
+      error: ServiceErrorCode.OK,
+    };
   }
 
   public static createRSVPServiceWithSheet(spreadsheet: GoogleSpreadsheet) {

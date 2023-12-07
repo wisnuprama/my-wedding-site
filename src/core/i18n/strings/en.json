@@ -49,5 +49,8 @@
   "label_close": "CLOSE",
   "label_yes": "Yes",
   "label_no": "No",
-  "label_accessibility_elderly_chair": "Chair for Elderly"
+  "label_accessibility_elderly_chair": "Chair for Elderly",
+  "label_submit_pending": "Please wait...",
+  "msg_submit_error": "Error, please try again",
+  "msg_submit_success": "Thank you for your RSVP"
 }

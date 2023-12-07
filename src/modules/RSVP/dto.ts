@@ -1,9 +1,11 @@
+import invariant from "invariant";
+
 export class RSVPFormDTO {
   constructor(
-    public readonly actualPax: number,
-    public readonly willAttend: boolean,
-    public readonly accessibility?: string | undefined,
-    public readonly wishMessage?: string | undefined,
+    public readonly actualPax: any | null | undefined,
+    public readonly willAttend: any | null | undefined,
+    public readonly accessibility?: string | null | undefined,
+    public readonly wishMessage?: string | null | undefined,
   ) {
     this.actualPax = actualPax;
     this.willAttend = willAttend;
@@ -11,42 +13,42 @@ export class RSVPFormDTO {
     this.wishMessage = wishMessage;
   }
 
+  private object: {
+    actualPax: number;
+    willAttend: boolean;
+    accessibility: string | null | undefined;
+    wishMessage: string | null | undefined;
+  } | null = null;
+
   // TODO: estabilish validation framework
   public validate() {
-    if (!this.actualPax || this.actualPax < 0) {
+    const actualPax = parseInt(this.actualPax, 10);
+
+    if (isNaN(actualPax) || this.actualPax < 0) {
       throw new Error("Actual pax cannot be negative");
     }
 
-    const acceptableAccessibilities = ["wheelchair", "old", "other"];
+    const acceptableAccessibilities = ["Chair for Elderly"];
 
     if (
       this.accessibility &&
       !acceptableAccessibilities.includes(this.accessibility)
     ) {
-      throw new Error("Not an acceptable accessibility");
+      throw new Error("Does not recognize the given accessibility");
     }
 
-    if (typeof this.willAttend !== "boolean") {
-      throw new Error("Will attend must be a boolean");
-    }
+    const willAttend = this.willAttend === "true";
 
-    if (typeof this.wishMessage !== "string") {
-      throw new Error("Wishes must be a string");
-    }
-
-    return {
-      actualPax: this.actualPax,
-      willAttend: this.willAttend,
+    this.object = {
+      actualPax,
+      willAttend,
       accessibility: this.accessibility,
       wishMessage: this.wishMessage,
     };
   }
 
   toObject() {
-    return {
-      actualPax: this.actualPax,
-      willAttend: this.willAttend,
-      accessibility: this.accessibility,
-    };
+    invariant(this.object, "Call `validate` before calling `toObject`");
+    return this.object;
   }
 }

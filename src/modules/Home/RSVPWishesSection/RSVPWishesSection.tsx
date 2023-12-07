@@ -1,3 +1,4 @@
+"use server";
 import { useServerI18n } from "@/core/i18n";
 import { fontCursive } from "@/core/styles";
 import { RSVPViewModel } from "@/modules/RSVP";
@@ -17,8 +18,6 @@ export async function RSVPWishesSection(props: RSVPWishesSectionProps) {
   const i18n = useServerI18n();
 
   async function getWishes() {
-    "use server";
-
     let rows: WishItem[] = [];
     try {
       rows = (

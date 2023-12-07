@@ -1,3 +1,4 @@
+"use server";
 import { useServerI18n } from "@/core/i18n";
 import { RSVPForm, ValidRSVPViewModel } from "@/modules/RSVP";
 
@@ -34,5 +35,12 @@ export async function RSVPWishesForm(props: RSVPWishesFormProps) {
 
   const { name } = rsvpViewModel.rsvpUserData;
 
-  return <RSVPForm name={name} estimatedPax={formExtraData.estimatedPax} />;
+  return (
+    <RSVPForm
+      rsvpToken={rsvpViewModel.rsvpToken}
+      name={name}
+      estimatedPax={formExtraData.estimatedPax}
+      submit={rsvpViewModel.submit}
+    />
+  );
 }

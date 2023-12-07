@@ -59,3 +59,8 @@ class GoogleSpreadsheetDatabase implements Database<{}> {
 }
 
 export const sheetdb = new GoogleSpreadsheetDatabase(createGoogleSpreadsheet());
+
+if (process.env.NODE_ENV === "development") {
+  // instrumentation does not get triggered after hot reload
+  sheetdb.connect();
+}
