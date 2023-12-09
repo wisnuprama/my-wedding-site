@@ -18,6 +18,7 @@ function _EventTimeInfo(props: EventTimeInfoProps) {
   const year = useMemo(() => {
     const formatter = new Intl.DateTimeFormat(serverLocale, {
       year: "numeric",
+      timeZone: "Asia/Jakarta",
     });
 
     return formatter.format(startDate);
@@ -26,6 +27,7 @@ function _EventTimeInfo(props: EventTimeInfoProps) {
   const month = useMemo(() => {
     const formatter = new Intl.DateTimeFormat(serverLocale, {
       month: "short",
+      timeZone: "Asia/Jakarta",
     });
 
     return formatter.format(startDate);
@@ -34,9 +36,11 @@ function _EventTimeInfo(props: EventTimeInfoProps) {
   const day = useMemo(() => {
     const nameFormatter = new Intl.DateTimeFormat(serverLocale, {
       weekday: "long",
+      timeZone: "Asia/Jakarta",
     });
     const numFormatter = new Intl.DateTimeFormat(serverLocale, {
       day: "numeric",
+      timeZone: "Asia/Jakarta",
     });
 
     return {
@@ -50,6 +54,8 @@ function _EventTimeInfo(props: EventTimeInfoProps) {
       hour: "numeric",
       minute: "numeric",
       hour12: false,
+      timeZoneName: "short",
+      timeZone: "Asia/Jakarta",
     });
     return formatter.formatRange(startDate, endDate);
   }, [startDate, endDate, serverLocale]);
