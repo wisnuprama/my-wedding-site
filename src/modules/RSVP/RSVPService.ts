@@ -156,13 +156,6 @@ export class RSVPService {
       };
     }
 
-    queueMicrotask(() => {
-      this.rsvpModel.refreshCache();
-    });
-    queueMicrotask(() => {
-      this.wishesModel.refreshCache();
-    });
-
     type Struct = ReturnType<typeof input.toObject>;
     type Key = keyof ReturnType<typeof input.toObject>;
     type StructDB = {
@@ -182,6 +175,16 @@ export class RSVPService {
     // NOTE: might be good idea to make this atomic
     await rsvp.save();
     this.wishesModel.createWish(rsvp.get("nama"), data.wishMessage);
+
+    try {
+      this.rsvpModel.refreshCache();
+      this.wishesModel.refreshCache();
+    } catch (e) {
+      console.error({
+        error: e,
+        message: "Failed to refresh",
+      });
+    }
 
     return {
       error: ServiceErrorCode.OK,
