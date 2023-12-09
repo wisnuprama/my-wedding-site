@@ -2,17 +2,17 @@
   "FOOTER_URL": "https://github.com/wisnuprama/my-wedding-site",
   "COPYRIGHT_AUTHOR": "Nadia & Wisnu",
   "COPYRIGHT_YEAR": 2023,
-  "WEDDING_DAY_TIMESTAMP": 1717923600,
+  "WEDDING_DAY_TIMESTAMP": 1718442000,
   "SCHEDULES": [
     {
       "titleKey": "title_event_akad",
-      "startTime": 1717923600,
-      "endTime": 1717930800
+      "startTime": 1718442000,
+      "endTime": 1718449200
     },
     {
       "titleKey": "title_event_reception",
-      "startTime": 1717932600,
-      "endTime": 1717941600
+      "startTime": 1718452800,
+      "endTime": 1718461800
     }
   ],
   "SPOTIFY_URL": "https://open.spotify.com/embed/playlist/3nTWE0ZIJ7vmCMz0URQ6gQ?utm_source=generator",
