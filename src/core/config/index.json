@@ -3,6 +3,7 @@
   "COPYRIGHT_AUTHOR": "Nadia & Wisnu",
   "COPYRIGHT_YEAR": 2023,
   "WEDDING_DAY_TIMESTAMP": 1718442000,
+  "MAX_ATTENDANCES": 2,
   "SCHEDULES": [
     {
       "titleKey": "title_event_akad",

@@ -4,6 +4,8 @@ interface Config {
   COPYRIGHT_YEAR: number;
   WEDDING_DAY_TIMESTAMP: number;
 
+  MAX_ATTENDANCES: number;
+
   VENUE_MAP_URL?: string;
   CALENDAR_URL?: string;
   SCHEDULES?: Array<{

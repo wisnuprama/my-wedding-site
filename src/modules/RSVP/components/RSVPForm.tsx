@@ -6,6 +6,7 @@ import { RSVPFormState } from "../actions/submitRSVP";
 import { useFormState, useFormStatus } from "react-dom";
 import IcWarning from "@material-ui/icons/Warning";
 import IcCheck from "@material-ui/icons/Check";
+import config from "@/core/config";
 
 type InputProps = {
   labelText: string;
@@ -73,7 +74,7 @@ export function RSVPForm(props: RSVPFormProps) {
 
   const attendancesOptions = useMemo(() => {
     const options = [];
-    for (let i = 1; i <= estimatedPax; i++) {
+    for (let i = 1; i <= config.MAX_ATTENDANCES; i++) {
       options.push(
         <option key={i} value={i}>
           {i}
@@ -81,7 +82,7 @@ export function RSVPForm(props: RSVPFormProps) {
       );
     }
     return options;
-  }, [estimatedPax]);
+  }, []);
 
   return (
     <div className="mt-12 md:w-1/2 w-full self-center">
@@ -111,7 +112,7 @@ export function RSVPForm(props: RSVPFormProps) {
         >
           <select
             placeholder="Please select"
-            defaultValue={props.estimatedPax ?? 1}
+            defaultValue={estimatedPax ?? 1}
             required
           >
             {attendancesOptions}
