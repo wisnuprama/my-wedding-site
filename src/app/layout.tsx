@@ -53,11 +53,11 @@ export const metadata: Metadata = {
 };
 
 type RootLayoutProps = {
-  invitation: React.ReactNode;
+  event: React.ReactNode;
   children: React.ReactNode;
 };
 
-export default function RootLayout({ invitation, children }: RootLayoutProps) {
+export default function RootLayout({ event, children }: RootLayoutProps) {
   const i18n = useServerI18n();
   return (
     <html lang={i18n.getLocale()}>
@@ -70,7 +70,7 @@ export default function RootLayout({ invitation, children }: RootLayoutProps) {
         />
       </Head>
       <body className={font.className}>
-        {invitation}
+        {event}
         {children}
         <Analytics />
       </body>

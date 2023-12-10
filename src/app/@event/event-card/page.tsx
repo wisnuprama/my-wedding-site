@@ -6,7 +6,7 @@ import { useLayoutEffect, useRef } from "react";
 
 type InvitationProps = {};
 
-export default function InvitationCard(props: InvitationProps) {
+export default function EventCard(props: InvitationProps) {
   const router = useRouter();
 
   const i18n = useI18n();
