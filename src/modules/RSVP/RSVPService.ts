@@ -113,6 +113,16 @@ export class RSVPService {
     ];
   }
 
+  public async shouldDisplayEventCard(id: string): Promise<boolean> {
+    const [rsvp, err] = await this.getRSVPByIdOrCache(id);
+
+    if (err != null) {
+      return false;
+    }
+
+    return rsvp.get("rsvp_done") === "TRUE";
+  }
+
   /**
    *
    * @param id

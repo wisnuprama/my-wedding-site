@@ -3,13 +3,16 @@ import { fontCursive } from "@/core/styles";
 import { CountdownSection } from "./CountdownSection";
 import { InvitationSection } from "./InvitationSection";
 import { NAVBAR_HEIGHT } from "..";
+import { useServerI18n } from "@/core/i18n";
+import { RSVPViewModel } from "@/modules/RSVP";
 
 export type OpeningSectionProps = {
-  isValidRSVP: boolean;
+  rsvpViewModel: RSVPViewModel;
 };
 
-export function OpeningSection(props: OpeningSectionProps) {
-  const { isValidRSVP } = props;
+export async function OpeningSection(props: OpeningSectionProps) {
+  const { rsvpViewModel } = props;
+  const i18n = useServerI18n();
 
   return (
     <div className="m-0">
@@ -18,18 +21,24 @@ export function OpeningSection(props: OpeningSectionProps) {
           <h1
             className={`text-4xl sm:text-5xl md:text-7xl ${fontCursive.className}`}
           >
-            The Wedding of
+            {i18n.t("title_wedding1")}
             <br />
             <span className="ml-16 lg:ml-24" style={styles.titleSpanText}>
-              Nadia & Wisnu
+              {i18n.t("title_wedding2")}
             </span>
           </h1>
         </div>
-        <InvitationSection containerStyle={styles.invitationContainer} />
+        <InvitationSection
+          containerStyle={styles.invitationContainer}
+          displayEventCard={
+            rsvpViewModel.isValidRSVP &&
+            (await rsvpViewModel.shouldDisplayEventCard())
+          }
+        />
         <div id="pg-2" style={styles.anchorToPage2} />
       </div>
       <CountdownSection
-        isValidRSVP={isValidRSVP}
+        isValidRSVP={rsvpViewModel.isValidRSVP}
         containerStyle={styles.pageTwoContainer}
       />
     </div>

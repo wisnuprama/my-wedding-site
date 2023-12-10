@@ -5,13 +5,15 @@ import { ScrollOpacity } from "@/components/ScrollOpacity";
 import config from "@/core/config";
 import { VideoAutoPlay } from "./components/VideoAutoPlay";
 import { OpenInvitationButton } from "./components/OpenInvitationButton";
+import { OpenEventCardButton } from "./components/OpenEventCardButton";
 
 type InvitationSectionProps = {
+  displayEventCard: boolean;
   containerStyle?: React.CSSProperties;
 };
 
 export function InvitationSection(props: InvitationSectionProps) {
-  const { containerStyle } = props;
+  const { containerStyle, displayEventCard } = props;
   const i18n = useServerI18n();
 
   const formatter = new Intl.DateTimeFormat(i18n.getLocale(), {
@@ -38,6 +40,11 @@ export function InvitationSection(props: InvitationSectionProps) {
           <div className="mt-6">
             <OpenInvitationButton />
           </div>
+          {Boolean(displayEventCard) && (
+            <div className="mt-6">
+              <OpenEventCardButton />
+            </div>
+          )}
         </div>
 
         <ScrollOpacity tagID="open-invitation" acceleration={3} />

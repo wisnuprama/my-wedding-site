@@ -8,6 +8,7 @@ import { ServiceError } from "@/modules/ServiceError";
 import { withPerfTraceLog } from "@/modules/PerfTrace";
 
 interface RSVPService {
+  shouldDisplayEventCard: (rsvpID: string) => Promise<boolean>;
   getUserData: (
     rsvpID: string,
   ) => Promise<[RSVPUserData, undefined] | [undefined, ServiceError]>;
@@ -16,12 +17,10 @@ interface RSVPService {
   ) => Promise<[RSVPFormExtraData, undefined] | [undefined, ServiceError]>;
 }
 
-export async function getRSVPViewModel(
-  rsvpToken: string | undefined,
-): Promise<RSVPViewModel> {
+export async function getRSVPViewModel(): Promise<RSVPViewModel> {
   const manager = new RSVPTokenManager();
 
-  rsvpToken = manager.useTokenOrGetFromCookie(rsvpToken);
+  const rsvpToken = manager.getTokenFromCookie();
 
   const [isValidRSVP, tokenData] =
     await manager.verifyAndDecodeToken(rsvpToken);
@@ -57,6 +56,11 @@ export async function getRSVPViewModel(
     isValidRSVP,
     rsvpToken,
     rsvpUserData: userData,
+    shouldDisplayEventCard: async () => {
+      return withPerfTraceLog("rsvpService.shouldDisplayEventCard", () =>
+        rsvpService.shouldDisplayEventCard(tokenData.id),
+      );
+    },
     submit: submitRSVP,
     getFormExtraData: async () => {
       return withPerfTraceLog("rsvpService.getFormExtraData", () =>

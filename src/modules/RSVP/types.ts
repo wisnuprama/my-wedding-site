@@ -37,6 +37,7 @@ export type ValidRSVPViewModel = {
   isValidRSVP: true;
   rsvpUserData: RSVPUserData;
   rsvpToken: string;
+  shouldDisplayEventCard: () => Promise<boolean>;
   submit: (state: RSVPFormState, formData: FormData) => Promise<RSVPFormState>;
   getFormExtraData: () => Promise<
     [RSVPFormExtraData, undefined] | [undefined, ServiceError]

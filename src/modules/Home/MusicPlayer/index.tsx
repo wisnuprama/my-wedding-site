@@ -78,7 +78,12 @@ function _MusicPlayer() {
       <button
         onClick={() => startTransition(() => setHideState((s) => !s))}
         className="backdrop-blur-sm rounded-md h-10 w-8 text-right"
-        style={{ background: "rgb(72,76,68)", marginLeft: -12, zIndex: -1 }}
+        style={{
+          background: "rgb(72,76,68)",
+          marginLeft: -12,
+          zIndex: -1,
+          color: "rgba(var(--primary-color))",
+        }}
       >
         {IcArrow}
       </button>
