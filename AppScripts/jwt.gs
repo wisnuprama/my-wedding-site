@@ -3,6 +3,13 @@
 // Copy paste this script to a new appscript file.
 // You can add more params to generateInvitationJWT accordingly depending on your need.
 // Make sure you don't include too many data, otherwise the token will be too long.
+// Function with customFunction annotation will be exposed to the sheet formula,
+//
+// ```
+// =generateInvitationJWT(Const!$B$2,A3,B3,D3)
+// ```
+//
+// In example above, I created a const in cell Const!$B$2 in another sheet containing the private key
 
 const base64Encode = (text, json = true) => {
   const data = json ? JSON.stringify(text) : text;
