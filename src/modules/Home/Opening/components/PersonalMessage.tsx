@@ -5,9 +5,9 @@ import { useI18n } from "@/core/i18n";
 import { RSVPContext } from "@/modules/RSVP";
 import { memo, useContext, useRef } from "react";
 
-type SpecialMessageProps = {};
+type PersonalMessageProps = {};
 
-function _SpecialMessage(props: SpecialMessageProps) {
+function _PersonalMessage(_: PersonalMessageProps) {
   const i18n = useI18n();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const msgContent = useRef<HTMLDivElement>(null);
@@ -18,7 +18,7 @@ function _SpecialMessage(props: SpecialMessageProps) {
     return null;
   }
 
-  const specialMessage = rsvp.data?.message;
+  const personalMessage = rsvp.data?.message;
 
   const openDialog = () => {
     if (!msgContent.current) {
@@ -40,10 +40,9 @@ function _SpecialMessage(props: SpecialMessageProps) {
 
       <dialog
         ref={dialogRef}
-        className="p-8 rounded-md backdrop-blur-2xl shadow-md"
+        className="p-8 rounded-md backdrop-blur-2xl shadow-md w-screen md:w-1/2"
         style={{
           height: "25vh",
-          width: "100vw",
           background: "rgba(var(--background-dialog))",
           color: "rgb(var(--foreground-rgb))",
         }}
@@ -52,7 +51,7 @@ function _SpecialMessage(props: SpecialMessageProps) {
           ref={msgContent}
           className="h-full flex flex-col justify-between p-1"
         >
-          <p>{specialMessage}</p>
+          <p>{personalMessage}</p>
           <div className="flex flex-col justify-between items-center">
             <PrimaryButton onClick={closeDialog}>
               {i18n.t("label_close")}
@@ -64,4 +63,4 @@ function _SpecialMessage(props: SpecialMessageProps) {
   );
 }
 
-export const SpecialMessage = memo(_SpecialMessage);
+export const PersonalMessage = memo(_PersonalMessage);

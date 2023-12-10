@@ -2,7 +2,7 @@ import { useServerI18n } from "@/core/i18n";
 import { fontCursive } from "@/core/styles";
 import { Countdown } from "./components/Countdown";
 import config from "@/core/config";
-import { SpecialMessage } from "./components/SpecialMessage";
+import { PersonalMessage } from "./components/PersonalMessage";
 
 type CountdownSectionProps = {
   isValidRSVP: boolean;
@@ -26,12 +26,15 @@ export function CountdownSection(props: CountdownSectionProps) {
       style={containerStyle}
     >
       {isValidRSVP && (
-        <div className="flex-1 flex flex-col justify-center items-center">
-          <p className="text-center text-lg">
-            {i18n.t("label_invitation_card_quote")}
-          </p>
+        <div className="flex-1 flex flex-col justify-center items-center px-2">
+          <p
+            className="text-center text-lg"
+            dangerouslySetInnerHTML={{
+              __html: i18n.t("label_invitation_card_quote"),
+            }}
+          />
 
-          <SpecialMessage />
+          <PersonalMessage />
         </div>
       )}
       <p className="text-xl">
