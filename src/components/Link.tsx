@@ -49,11 +49,23 @@ export function PrimaryButton(props: PrimaryButtonProps) {
   );
 }
 
+export function IcLink(props: PrimaryLinkProps) {
+  const { children, ...restProps } = props;
+  return (
+    <Link
+      {...restProps}
+      className={`flex justify-center items-center drop-shadow-md rounded-full p-1 w-10 h-10 backdrop-blur-sm hover:bg-opacity-60 active:bg-white active:bg-opacity-5 ${props.className}`}
+    >
+      {props.children}
+    </Link>
+  );
+}
+
 export function IcButton(props: PrimaryButtonProps) {
   return (
     <button
       {...props}
-      className={`flex justify-center items-center drop-shadow-md rounded-full p-1 w-10 h-10 backdrop-blur-sm bg-white bg-opacity-50 hover:bg-opacity-60 active:bg-white active:bg-opacity-5 ${props.className}`}
+      className={`flex justify-center items-center drop-shadow-md rounded-full p-1 w-10 h-10 backdrop-blur-sm hover:bg-opacity-60 active:bg-white active:bg-opacity-5 ${props.className}`}
     >
       {props.children}
     </button>

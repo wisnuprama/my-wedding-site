@@ -32,7 +32,10 @@ function BankAccount(props: BankAccountProps) {
         <div>{accountName}</div>
       </div>
 
-      <IcButton onClick={copyBankNumber} className="mt-2">
+      <IcButton
+        onClick={copyBankNumber}
+        className="mt-2 bg-white bg-opacity-50"
+      >
         <IcFileCopy fontSize="inherit" />
       </IcButton>
     </div>
