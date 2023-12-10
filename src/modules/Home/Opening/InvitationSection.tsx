@@ -1,19 +1,17 @@
 import { useServerI18n } from "@/core/i18n";
 import React from "react";
 import { AttendeeGreeting } from "./components/AttendeeGreeting";
-import { PrimaryLink } from "@/components/Link";
-import { OpeningArrowDown } from "./components/OpeningArrowDown";
 import { ScrollOpacity } from "@/components/ScrollOpacity";
 import config from "@/core/config";
 import { VideoAutoPlay } from "./components/VideoAutoPlay";
+import { OpenInvitationButton } from "./components/OpenInvitationButton";
 
 type InvitationSectionProps = {
-  invitationURL: string | null;
   containerStyle?: React.CSSProperties;
 };
 
 export function InvitationSection(props: InvitationSectionProps) {
-  const { invitationURL, containerStyle } = props;
+  const { containerStyle } = props;
   const i18n = useServerI18n();
 
   const formatter = new Intl.DateTimeFormat(i18n.getLocale(), {
@@ -36,17 +34,12 @@ export function InvitationSection(props: InvitationSectionProps) {
               {formatter.format(config.WEDDING_DAY_TIMESTAMP * 1000)}
             </span>
             <AttendeeGreeting className="mt-11" />
-            {invitationURL && (
-              <PrimaryLink href={invitationURL} className="text-xl mt-4">
-                {i18n.t("label_open_invitation")}
-              </PrimaryLink>
-            )}
+          </div>
+          <div className="mt-6">
+            <OpenInvitationButton />
           </div>
         </div>
 
-        <div className="flex flex-col items-center mt-24 pb-4">
-          <OpeningArrowDown />
-        </div>
         <ScrollOpacity tagID="open-invitation" acceleration={3} />
       </div>
 

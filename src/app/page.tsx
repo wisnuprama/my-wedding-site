@@ -55,6 +55,7 @@ export default async function Home(props: HomeProps) {
             isValidRSVP={rsvpViewModel.isValidRSVP}
             rsvpToken={rsvpToken}
           />
+          <OpeningSection isValidRSVP={rsvpViewModel.isValidRSVP} />
           <QuranSection />
           <BrideGroomSection />
           <WeddingEventInfoSection />

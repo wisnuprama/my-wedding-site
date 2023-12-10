@@ -6,23 +6,15 @@ import { NAVBAR_HEIGHT } from "..";
 
 export type OpeningSectionProps = {
   isValidRSVP: boolean;
-  rsvpToken: string | null | undefined;
 };
 
 export function OpeningSection(props: OpeningSectionProps) {
-  const { rsvpToken, isValidRSVP } = props;
-
-  const invitationURL = (() => {
-    if (!rsvpToken) {
-      return null;
-    }
-    return "/invitation?rsvp=" + rsvpToken;
-  })();
+  const { isValidRSVP } = props;
 
   return (
     <div className="m-0">
       <div id="pg-1" className="relative" style={styles.pageOneContainer}>
-        <div className="sticky flex justify-center top-10 md:px-16 md:pt-24 md:top-24">
+        <div className="sticky flex justify-center top-10 md:px-16 md:top-24">
           <h1
             className={`text-4xl sm:text-5xl md:text-7xl ${fontCursive.className}`}
           >
@@ -33,10 +25,7 @@ export function OpeningSection(props: OpeningSectionProps) {
             </span>
           </h1>
         </div>
-        <InvitationSection
-          invitationURL={invitationURL}
-          containerStyle={styles.invitationContainer}
-        />
+        <InvitationSection containerStyle={styles.invitationContainer} />
         <div id="pg-2" style={styles.anchorToPage2} />
       </div>
       <CountdownSection
