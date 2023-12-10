@@ -20,7 +20,7 @@ export function OpenEventCardButton() {
       // so users can scroll after closing dialog
       enableScroll();
       // actually navigate users to the page
-      router.push("/invitation-card");
+      router.push("/event-card");
     },
     [enableScroll, router],
   );
@@ -28,7 +28,7 @@ export function OpenEventCardButton() {
   return (
     <PrimaryLink
       className="text-xl mt-4"
-      href="/invitation-card"
+      href="/event-card"
       onClick={handleLink}
     >
       {i18n.t("label_see_your_invitation_card")}

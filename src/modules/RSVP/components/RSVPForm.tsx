@@ -5,8 +5,8 @@ import React, { useEffect, useMemo } from "react";
 import { RSVPFormState } from "../actions/submitRSVP";
 import { useFormState, useFormStatus } from "react-dom";
 import IcWarning from "@material-ui/icons/Warning";
-import IcCheck from "@material-ui/icons/Check";
 import config from "@/core/config";
+import { useRouter } from "next/navigation";
 
 type InputProps = {
   labelText: string;
@@ -53,6 +53,8 @@ const initialState: RSVPFormState = {
 
 export function RSVPForm(props: RSVPFormProps) {
   const { name, estimatedPax, submit, rsvpToken } = props;
+  const router = useRouter();
+  const i18n = useI18n();
 
   const [state, formAction] = useFormState(submit, initialState);
 
@@ -60,17 +62,16 @@ export function RSVPForm(props: RSVPFormProps) {
     if (state.status !== "ok") {
       return;
     }
+    router.refresh();
 
-    const timeout = setTimeout(() => {
-      location?.reload?.();
-    }, 2000);
+    const redirectTo = state.redirectTo;
 
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [state.status]);
-
-  const i18n = useI18n();
+    if (redirectTo) {
+      setTimeout(() => {
+        router.push(redirectTo);
+      }, 3000);
+    }
+  }, [state.status, router, state.redirectTo]);
 
   const attendancesOptions = useMemo(() => {
     const options = [];
@@ -136,17 +137,11 @@ export function RSVPForm(props: RSVPFormProps) {
           <textarea rows={4} />
         </InputContainer>
 
-        {state.message ? (
+        {state.message && state.status === "error" ? (
           <div
-            className={`rounded-md p-4 flex mb-4 backdrop-blur-md bg-opacity-75 ${
-              state.status === "ok" ? "bg-green-500" : "bg-red-500"
-            }`}
+            className={`rounded-md p-4 flex mb-4 backdrop-blur-md bg-opacity-75 "bg-red-500"`}
           >
-            {state.status === "ok" ? (
-              <IcCheck className="mr-2 " />
-            ) : (
-              <IcWarning className="mr-2" />
-            )}
+            <IcWarning className="mr-2" />
             <p aria-live="polite">{state?.message}</p>
           </div>
         ) : null}

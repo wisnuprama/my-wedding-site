@@ -30,7 +30,7 @@ export async function RSVPWishesForm(props: RSVPWishesFormProps) {
     return (
       <div className="pt-8 px-8 flex flex-col justify-center items-center">
         <p>{i18n.t("msg_thank_you_attending")}</p>
-        <PrimaryLink className="mt-4" href="/invitation-card">
+        <PrimaryLink className="mt-4" href="/event-card">
           {i18n.t("label_see_your_invitation_card")}
         </PrimaryLink>
       </div>
