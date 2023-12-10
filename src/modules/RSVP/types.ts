@@ -1,5 +1,3 @@
-import { ServiceErrorCode } from "@/modules/ServiceError/errorcode";
-import { type } from "os";
 import { ServiceError } from "../ServiceError";
 import { RSVPFormState } from "./actions/submitRSVP";
 

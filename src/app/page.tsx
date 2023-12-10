@@ -1,10 +1,11 @@
 "use server";
 import { AnchorTagSmoothScroll } from "@/components/AnchorTagSmoothScroll";
 import {
+  RSVPClientCookies,
   RSVPContextProvider,
   RSVPContextValue,
-  getRSVPViewModel,
 } from "@/modules/RSVP";
+import { getRSVPViewModel } from "@/modules/RSVP/server";
 import {
   OpeningSection,
   Navbar,
@@ -27,15 +28,19 @@ type HomeProps = {
 
 export default async function Home(props: HomeProps) {
   const { searchParams } = props;
-  const { rsvp: rsvpToken } = searchParams;
+  const { rsvp } = searchParams;
 
-  const rsvpViewModel = await getRSVPViewModel(rsvpToken);
+  const rsvpViewModel = await getRSVPViewModel(rsvp);
 
   // remove rsvpToken from URL if it's invalid
   // redirect to home page
-  if (rsvpToken && !rsvpViewModel.isValidRSVP) {
+  if (rsvp && !rsvpViewModel.isValidRSVP) {
     redirect("/");
   }
+
+  const rsvpToken = rsvpViewModel.isValidRSVP
+    ? rsvpViewModel.rsvpToken
+    : undefined;
 
   const rsvpContextValue: RSVPContextValue = !rsvpViewModel.isValidRSVP
     ? {
@@ -51,8 +56,8 @@ export default async function Home(props: HomeProps) {
       <HomeDisableScrollContainer>
         <Navbar />
         <main>
-          <OpeningSection
-            isValidRSVP={rsvpViewModel.isValidRSVP}
+          <RSVPClientCookies
+            isValidToken={rsvpViewModel.isValidRSVP}
             rsvpToken={rsvpToken}
           />
           <OpeningSection isValidRSVP={rsvpViewModel.isValidRSVP} />

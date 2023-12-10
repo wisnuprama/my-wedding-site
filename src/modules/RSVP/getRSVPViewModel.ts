@@ -1,9 +1,9 @@
 "use server";
 
-import { getRSVPService } from "../RSVPService";
-import { RSVPTokenManager } from "../RSVPTokenManager";
-import { submitRSVP } from "./submitRSVP";
-import { RSVPFormExtraData, RSVPUserData, RSVPViewModel } from "../types";
+import { getRSVPService } from "./RSVPService";
+import { RSVPTokenManager } from "./RSVPTokenManager";
+import { submitRSVP } from "./actions";
+import { RSVPFormExtraData, RSVPUserData, RSVPViewModel } from "./types";
 import { ServiceError } from "@/modules/ServiceError";
 import { withPerfTraceLog } from "@/modules/PerfTrace";
 
@@ -20,6 +20,8 @@ export async function getRSVPViewModel(
   rsvpToken: string | undefined,
 ): Promise<RSVPViewModel> {
   const manager = new RSVPTokenManager();
+
+  rsvpToken = manager.useTokenOrGetFromCookie(rsvpToken);
 
   const [isValidRSVP, tokenData] =
     await manager.verifyAndDecodeToken(rsvpToken);

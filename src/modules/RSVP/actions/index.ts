@@ -1,1 +1,1 @@
-export * from "./getRSVPViewModel";
+export * from "./submitRSVP";
