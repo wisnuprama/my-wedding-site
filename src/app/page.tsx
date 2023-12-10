@@ -51,7 +51,10 @@ export default async function Home(props: HomeProps) {
       <HomeDisableScrollContainer>
         <Navbar />
         <main>
-          <OpeningSection rsvpToken={rsvpToken} />
+          <OpeningSection
+            isValidRSVP={rsvpViewModel.isValidRSVP}
+            rsvpToken={rsvpToken}
+          />
           <QuranSection />
           <BrideGroomSection />
           <WeddingEventInfoSection />

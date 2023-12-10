@@ -2,13 +2,15 @@ import { useServerI18n } from "@/core/i18n";
 import { fontCursive } from "@/core/styles";
 import { Countdown } from "./components/Countdown";
 import config from "@/core/config";
+import { SpecialMessage } from "./components/SpecialMessage";
 
 type CountdownSectionProps = {
+  isValidRSVP: boolean;
   containerStyle?: React.CSSProperties;
 };
 
 export function CountdownSection(props: CountdownSectionProps) {
-  const { containerStyle } = props;
+  const { containerStyle, isValidRSVP } = props;
   const i18n = useServerI18n();
 
   const formatter = new Intl.DateTimeFormat(i18n.getLocale(), {
@@ -23,6 +25,15 @@ export function CountdownSection(props: CountdownSectionProps) {
       className="flex flex-col justify-end items-center pb-8"
       style={containerStyle}
     >
+      {isValidRSVP && (
+        <div className="flex-1 flex flex-col justify-center items-center">
+          <p className="text-center text-lg">
+            {i18n.t("label_invitation_card_quote")}
+          </p>
+
+          <SpecialMessage />
+        </div>
+      )}
       <p className="text-xl">
         {formatter.format(config.WEDDING_DAY_TIMESTAMP * 1000)}
       </p>

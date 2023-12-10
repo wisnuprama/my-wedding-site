@@ -5,11 +5,12 @@ import { InvitationSection } from "./InvitationSection";
 import { NAVBAR_HEIGHT } from "..";
 
 export type OpeningSectionProps = {
+  isValidRSVP: boolean;
   rsvpToken: string | null | undefined;
 };
 
 export function OpeningSection(props: OpeningSectionProps) {
-  const { rsvpToken } = props;
+  const { rsvpToken, isValidRSVP } = props;
 
   const invitationURL = (() => {
     if (!rsvpToken) {
@@ -38,7 +39,10 @@ export function OpeningSection(props: OpeningSectionProps) {
         />
         <div id="pg-2" style={styles.anchorToPage2} />
       </div>
-      <CountdownSection containerStyle={styles.pageTwoContainer} />
+      <CountdownSection
+        isValidRSVP={isValidRSVP}
+        containerStyle={styles.pageTwoContainer}
+      />
     </div>
   );
 }
