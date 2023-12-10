@@ -1,10 +1,10 @@
-import Link from "next/link";
+import { PrimaryLink } from "@/components/Link";
 
 export default function NotFound() {
   return (
-    <div>
-      <h2>Not Found</h2>
-      <Link href="/">Return Home</Link>
+    <div className="h-screen flex flex-col justify-center items-center">
+      <p className="text-2xl mb-4">Not Found</p>
+      <PrimaryLink href="/">Return Home</PrimaryLink>
     </div>
   );
 }
