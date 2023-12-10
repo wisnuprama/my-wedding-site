@@ -1,5 +1,7 @@
 "use client";
 
+import { PrimaryButton } from "@/components/Link";
+
 export default function GlobalError({
   reset,
 }: {
@@ -9,8 +11,10 @@ export default function GlobalError({
   return (
     <html>
       <body>
-        <h2>Something went wrong!</h2>
-        <button onClick={() => reset()}>Try again</button>
+        <div className="h-screen flex flex-col justify-center items-center">
+          <p className="text-2xl mb-4">Something went wrong!</p>
+          <PrimaryButton onClick={() => reset()}>Try again</PrimaryButton>
+        </div>
       </body>
     </html>
   );
