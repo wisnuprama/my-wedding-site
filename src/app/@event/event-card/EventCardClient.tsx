@@ -1,5 +1,5 @@
 "use client";
-import { PrimaryAnchor, PrimaryButton } from "@/components/Link";
+import { PrimaryAnchor } from "@/components/Link";
 import { useI18n } from "@/core/i18n";
 import { fontCursive } from "@/core/styles";
 import { InvitationQR } from "@/modules/RSVP";
@@ -115,9 +115,9 @@ export function EventCardClient(props: ClientProps) {
             boxShadow: "0 25px 25px 25px rgb(0 0 0 / 0.1)",
           }}
         >
-          <PrimaryButton onClick={() => router.back()}>
+          <PrimaryAnchor onClick={() => router.back()}>
             {i18n.t("label_close")}
-          </PrimaryButton>
+          </PrimaryAnchor>
         </div>
       </div>
     </dialog>
