@@ -55,7 +55,7 @@ class GoogleSpreadsheetDatabase implements Database<{}> {
     } catch (e: any) {
       console.error(
         "[GoogleSpreadsheetDatabase] failed to connect to Google Spreadsheet",
-        { error: e },
+        process.env.NODE_ENV === "development" ? e : undefined,
       );
       return e;
     }
