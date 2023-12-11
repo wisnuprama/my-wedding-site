@@ -4,19 +4,16 @@ export class RSVPFormDTO {
   constructor(
     public readonly actualPax: any | null | undefined,
     public readonly willAttend: any | null | undefined,
-    public readonly accessibility?: string | null | undefined,
     public readonly wishMessage?: string | null | undefined,
   ) {
     this.actualPax = actualPax;
     this.willAttend = willAttend;
-    this.accessibility = accessibility;
     this.wishMessage = wishMessage;
   }
 
   private object: {
     actualPax: number;
     willAttend: boolean;
-    accessibility: string | null | undefined;
     wishMessage: string | null | undefined;
   } | null = null;
 
@@ -28,13 +25,8 @@ export class RSVPFormDTO {
       throw new Error("Actual pax cannot be negative");
     }
 
-    const acceptableAccessibilities = ["Chair for Elderly"];
-
-    if (
-      this.accessibility &&
-      !acceptableAccessibilities.includes(this.accessibility)
-    ) {
-      throw new Error("Does not recognize the given accessibility");
+    if (this.wishMessage && this.wishMessage.length > 500) {
+      throw new Error("Wish message cannot be longer than 500 characters");
     }
 
     const willAttend = this.willAttend === "true";
@@ -42,7 +34,6 @@ export class RSVPFormDTO {
     this.object = {
       actualPax,
       willAttend,
-      accessibility: this.accessibility,
       wishMessage: this.wishMessage,
     };
   }

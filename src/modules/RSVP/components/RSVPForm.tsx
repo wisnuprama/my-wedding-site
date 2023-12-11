@@ -5,8 +5,8 @@ import React, { useEffect, useMemo } from "react";
 import { RSVPFormState } from "../actions/submitRSVP";
 import { useFormState, useFormStatus } from "react-dom";
 import IcWarning from "@material-ui/icons/Warning";
-import IcCheck from "@material-ui/icons/Check";
 import config from "@/core/config";
+import { useRouter } from "next/navigation";
 
 type InputProps = {
   labelText: string;
@@ -53,6 +53,8 @@ const initialState: RSVPFormState = {
 
 export function RSVPForm(props: RSVPFormProps) {
   const { name, estimatedPax, submit, rsvpToken } = props;
+  const router = useRouter();
+  const i18n = useI18n();
 
   const [state, formAction] = useFormState(submit, initialState);
 
@@ -60,17 +62,16 @@ export function RSVPForm(props: RSVPFormProps) {
     if (state.status !== "ok") {
       return;
     }
+    router.refresh();
 
-    const timeout = setTimeout(() => {
-      location?.reload?.();
-    }, 2000);
+    const redirectTo = state.redirectTo;
 
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [state.status]);
-
-  const i18n = useI18n();
+    if (redirectTo) {
+      setTimeout(() => {
+        router.push(redirectTo);
+      }, 3000);
+    }
+  }, [state.status, router, state.redirectTo]);
 
   const attendancesOptions = useMemo(() => {
     const options = [];
@@ -88,12 +89,16 @@ export function RSVPForm(props: RSVPFormProps) {
     <div className="mt-12 md:w-1/2 w-full self-center">
       <form className="flex flex-col" action={formAction}>
         <input type="hidden" value={rsvpToken} name="rsvpToken" />
-        <InputContainer labelText="Full Name" name="name" id="name">
+        <InputContainer
+          labelText={i18n.t("label_full_name")}
+          name="name"
+          id="name"
+        >
           <input type="text" disabled value={name} required />
         </InputContainer>
 
         <InputContainer
-          labelText="Will you join us?"
+          labelText={i18n.t("label_attendance")}
           name="willAttend"
           id="willAttend"
         >
@@ -105,10 +110,10 @@ export function RSVPForm(props: RSVPFormProps) {
         </InputContainer>
 
         <InputContainer
-          labelText="Attendances"
+          labelText={i18n.t("label_no_of_guest")}
           name="actualPax"
           id="actualPax"
-          helpText="Excluding children(s)"
+          helpText={i18n.t("msg_no_of_guest_help_text")}
         >
           <select
             placeholder="Please select"
@@ -119,34 +124,19 @@ export function RSVPForm(props: RSVPFormProps) {
           </select>
         </InputContainer>
 
-        <InputContainer
-          labelText="Acessibility"
-          name="accessibility"
-          id="accessibility"
-        >
-          <select placeholder="Please select" defaultValue="">
-            <option value="">---</option>
-            <option value="Chair for Elderly">
-              {i18n.t("label_accessibility_elderly_chair")}
-            </option>
-          </select>
-        </InputContainer>
-
         <InputContainer labelText="Wishes" name="wishMessage" id="wishMessage">
-          <textarea rows={4} />
+          <textarea
+            rows={4}
+            maxLength={500}
+            placeholder={i18n.t("msg_wish_placeholder_help_text")}
+          />
         </InputContainer>
 
-        {state.message ? (
+        {state.message && state.status === "error" ? (
           <div
-            className={`rounded-md p-4 flex mb-4 backdrop-blur-md bg-opacity-75 ${
-              state.status === "ok" ? "bg-green-500" : "bg-red-500"
-            }`}
+            className={`rounded-md p-4 flex mb-4 backdrop-blur-md bg-opacity-75 "bg-red-500"`}
           >
-            {state.status === "ok" ? (
-              <IcCheck className="mr-2 " />
-            ) : (
-              <IcWarning className="mr-2" />
-            )}
+            <IcWarning className="mr-2" />
             <p aria-live="polite">{state?.message}</p>
           </div>
         ) : null}

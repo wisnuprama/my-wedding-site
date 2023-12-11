@@ -3,7 +3,12 @@
 import { getRSVPService } from "./RSVPService";
 import { RSVPTokenManager } from "./RSVPTokenManager";
 import { submitRSVP } from "./actions";
-import { RSVPFormExtraData, RSVPUserData, RSVPViewModel } from "./types";
+import {
+  EventCardViewModel,
+  RSVPFormExtraData,
+  RSVPUserData,
+  RSVPViewModel,
+} from "./types";
 import { ServiceError } from "@/modules/ServiceError";
 import { withPerfTraceLog } from "@/modules/PerfTrace";
 
@@ -17,7 +22,7 @@ interface RSVPService {
   ) => Promise<[RSVPFormExtraData, undefined] | [undefined, ServiceError]>;
 }
 
-export async function getRSVPViewModel(): Promise<RSVPViewModel> {
+export async function getEventCardViewModel(): Promise<EventCardViewModel> {
   const manager = new RSVPTokenManager();
 
   const rsvpToken = manager.getTokenFromCookie();
@@ -25,9 +30,11 @@ export async function getRSVPViewModel(): Promise<RSVPViewModel> {
   const [isValidRSVP, tokenData] =
     await manager.verifyAndDecodeToken(rsvpToken);
 
-  if (!isValidRSVP || !rsvpToken) {
+  if (!isValidRSVP) {
     return {
-      isValidRSVP: false,
+      redirectTo: "/",
+      personName: "",
+      qrcodeValue: "",
     };
   }
 
@@ -39,33 +46,25 @@ export async function getRSVPViewModel(): Promise<RSVPViewModel> {
 
   const rsvpService: RSVPService = await getRSVPService();
 
-  const [userDataFromDb, err] = await withPerfTraceLog(
-    "rsvpService.getUserData",
-    () => rsvpService.getUserData(tokenData.id),
-  );
-
+  const [userDataFromDb, err] = await rsvpService.getUserData(tokenData.id);
   // replace with data from db if available
   if (userDataFromDb) {
     userData.name = userDataFromDb.name;
     userData.message = userDataFromDb.message;
   } else {
-    console.warn("[getRSVPViewModel] Error when getting userdata from DB", err);
+    console.warn(
+      "[getEventCardViewModel] Error when getting userdata from DB",
+      err,
+    );
   }
 
+  const redirectTo = (await rsvpService.shouldDisplayEventCard(tokenData.id))
+    ? undefined
+    : "/";
+
   return {
-    isValidRSVP,
-    rsvpToken,
-    rsvpUserData: userData,
-    shouldDisplayEventCard: async () => {
-      return withPerfTraceLog("rsvpService.shouldDisplayEventCard", () =>
-        rsvpService.shouldDisplayEventCard(tokenData.id),
-      );
-    },
-    submit: submitRSVP,
-    getFormExtraData: async () => {
-      return withPerfTraceLog("rsvpService.getFormExtraData", () =>
-        rsvpService.getFormExtraData(tokenData.id),
-      );
-    },
+    personName: userData.name,
+    qrcodeValue: userData.rsvpID,
+    redirectTo,
   };
 }

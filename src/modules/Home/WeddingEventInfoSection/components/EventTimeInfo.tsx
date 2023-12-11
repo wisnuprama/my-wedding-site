@@ -1,4 +1,4 @@
-import { useServerI18n } from "@/core/i18n";
+import { useI18n } from "@/core/i18n";
 import { memo, useMemo } from "react";
 
 export type EventTimeInfoProps = {
@@ -10,7 +10,7 @@ export type EventTimeInfoProps = {
 function _EventTimeInfo(props: EventTimeInfoProps) {
   const { startTime, endTime, containerClassName } = props;
 
-  const serverLocale = useServerI18n().getLocale();
+  const serverLocale = useI18n().getLocale();
 
   const startDate = useMemo(() => new Date(startTime * 1000), [startTime]);
   const endDate = useMemo(() => new Date(endTime * 1000), [endTime]);

@@ -8,6 +8,7 @@ import { RSVPTokenManager } from "../RSVPTokenManager";
 export type RSVPFormState = {
   message: string | null | undefined;
   status: "ok" | "error" | null;
+  redirectTo?: string;
 };
 
 export async function submitRSVP(
@@ -40,7 +41,6 @@ export async function submitRSVP(
   const rsvp = new RSVPFormDTO(
     form.get("actualPax")?.toString(),
     form.get("willAttend")?.toString(),
-    form.get("accessibility")?.toString(),
     form.get("wishMessage")?.toString(),
   );
 
@@ -65,8 +65,13 @@ export async function submitRSVP(
       };
     }
 
+    const shouldRedirect = await rsvpService.shouldDisplayEventCard(
+      tokenData.id,
+    );
+
     return {
       status: "ok",
+      redirectTo: shouldRedirect ? "/event-card" : undefined,
       message: getServerI18n().t("msg_submit_success"),
     };
   } catch (e) {

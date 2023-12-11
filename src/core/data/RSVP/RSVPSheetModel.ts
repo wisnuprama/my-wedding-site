@@ -15,7 +15,6 @@ export type RSVPRow = {
   actual_pax: string;
   estimated_pax: string;
   attended: "TRUE" | "FALSE";
-  accessibility: string;
   vip: "TRUE" | "FALSE";
   source: string;
   personal_message: string;

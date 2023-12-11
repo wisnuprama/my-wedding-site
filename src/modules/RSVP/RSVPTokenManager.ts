@@ -16,29 +16,8 @@ export class RSVPTokenManager {
     return cookies().get("ws_r")?.value;
   }
 
-  public useTokenOrGetFromCookie(
-    token: string | undefined,
-  ): string | undefined {
-    // resolve conflict first
-    const existingToken = this.getTokenFromCookie();
-    if (token && existingToken && token !== existingToken) {
-      console.warn(
-        "[RSVPTokenManager] Token conflict, will prioritize the given one",
-        {
-          newToken: token,
-          previousToken: existingToken,
-        },
-      );
-    }
-
-    // when given the token, we will prioritize it
-    // and set this new token to cookies in client side later
-    // see src/modules/RSVP/components/RSVPClientCookies.tsx
-    if (token) {
-      return token;
-    }
-
-    return existingToken;
+  public clearTokenCookie(): void {
+    cookies().delete("ws_r");
   }
 
   public async verifyAndDecodeToken(
