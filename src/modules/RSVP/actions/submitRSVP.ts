@@ -41,7 +41,6 @@ export async function submitRSVP(
   const rsvp = new RSVPFormDTO(
     form.get("actualPax")?.toString(),
     form.get("willAttend")?.toString(),
-    form.get("accessibility")?.toString(),
     form.get("wishMessage")?.toString(),
   );
 

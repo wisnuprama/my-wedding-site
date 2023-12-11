@@ -18,8 +18,9 @@ function InnerAttendeeGreeting(props: AttendeeGreetingProps) {
   }
 
   return (
-    <div className={["text-xl sm:text-2xl", className].join(" ")}>
-      {i18n.t("label_dear")} <span>{rsvp.data.name},</span>
+    <div className={["text-xl sm:text-2xl text-center", className].join(" ")}>
+      <span dangerouslySetInnerHTML={{ __html: i18n.t("label_dear") }} />
+      {rsvp.data.name},
     </div>
   );
 }

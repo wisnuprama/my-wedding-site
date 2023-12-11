@@ -89,12 +89,16 @@ export function RSVPForm(props: RSVPFormProps) {
     <div className="mt-12 md:w-1/2 w-full self-center">
       <form className="flex flex-col" action={formAction}>
         <input type="hidden" value={rsvpToken} name="rsvpToken" />
-        <InputContainer labelText="Full Name" name="name" id="name">
+        <InputContainer
+          labelText={i18n.t("label_full_name")}
+          name="name"
+          id="name"
+        >
           <input type="text" disabled value={name} required />
         </InputContainer>
 
         <InputContainer
-          labelText="Will you join us?"
+          labelText={i18n.t("label_attendance")}
           name="willAttend"
           id="willAttend"
         >
@@ -106,10 +110,10 @@ export function RSVPForm(props: RSVPFormProps) {
         </InputContainer>
 
         <InputContainer
-          labelText="Attendances"
+          labelText={i18n.t("label_no_of_guest")}
           name="actualPax"
           id="actualPax"
-          helpText="Excluding children(s)"
+          helpText={i18n.t("msg_no_of_guest_help_text")}
         >
           <select
             placeholder="Please select"
@@ -120,21 +124,12 @@ export function RSVPForm(props: RSVPFormProps) {
           </select>
         </InputContainer>
 
-        <InputContainer
-          labelText="Acessibility"
-          name="accessibility"
-          id="accessibility"
-        >
-          <select placeholder="Please select" defaultValue="">
-            <option value="">---</option>
-            <option value="Chair for Elderly">
-              {i18n.t("label_accessibility_elderly_chair")}
-            </option>
-          </select>
-        </InputContainer>
-
         <InputContainer labelText="Wishes" name="wishMessage" id="wishMessage">
-          <textarea rows={4} />
+          <textarea
+            rows={4}
+            maxLength={500}
+            placeholder={i18n.t("msg_wish_placeholder_help_text")}
+          />
         </InputContainer>
 
         {state.message && state.status === "error" ? (

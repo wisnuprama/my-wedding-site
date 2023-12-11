@@ -23,11 +23,6 @@ interface RSVPService {
 }
 
 export async function getEventCardViewModel(): Promise<EventCardViewModel> {
-  return {
-    personName: "abc",
-    qrcodeValue: "123",
-  };
-
   const manager = new RSVPTokenManager();
 
   const rsvpToken = manager.getTokenFromCookie();

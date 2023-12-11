@@ -178,13 +178,12 @@ export class RSVPService {
     rsvp.set("actual_pax", data.actualPax);
     rsvp.set("will_attend", data.willAttend);
 
-    if (data.accessibility) {
-      rsvp.set("accessibility", data.accessibility);
-    }
-
     // NOTE: might be good idea to make this atomic
     await rsvp.save();
-    this.wishesModel.createWish(rsvp.get("nama"), data.wishMessage);
+
+    if (data.wishMessage) {
+      this.wishesModel.createWish(rsvp.get("nama"), data.wishMessage);
+    }
 
     try {
       this.rsvpModel.refreshCache();
