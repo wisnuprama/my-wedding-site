@@ -1,6 +1,7 @@
 "use client";
 
 import { PrimaryButton } from "@/components/Link";
+import "./globals.css";
 
 export default function GlobalError({
   reset,
