@@ -58,3 +58,9 @@ export type RSVPFormExtraData = {
   willAttend: boolean;
   estimatedPax: number;
 };
+
+export type EventCardViewModel = {
+  redirectTo?: string;
+  personName: string;
+  qrcodeValue: string;
+};

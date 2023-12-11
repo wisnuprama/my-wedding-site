@@ -3,7 +3,7 @@
   "title_wedding2": "Nadia & Wisnu",
   "label_dear": "Kepada Yth. Bapak/Ibu/Saudara/i",
   "label_open_invitation": "BUKA UNDANGAN",
-  "title_invitation_card": "Kartu Undangan",
+  "title_event_card": "Kartu Undangan",
   "label_invitation_card_quote": "Dengan segala kerendahan hati,<br>Kami mengundang Bapak/Ibu untuk menjadi bagian dari hari bahagia kami.",
   "label_button_see_special_msg": "Pesan spesial untukmu",
   "label_click_for_rsvp": "Klik disini untuk RSVP",
@@ -57,5 +57,6 @@
   "msg_submit_success": "Terimakasih atas RSVP anda",
   "msg_thank_you_responding": "Terimakasih telah mengisi undangan kami.",
   "msg_thank_you_attending": "Terimakasih, kami menunggu kehadiran anda pada acara pernikahan kami.",
-  "label_see_your_invitation_card": "Kartu Acara"
+  "label_see_your_invitation_card": "Kartu Acara",
+  "msg_qrcode_help": ""
 }
