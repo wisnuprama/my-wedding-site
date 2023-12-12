@@ -1,11 +1,15 @@
 "use client";
 
 import IcMusic from "@material-ui/icons/MusicNote";
-import IcClose from "@material-ui/icons/Close";
+import IcPlay from "@material-ui/icons/PlayArrow";
+import IcStop from "@material-ui/icons/Stop";
 import {
   CSSProperties,
+  RefObject,
   memo,
+  useCallback,
   useLayoutEffect,
+  useReducer,
   useRef,
   useState,
   useTransition,
@@ -13,12 +17,54 @@ import {
 import debounce from "lodash.debounce";
 
 import "./index.css";
-import config from "@/core/config";
+import invariant from "invariant";
+import Image from "next/image";
+import { IcButton } from "@/components/Link";
 
-const MUSIC_PLAYER_WIDTH = 320;
+const PlayerBtn = memo(function _PlayerBtn(props: {
+  audioPlayer: RefObject<HTMLAudioElement>;
+}) {
+  const { audioPlayer } = props;
+  const [__, forceRender] = useReducer((s) => s + 1, 0);
+
+  const handlePlay = useCallback(() => {
+    invariant(audioPlayer.current, "Must render audio player before start");
+
+    const player = audioPlayer.current;
+
+    if (player.paused) {
+      player.play();
+    } else {
+      player.pause();
+    }
+
+    forceRender();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const IcPlayer =
+    audioPlayer.current == null || audioPlayer.current.paused ? (
+      <IcPlay />
+    ) : (
+      <IcStop />
+    );
+
+  return (
+    <div className="h-full flex items-center justify-center">
+      <IcButton onClick={handlePlay} className="text-right h-auto w-auto">
+        {IcPlayer}
+      </IcButton>
+    </div>
+  );
+});
+
 const SCROLL_THRESHOLD = 100;
 
 function _MusicPlayer() {
+  const audioPlayerRef = useRef<HTMLAudioElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const playerBtnContainerRef = useRef<HTMLDivElement>(null);
+
   const [_, startTransition] = useTransition();
   const [isHiding, setHideState] = useState(false);
 
@@ -48,51 +94,59 @@ function _MusicPlayer() {
     };
   });
 
-  const containerStyle: CSSProperties = {};
+  const containerStyle: CSSProperties = {
+    background: "rgba(var(--background-card))",
+  };
   if (isHiding) {
-    containerStyle["left"] = -MUSIC_PLAYER_WIDTH;
+    const btnWidth = playerBtnContainerRef?.current?.offsetWidth ?? 0;
+    containerStyle["left"] =
+      -(containerRef.current?.offsetWidth ?? 0) + btnWidth;
   }
-
-  const IcArrow = isHiding ? (
-    <IcMusic />
-  ) : (
-    <IcClose fontSize="small" style={{ marginTop: -3 }} />
-  );
 
   return (
     <div
+      ref={containerRef}
       id="music-container"
-      className="fixed bottom-0 flex"
+      className="fixed bottom-3 flex backdrop-blur-md rounded-md pr-1 shadow-sm"
       style={containerStyle}
     >
-      {/* <iframe
-        className="rounded-md"
-        src={config.SPOTIFY_URL}
-        height={100}
-        width={MUSIC_PLAYER_WIDTH}
-        frameBorder="0"
-        allowFullScreen={false}
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="eager"
-      /> */}
       <audio
-        controls
+        ref={audioPlayerRef}
         src="/assets/audios/home.mp3"
         playsInline
         preload="auto"
       />
-      <button
-        onClick={() => startTransition(() => setHideState((s) => !s))}
-        className="backdrop-blur-sm rounded-md h-10 w-8 text-right"
-        style={{
-          background: "rgb(72,76,68)",
-          marginLeft: 12,
-          zIndex: -1,
-          color: "rgba(var(--primary-color))",
-        }}
-      >
-        {IcArrow}
-      </button>
+      <div className="flex">
+        <a
+          href="https://open.spotify.com/track/0LGbC0S4fcUIcaEk08Hc8r?si=cd7fb27c19d74ce7"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Image
+            src="/assets/images/home-mp3.jpg"
+            alt="Album cover of NÉO–ROMANCE"
+            width={40}
+            height={40}
+            style={{ height: 40, width: 40 }}
+          />
+        </a>
+        <div className="px-1">
+          <div className="text-sm">New Romance</div>
+          <div className="text-xs"> by Alexandra Stréliski</div>
+        </div>
+      </div>
+      <div ref={playerBtnContainerRef}>
+        {isHiding ? (
+          <button
+            onClick={() => setHideState(false)}
+            className="h-full flex items-center pl-1"
+          >
+            <IcMusic />
+          </button>
+        ) : (
+          <PlayerBtn audioPlayer={audioPlayerRef} />
+        )}
+      </div>
     </div>
   );
 }
