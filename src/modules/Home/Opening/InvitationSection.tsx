@@ -62,10 +62,10 @@ export function InvitationSection(props: InvitationSectionProps) {
           loop
           muted
           playsInline
-          poster="/images/fallback-opening-video.jpeg"
+          poster="/assets/images/fallback-opening-video.jpeg"
         >
-          <source src="/videos/home.webm" type="video/webm" />
-          <source src="/videos/home.mp4" type="video/mp4" />
+          <source src="/assets/videos/home.webm" type="video/webm" />
+          <source src="/assets/videos/home.mp4" type="video/mp4" />
         </video>
         <VideoAutoPlay />
       </div>

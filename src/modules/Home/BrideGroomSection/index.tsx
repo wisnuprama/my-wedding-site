@@ -13,14 +13,14 @@ export function BrideGroomSection() {
       </h1>
       <div className="h-full w-full md:flex md:flex-row md:justify-evenly md:flex-1">
         <PersonInfo
-          imageSrc="/images/bride-20231211-3.jpeg"
+          imageSrc="/assets/images/bride-20231211-3.jpeg"
           name={i18n.t("label_name_of_the_bride")}
           subtitle={i18n.t("label_daughter")}
           description={i18n.t("label_bride_parents")}
           containerClassName="mt-14 md:mt-14"
         />
         <PersonInfo
-          imageSrc="/images/groom-20231211-3.jpeg"
+          imageSrc="/assets/images/groom-20231211-3.jpeg"
           name={i18n.t("label_the_groom")}
           subtitle={i18n.t("label_son")}
           description={i18n.t("Label_groom_parents")}

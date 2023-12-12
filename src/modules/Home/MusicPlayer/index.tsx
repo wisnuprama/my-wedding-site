@@ -123,7 +123,7 @@ function _MusicPlayer() {
           rel="noreferrer"
         >
           <Image
-            src="/assets/images/home-mp3.jpg"
+            src="/assets/assets/images/home-mp3.jpg"
             alt="Album cover of NÉO–ROMANCE"
             width={40}
             height={40}

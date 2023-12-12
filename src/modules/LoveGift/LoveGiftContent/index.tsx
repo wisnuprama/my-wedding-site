@@ -53,14 +53,14 @@ export function LoveGiftContent() {
         accountName={i18n.t("label_bank_name_nadia")}
         accountNumber={i18n.t("label_bank_account_nadia")}
         bankName="BCA"
-        iconSrc="/images/ic_bca_bank_logo.png"
+        iconSrc="/assets/images/ic_bca_bank_logo.png"
       />
       <div className="mb-12" />
       <MemoizedBankAccount
         accountName={i18n.t("label_bank_name_wisnu")}
         accountNumber={i18n.t("label_bank_account_wisnu")}
         bankName="BCA"
-        iconSrc="/images/ic_bca_bank_logo.png"
+        iconSrc="/assets/images/ic_bca_bank_logo.png"
       />
     </>
   );
