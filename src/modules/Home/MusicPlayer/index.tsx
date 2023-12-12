@@ -33,6 +33,7 @@ const PlayerBtn = memo(function _PlayerBtn(props: {
     const player = audioPlayer.current;
 
     if (player.paused) {
+      player.volume = 0.2;
       player.play();
     } else {
       player.pause();
@@ -114,6 +115,7 @@ function _MusicPlayer() {
         ref={audioPlayerRef}
         src="/assets/audios/home.mp3"
         playsInline
+        loop
         preload="auto"
       />
       <div className="flex">
@@ -123,7 +125,7 @@ function _MusicPlayer() {
           rel="noreferrer"
         >
           <Image
-            src="/assets/assets/images/home-mp3.jpg"
+            src="/assets/images/home-mp3.jpg"
             alt="Album cover of NÉO–ROMANCE"
             width={40}
             height={40}
