@@ -4,33 +4,36 @@ import { useI18n } from "@/core/i18n";
 import { fontCursive } from "@/core/styles";
 import { InvitationQR } from "@/modules/RSVP";
 import { useRouter } from "next/navigation";
-import { Fragment, useLayoutEffect, useRef } from "react";
+import { Fragment, useLayoutEffect, useReducer, useRef } from "react";
 import config from "@/core/config";
 
-type ClientProps = {
+type EventCardClient = {
   personName: string;
   qrcodeValue: string;
 };
 
-export function EventCardClient(props: ClientProps) {
+export function EventCardClient(props: EventCardClient) {
   const { personName, qrcodeValue } = props;
   const router = useRouter();
+  const [canInteract, enableInteraction] = useReducer(() => true, false);
 
   const i18n = useI18n();
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   const weddingDate = config.WEDDING_DAY_TIMESTAMP;
   const schedules = config.SCHEDULES;
-  const mapURL = config.VENUE_MAP_URL;
+  const mapURL = canInteract ? config.VENUE_MAP_URL : undefined;
 
   useLayoutEffect(() => {
-    const openDialog = () => {
-      requestAnimationFrame(() => {
-        dialogRef?.current?.showModal?.();
-      });
-    };
+    const dialog = dialogRef.current;
+    if (!dialog) {
+      return;
+    }
 
-    openDialog();
+    // dialog.inert = false;
+    dialog.showModal();
+    // hacky way to make sure the dialog not autofocus to href
+    enableInteraction();
   }, []);
 
   const timeFormatter = new Intl.DateTimeFormat(i18n.getLocale(), {
@@ -58,7 +61,10 @@ export function EventCardClient(props: ClientProps) {
     >
       <div className="h-full flex flex-col justify-between overflow-hidden">
         <main className="h-full flex flex-col items-center p-8 overflow-y-auto">
-          <h1 className={`${fontCursive.className} text-4xl text-center mb-6`}>
+          <h1
+            className={`${fontCursive.className} text-4xl text-center mb-6`}
+            autoFocus
+          >
             <span
               dangerouslySetInnerHTML={{ __html: i18n.t("label_dear_shorter") }}
             />
@@ -67,10 +73,10 @@ export function EventCardClient(props: ClientProps) {
           <InvitationQR value={qrcodeValue} />
           <div className="mt-10 sm:mt-12">
             <div className="w-full flex flex-col items-center">
-              <p className={`text-center text-base sm:text-lg md:text-xl`}>
-                <p>{dateFormatter.format(weddingDate * 1000)}</p>
+              <div className={`text-center text-base sm:text-lg md:text-xl`}>
+                <span>{dateFormatter.format(weddingDate * 1000)}</span>
                 {schedules && (
-                  <p className="underline underline-offset-2">
+                  <div className="underline underline-offset-2">
                     {schedules.map((s) => (
                       <Fragment key={s.titleKey}>
                         {timeFormatter.formatRange(
@@ -81,20 +87,20 @@ export function EventCardClient(props: ClientProps) {
                         <br />
                       </Fragment>
                     ))}
-                  </p>
+                  </div>
                 )}
-              </p>
+              </div>
             </div>
             <div className="w-full flex flex-col items-center mt-6 sm:mt-10">
-              <p className="text-center">
-                <p className="text-base sm:text-lg md:text-xl">
+              <div className="text-center">
+                <div className="text-base sm:text-lg md:text-xl">
                   {i18n.t("label_venue_building")}
-                </p>
-                <p className="text-base mt-1">
+                </div>
+                <div className="text-base mt-1">
                   {i18n.t("label_venue_address_1")}{" "}
                   {i18n.t("label_venue_address_2")}
-                </p>
-              </p>
+                </div>
+              </div>
 
               {mapURL && (
                 <PrimaryAnchor
