@@ -65,7 +65,7 @@ function _MusicPlayer() {
       className="fixed bottom-0 flex"
       style={containerStyle}
     >
-      <iframe
+      {/* <iframe
         className="rounded-md"
         src={config.SPOTIFY_URL}
         height={100}
@@ -74,13 +74,19 @@ function _MusicPlayer() {
         allowFullScreen={false}
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="eager"
+      /> */}
+      <audio
+        controls
+        src="/assets/audios/home.mp3"
+        playsInline
+        preload="auto"
       />
       <button
         onClick={() => startTransition(() => setHideState((s) => !s))}
         className="backdrop-blur-sm rounded-md h-10 w-8 text-right"
         style={{
           background: "rgb(72,76,68)",
-          marginLeft: -12,
+          marginLeft: 12,
           zIndex: -1,
           color: "rgba(var(--primary-color))",
         }}
