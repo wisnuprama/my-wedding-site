@@ -22,19 +22,19 @@ export function WeddingEventInfoSection(_: WeddingEventInfoSectionProps) {
         }}
       >
         <div
-          className="absolute top-2 left-2 w-5 h-5 rounded-full"
+          className="absolute top-2 left-2 w-2.5 md:w-5 h-2.5 md:h-5 rounded-full"
           style={{ background: "rgb(var(--foreground-rgb))" }}
         />
         <div
-          className="absolute top-2 right-2 w-5 h-5 rounded-full"
+          className="absolute top-2 right-2 w-2.5 md:w-5 h-2.5 md:h-5 rounded-full"
           style={{ background: "rgb(var(--foreground-rgb))" }}
         />
         <div
-          className="absolute bottom-2 left-2 w-5 h-5 rounded-full"
+          className="absolute bottom-2 left-2 w-2.5 md:w-5 h-2.5 md:h-5 rounded-full"
           style={{ background: "rgb(var(--foreground-rgb))" }}
         />
         <div
-          className="absolute bottom-2 right-2 w-5 h-5 rounded-full"
+          className="absolute bottom-2 right-2 w-2.5 md:w-5 h-2.5 md:h-5 rounded-full"
           style={{ background: "rgb(var(--foreground-rgb))" }}
         />
         {schedules?.length ? (
