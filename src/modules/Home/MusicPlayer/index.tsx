@@ -7,6 +7,7 @@ import {
   CSSProperties,
   RefObject,
   memo,
+  startTransition,
   useCallback,
   useLayoutEffect,
   useReducer,
@@ -23,8 +24,9 @@ import { IcButton } from "@/components/Link";
 
 const PlayerBtn = memo(function _PlayerBtn(props: {
   audioPlayer: RefObject<HTMLAudioElement>;
+  onStartPlay?: () => void;
 }) {
-  const { audioPlayer } = props;
+  const { audioPlayer, onStartPlay } = props;
   const [__, forceRender] = useReducer((s) => s + 1, 0);
 
   const handlePlay = useCallback(() => {
@@ -35,6 +37,13 @@ const PlayerBtn = memo(function _PlayerBtn(props: {
     if (player.paused) {
       player.volume = 0.2;
       player.play();
+
+      setTimeout(() => {
+        onStartPlay &&
+          startTransition(() => {
+            onStartPlay();
+          });
+      }, 1000);
     } else {
       player.pause();
     }
@@ -95,6 +104,9 @@ function _MusicPlayer() {
     };
   });
 
+  const handleShow = useCallback(() => setHideState(false), []);
+  const handleHide = useCallback(() => setHideState(true), []);
+
   const containerStyle: CSSProperties = {
     background: "rgba(var(--background-card))",
   };
@@ -140,13 +152,13 @@ function _MusicPlayer() {
       <div ref={playerBtnContainerRef}>
         {isHiding ? (
           <button
-            onClick={() => setHideState(false)}
+            onClick={handleShow}
             className="h-full flex items-center pl-1"
           >
             <IcMusic />
           </button>
         ) : (
-          <PlayerBtn audioPlayer={audioPlayerRef} />
+          <PlayerBtn onStartPlay={handleHide} audioPlayer={audioPlayerRef} />
         )}
       </div>
     </div>
