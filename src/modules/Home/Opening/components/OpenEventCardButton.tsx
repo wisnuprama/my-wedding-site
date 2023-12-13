@@ -27,7 +27,7 @@ export function OpenEventCardButton() {
 
   return (
     <PrimaryLink
-      className="text-xl mt-4"
+      className="text-base mt-4"
       href="/event-card"
       onClick={handleLink}
     >

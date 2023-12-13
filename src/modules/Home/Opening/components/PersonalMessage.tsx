@@ -34,7 +34,7 @@ function _PersonalMessage(_: PersonalMessageProps) {
 
   return (
     <div className="pt-8">
-      <PrimaryButton onClick={openDialog}>
+      <PrimaryButton className="text-base" onClick={openDialog}>
         {i18n.t("label_button_see_special_msg")}
       </PrimaryButton>
 
