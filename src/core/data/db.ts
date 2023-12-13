@@ -63,5 +63,3 @@ class GoogleSpreadsheetDatabase implements Database<{}> {
 }
 
 export const sheetdb = new GoogleSpreadsheetDatabase(createGoogleSpreadsheet());
-
-sheetdb.connect();
