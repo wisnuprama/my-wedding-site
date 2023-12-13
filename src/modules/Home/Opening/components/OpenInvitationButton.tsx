@@ -11,7 +11,7 @@ export function OpenInvitationButton() {
   const handleLink = useCallback(() => enableScroll(), [enableScroll]);
 
   return (
-    <PrimaryLink className="text-xl mt-4" href="#pg-2" onClick={handleLink}>
+    <PrimaryLink className="text-base mt-4" href="#pg-2" onClick={handleLink}>
       {i18n.t("label_open_invitation")}
     </PrimaryLink>
   );
