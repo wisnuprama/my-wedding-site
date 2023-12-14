@@ -60,7 +60,7 @@ export function WeddingEventInfoSection(_: WeddingEventInfoSectionProps) {
 
             {calendarURL && (
               <PrimaryAnchor
-                className="mt-8 text-lg"
+                className="mt-8"
                 target="_blank"
                 rel="noreferrer nofollow"
                 href={calendarURL}
@@ -83,7 +83,7 @@ export function WeddingEventInfoSection(_: WeddingEventInfoSectionProps) {
 
           {mapURL && (
             <PrimaryAnchor
-              className="mt-5 text-lg"
+              className="mt-5"
               target="_blank"
               href={mapURL}
               rel="noreferrer nofollow"
