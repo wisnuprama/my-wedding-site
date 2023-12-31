@@ -10,14 +10,14 @@ export function evalOnce<T>(fn: () => T): () => T {
   };
 }
 
-export function callOnce(fn: () => void): () => void {
+export function callOnce<T extends (...args: any) => void>(fn: T): T {
   let called = false;
 
-  return () => {
+  return ((...args: any) => {
     if (called) {
       return;
     }
 
-    fn();
-  };
+    fn(...args);
+  }) as T;
 }
