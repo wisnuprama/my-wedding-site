@@ -7,13 +7,12 @@ import { UserManager } from "@/modules/Admin";
 export async function GET(request: Request) {
   const userManager = UserManager.createUserManagerUsingEnvVariable();
 
-  const userToken = cookies().get("ws_a")?.value;
-
   if (request.url.includes("logout")) {
     cookies().delete("ws_a");
     return NextResponse.redirect(new URL("/", request.url));
   }
 
+  const userToken = userManager.getCurrentUser()?.token;
   if (userToken && userManager.isValidToken(userToken)) {
     const headers = new Headers();
     headers.set("Content-Type", "text/html");
