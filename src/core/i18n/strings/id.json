@@ -60,5 +60,6 @@
   "msg_thank_you_responding": "Terimakasih telah mengisi undangan kami.",
   "msg_thank_you_attending": "Terimakasih, kami menunggu kehadiran anda pada acara pernikahan kami.",
   "msg_qrcode_tooltip_help": "Gunakan kode tersebut untuk cadangan QR Code undangan anda. Sebutkan kode tersebut kepada tim buku tamu kami pada hari acara.",
-  "msg_qrcode_description": "Mohon gunakan QR berikut untuk buku tamu pada hari acara, terima kasih."
+  "msg_qrcode_description": "Mohon gunakan QR berikut untuk buku tamu pada hari acara, terima kasih.",
+  "msg_alert_sharing_clipboard": "URL sudah berhasil disalin silahkan bagikan dengan tempel/paste diaplikasi lain."
 }

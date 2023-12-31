@@ -8,3 +8,4 @@ export * from "./HomeDisableScrollContainer";
 export * from "./WeddingEventInfoSection";
 export * from "./RSVPWishesSection";
 export * from "./MusicPlayer";
+export * from "./Sharing";

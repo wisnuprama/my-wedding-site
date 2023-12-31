@@ -13,6 +13,7 @@ import {
   WeddingEventInfoSection,
   MusicPlayer,
   RSVPWishesSection,
+  Sharing,
 } from "@/modules/Home";
 
 type HomeProps = {};
@@ -40,6 +41,7 @@ export default async function Home(_: HomeProps) {
           <WeddingEventInfoSection />
           <RSVPWishesSection rsvpViewModel={rsvpViewModel} />
           <LoveGiftSection />
+          <Sharing />
           <MusicPlayer />
         </main>
         <Footer />

@@ -59,5 +59,6 @@
   "msg_thank_you_responding": "Thank you for responding to our invitation.",
   "msg_thank_you_attending": "Thank you, we are looking forward to welcome you at our wedding.",
   "msg_qrcode_tooltip_help": "Use this code as backup for your invitation QR code. Mention the code to our guestbook team on the day of the event.",
-  "msg_qrcode_description": "Please use the QR below for the guest book at the event later, thank you."
+  "msg_qrcode_description": "Please use the QR below for the guest book at the event later, thank you.",
+  "msg_alert_sharing_clipboard": "URL is successfully copied to clipboard. You can share it by pasting it in other apps."
 }
