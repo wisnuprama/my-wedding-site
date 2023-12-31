@@ -17,7 +17,7 @@ function _ShareButton() {
   };
 
   const handleSharing = async () => {
-    const url = window.location.host;
+    const url = window.location.origin;
 
     if (!navigator.share) {
       alert(i18n.t("msg_alert_sharing_clipboard"));
@@ -28,6 +28,7 @@ function _ShareButton() {
       await navigator.share({
         title: document.title,
         text: document.title,
+        url,
       });
     } catch (_) {}
   };
