@@ -6,8 +6,6 @@ import { CSSProperties, memo, useRef } from "react";
 import "./index.css";
 import { useI18n } from "@/core/i18n";
 
-const SCROLL_THRESHOLD = 100;
-
 function _ShareButton() {
   const containerRef = useRef<HTMLDivElement>(null);
   const btnContainerRef = useRef<HTMLDivElement>(null);
@@ -28,8 +26,8 @@ function _ShareButton() {
     navigator.clipboard.writeText(url);
     try {
       await navigator.share({
-        title: i18n.t("share.title"),
-        text: i18n.t("share.text"),
+        title: document.title,
+        text: document.title,
         url: url,
       });
     } catch (_) {}
