@@ -14,10 +14,24 @@ import {
   MusicPlayer,
   RSVPWishesSection,
 } from "@/modules/Home";
+import { reviewRSVPSession } from "@/modules/RSVP/components/RSVPSessionCookies";
 
-type HomeProps = {};
+type HomeProps = {
+  searchParams: {
+    /**
+     * RSVP token
+     */
+    t?: string;
+    /**
+     * means client must check whether the cookies exist before proceeding to set the cookies again
+     */
+    c?: string;
+  };
+};
 
-export default async function Home(_: HomeProps) {
+export default async function Home({ searchParams }: HomeProps) {
+  await reviewRSVPSession(searchParams);
+
   const rsvpViewModel = await getRSVPViewModel();
 
   const rsvpContextValue: RSVPContextValue = !rsvpViewModel.isValidRSVP
