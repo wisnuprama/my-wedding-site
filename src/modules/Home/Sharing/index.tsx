@@ -28,7 +28,6 @@ function _ShareButton() {
       await navigator.share({
         title: document.title,
         text: document.title,
-        url: url,
       });
     } catch (_) {}
   };
