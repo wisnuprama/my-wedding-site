@@ -1,10 +1,11 @@
+"use server";
 import { PrimaryLink } from "@/components/Link";
 import { UserManager } from "@/modules/Admin";
-import { Scanner } from "@/modules/Admin/components/Scanner";
+import { AdminPanel } from "@/modules/Admin/components/AdminPanel";
 
 type AdminProps = {};
 
-export default function SouvenirAdmin(_: AdminProps) {
+export default async function AttendanceAdmin(_: AdminProps) {
   const userManager = UserManager.createUserManagerUsingEnvVariable();
   const userToken = userManager.getCurrentUser()?.token;
 
@@ -19,11 +20,10 @@ export default function SouvenirAdmin(_: AdminProps) {
 
   return (
     <main className="m-0 p-0">
-      <div className="flex">
-        <Scanner />
-      </div>
+      <h1 className="text-2xl text-center underline mb-5">
+        Souvenir Collection
+      </h1>
+      <AdminPanel />
     </main>
   );
 }
-
-export const dynamic = "force-dynamic";

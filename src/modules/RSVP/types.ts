@@ -64,3 +64,13 @@ export type EventCardViewModel = {
   personName: string;
   qrcodeValue: string;
 };
+
+export type RSVPGuestData = {
+  id: string;
+  name: string;
+  pax: number;
+  vip: boolean;
+  willAttend?: boolean;
+  hasCollectedSouvenir?: boolean;
+  isAttending?: boolean;
+};

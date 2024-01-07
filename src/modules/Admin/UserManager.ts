@@ -48,8 +48,6 @@ export class UserManager {
 
     userManager.setUsers(JSON.parse(usersString));
 
-    console.log(usersString);
-
     return userManager;
   }
 }

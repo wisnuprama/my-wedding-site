@@ -1,10 +1,12 @@
+"use server";
 import { PrimaryLink } from "@/components/Link";
 import { UserManager } from "@/modules/Admin";
-import { Scanner } from "@/modules/Admin/components/Scanner";
+import { getGuestBookViewModel } from "@/modules/Admin/GuestBookViewModel";
+import { AdminPanel } from "@/modules/Admin/components/AdminPanel";
 
 type AdminProps = {};
 
-export default function AttendanceAdmin(_: AdminProps) {
+export default async function GuestBookAdmin(_: AdminProps) {
   const userManager = UserManager.createUserManagerUsingEnvVariable();
   const userToken = userManager.getCurrentUser()?.token;
 
@@ -17,13 +19,15 @@ export default function AttendanceAdmin(_: AdminProps) {
     );
   }
 
+  const vm = await getGuestBookViewModel();
+
   return (
-    <main className="m-0 p-0">
-      <div className="flex">
-        <Scanner />
-      </div>
+    <main className="m-0 p-0 h-screen">
+      <h1 className="text-2xl text-center underline mb-5">Guest Book</h1>
+      <AdminPanel
+        spreadsheetId={process.env.GOOGLE_DOCUMENT_ID as string}
+        // sendResult={updateGuestAttendanceByQR.bind(null, vm)}
+      />
     </main>
   );
 }
-
-export const dynamic = "force-dynamic";
