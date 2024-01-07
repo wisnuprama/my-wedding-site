@@ -1,3 +1,5 @@
+const onlyContainsNumbers = (str: string) => /^\d+$/.test(str);
+
 export function deserializeSheetData<
   T extends Record<string, any>,
   R extends Record<keyof T, any>,
@@ -9,7 +11,7 @@ export function deserializeSheetData<
   for (const [key, value] of entries) {
     let parsedValue: any = value;
 
-    if (!isNaN(Number(parsedValue))) {
+    if (onlyContainsNumbers(parsedValue)) {
       parsedValue = Number(parsedValue);
     } else if (value === "TRUE" || value === "FALSE") {
       parsedValue = value === "TRUE";
