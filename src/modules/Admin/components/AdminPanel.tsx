@@ -7,6 +7,7 @@ import IcSuccess from "@material-ui/icons/CheckCircle";
 import IcError from "@material-ui/icons/Error";
 import { GuestData } from "@/modules/Admin/types";
 import invariant from "invariant";
+import { PrimaryButton } from "@/components/Link";
 
 type SendResultSuccessResponse = {
   status: "success";
@@ -27,7 +28,7 @@ type AdminPanelProps = {
 };
 
 export function AdminPanel(props: AdminPanelProps) {
-  const [state, dispatch] = useReducer(adminPanelReducer, initialState);
+  const [state, dispatch] = useReducer(adminPanelReducer, getInitialState());
 
   const sendResultProp: (
     result: string,
@@ -43,10 +44,18 @@ export function AdminPanel(props: AdminPanelProps) {
 
   const sendResult = useMemo(() => {
     return debounce(async (result: string) => {
+      if (result.length !== 6) {
+        dispatch({ type: "reset", payload: result });
+        return;
+      }
+
       dispatch({ type: "scanning_result", payload: result });
+
+      const resp = await sendResultProp(result);
+
       dispatch({
         type: "process_response",
-        payload: await sendResultProp(result),
+        payload: resp,
       });
     }, 1000);
   }, [sendResultProp]);
@@ -64,6 +73,7 @@ export function AdminPanel(props: AdminPanelProps) {
         <h1 className="text-xl">Scan invitation QR</h1>
         <div style={{ height: 200, width: 200 }}>
           <QrScanner
+            key={state.scanTimestamp}
             tracker
             scanDelay={1000}
             constraints={{ frameRate: 10 }}
@@ -71,8 +81,8 @@ export function AdminPanel(props: AdminPanelProps) {
             onError={(error) => alert(error.message)}
           />
         </div>
-        <div className="w-full" style={{ height: 100, maxHeight: 100 }}>
-          {renderResultState(state)}
+        <div className="w-full" style={{ maxHeight: 200 }}>
+          {renderResultState(state, dispatch)}
         </div>
       </div>
       <center>
@@ -86,23 +96,36 @@ export function AdminPanel(props: AdminPanelProps) {
   );
 }
 
-function renderResultState(state: InvitationQRState) {
+function renderResultState(state: InvitationQRState, dispatch: Function) {
   switch (state.loadingState) {
     case "scanning":
-      return "Scanning...";
+      return (
+        <div className="p-2 bg-yellow-300 cursor-progress">
+          <center>Scanning...</center>
+        </div>
+      );
     case "loading":
-      return "Loading... Invitation code: " + state.qrValue;
+      return (
+        <div className="p-2 bg-blue-400 cursor-progress">
+          <center>{"Loading... Invitation code: " + state.qrValue}</center>
+        </div>
+      );
     case "error":
       return (
         <div
-          className="bg-red-500 p-2 flex flex-col justify-center items-center w-full"
-          style={{ height: 100 }}
+          className="bg-red-500 p-2 flex flex-col justify-center items-center w-full cursor-pointer"
+          onClick={() => dispatch({ type: "reset", payload: undefined })}
         >
           <b>
             <IcError fontSize="small" />
             Error, please try to re-scan
           </b>
           <p>Reason: {state.invitationData.message}</p>
+          <PrimaryButton
+            onClick={() => dispatch({ type: "reset", payload: undefined })}
+          >
+            OK
+          </PrimaryButton>
         </div>
       );
     case "success": {
@@ -112,32 +135,39 @@ function renderResultState(state: InvitationQRState) {
 
       return (
         <div
-          className="p-2 flex flex-col justify-center items-center bg-green-400 w-full"
-          style={{ height: 100 }}
+          className="p-2 flex flex-col justify-center items-center bg-green-400 w-full cursor-pointer"
+          onClick={() => dispatch({ type: "reset", payload: undefined })}
         >
-          <b>
-            <IcSuccess fontSize="small" />
-            Status: {message}
-          </b>
-          <table className="w-full mt-1">
-            <thead>
-              <tr className="uppercase">
-                {rows.map(([key]) => (
-                  <th key={key}>{key}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                {rows.map(([key, value]) => (
-                  <td key={key + value}>{String(value)}</td>
-                ))}
-              </tr>
-            </tbody>
-          </table>
+          <span>
+            <b>
+              <IcSuccess fontSize="small" />
+              Status: {message}
+            </b>
+          </span>
+          <div className="flex flex-1 flex-wrap justify-evenly items-start">
+            {rows.map(([key, value]) => (
+              <div key={key + value} className="p-1 bg-white mr-1">
+                {key}={renderValue(value)}
+              </div>
+            ))}
+          </div>
+          <PrimaryButton
+            onClick={() => dispatch({ type: "reset", payload: undefined })}
+          >
+            Done
+          </PrimaryButton>
         </div>
       );
     }
+  }
+}
+
+function renderValue(value: string | number | boolean) {
+  switch (typeof value) {
+    case "boolean":
+      return <input type="checkbox" checked={value} disabled />;
+    default:
+      return value;
   }
 }
 
@@ -146,32 +176,29 @@ type InvitationQRState =
       qrValue?: string;
       invitationData: undefined;
       loadingState: "scanning" | "loading";
+      scanTimestamp: number;
     }
   | {
       qrValue?: string;
       invitationData: SendResultSuccessResponse;
       loadingState: "success";
+      scanTimestamp: number;
     }
   | {
       qrValue?: string;
       invitationData: SendResultErrorResponse;
       loadingState: "error";
+      scanTimestamp: number;
     };
 
-const initialState: InvitationQRState = {
-  qrValue: undefined,
-  invitationData: {
-    message: "Not yet scanned",
-    status: "success",
-    data: {
-      id: "7HAWDH",
-      vip: false,
-      name: "Nadia Rizqi",
-      pax: 0,
-    },
-  },
-  loadingState: "success",
-};
+function getInitialState(): InvitationQRState {
+  return {
+    qrValue: undefined,
+    invitationData: undefined,
+    loadingState: "scanning",
+    scanTimestamp: Date.now(),
+  };
+}
 
 function adminPanelReducer(
   state: InvitationQRState,
@@ -183,7 +210,11 @@ function adminPanelReducer(
         invitationData: undefined,
         qrValue: action.payload as string,
         loadingState: "loading",
+        scanTimestamp: Date.now(),
       };
+    }
+    case "reset": {
+      return getInitialState();
     }
     case "process_response": {
       const payload = action.payload as
@@ -195,20 +226,18 @@ function adminPanelReducer(
           qrValue: state.qrValue,
           invitationData: payload,
           loadingState: "success",
+          scanTimestamp: state.scanTimestamp,
         };
       } else if (payload.status === "error") {
         return {
           qrValue: state.qrValue,
           invitationData: payload,
           loadingState: "error",
+          scanTimestamp: state.scanTimestamp,
         };
       }
 
-      return {
-        invitationData: undefined,
-        qrValue: state.qrValue,
-        loadingState: "scanning",
-      };
+      return getInitialState();
     }
     default:
       return state;

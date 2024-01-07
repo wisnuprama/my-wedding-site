@@ -1,7 +1,7 @@
 "use server";
 import { PrimaryLink } from "@/components/Link";
 import { UserManager } from "@/modules/Admin";
-import { getGuestBookViewModel } from "@/modules/Admin/GuestBookViewModel";
+import { updateGuestIsAttending } from "@/modules/Admin/GuestBookService";
 import { AdminPanel } from "@/modules/Admin/components/AdminPanel";
 
 type AdminProps = {};
@@ -19,14 +19,12 @@ export default async function GuestBookAdmin(_: AdminProps) {
     );
   }
 
-  const vm = await getGuestBookViewModel();
-
   return (
     <main className="m-0 p-0 h-screen">
       <h1 className="text-2xl text-center underline mb-5">Guest Book</h1>
       <AdminPanel
         spreadsheetId={process.env.GOOGLE_DOCUMENT_ID as string}
-        // sendResult={updateGuestAttendanceByQR.bind(null, vm)}
+        sendResult={updateGuestIsAttending}
       />
     </main>
   );

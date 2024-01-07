@@ -4,20 +4,6 @@ import { GuestData } from "./types";
 import invariant from "invariant";
 import { getServerI18n } from "@/core/i18n";
 
-interface GuestBookViewModel {
-  updateGuestAttendanceByQR(
-    id: string,
-  ): Promise<
-    UpdateGuestAttendanceSuccessResponse | UpdateGuestAttendanceErrorResponse
-  >;
-  updateGuestAttendance(
-    id: string,
-    isAttending: boolean,
-  ): Promise<
-    UpdateGuestAttendanceSuccessResponse | UpdateGuestAttendanceErrorResponse
-  >;
-}
-
 type UpdateGuestAttendanceSuccessResponse = {
   status: "success";
   data: GuestData;
@@ -29,7 +15,7 @@ type UpdateGuestAttendanceErrorResponse = {
   message: string;
 };
 
-class GuestBookViewModelImpl implements GuestBookViewModel {
+class GuestBookService {
   private rsvpService!: RSVPService;
 
   public setRSVPService(service: RSVPService) {
@@ -74,29 +60,29 @@ class GuestBookViewModelImpl implements GuestBookViewModel {
   > {
     return this.updateGuestAttendance(id, true);
   }
+
+  public static async create(): Promise<GuestBookService> {
+    const service = new GuestBookService();
+    service.setRSVPService(await getRSVPService());
+    return service;
+  }
 }
 
 export async function updateGuestAttendance(
-  vm: GuestBookViewModel,
   id: string,
   isAttending: boolean,
 ): Promise<
   UpdateGuestAttendanceSuccessResponse | UpdateGuestAttendanceErrorResponse
 > {
-  return vm.updateGuestAttendance(id, isAttending);
+  const service = await GuestBookService.create();
+  return service.updateGuestAttendance(id, isAttending);
 }
 
-export async function updateGuestAttendanceByQR(
-  vm: GuestBookViewModel,
+export async function updateGuestIsAttending(
   id: string,
 ): Promise<
   UpdateGuestAttendanceSuccessResponse | UpdateGuestAttendanceErrorResponse
 > {
-  return vm.updateGuestAttendance(id, true);
-}
-
-export async function getGuestBookViewModel(): Promise<GuestBookViewModel> {
-  const viewModel = new GuestBookViewModelImpl();
-  viewModel.setRSVPService(await getRSVPService());
-  return viewModel;
+  const service = await GuestBookService.create();
+  return service.updateGuestAttendance(id, true);
 }
