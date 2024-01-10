@@ -1,6 +1,7 @@
 "use server";
 import { PrimaryLink } from "@/components/Link";
 import { UserManager } from "@/modules/Admin";
+import { updateGuestIsCollectingSouvenir } from "@/modules/Admin/GuestBookService";
 import { AdminPanel } from "@/modules/Admin/components/AdminPanel";
 
 type AdminProps = {};
@@ -23,7 +24,10 @@ export default async function AttendanceAdmin(_: AdminProps) {
       <h1 className="text-2xl text-center underline mb-5">
         Souvenir Collection
       </h1>
-      <AdminPanel />
+      <AdminPanel
+        spreadsheetId={process.env.ADMIN_SHEET_DOCUMENT_ID as string}
+        sendResult={updateGuestIsCollectingSouvenir}
+      />
     </main>
   );
 }

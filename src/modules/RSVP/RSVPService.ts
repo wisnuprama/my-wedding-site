@@ -226,6 +226,32 @@ export class RSVPService {
     }
   }
 
+  public async updateGuestSouvenirCollection(
+    id: string,
+    hasCollected: boolean,
+  ): Promise<ServiceError | undefined> {
+    const i18n = getServerI18n();
+    const rsvp = await this.rsvpModel.findById(id);
+
+    if (!rsvp) {
+      console.info(`RSVP not found: ${id}`);
+      return new ServiceError(
+        ServiceErrorCode.RSVP_NOT_FOUND,
+        i18n.t("error_msg_rsvp_not_found"),
+      );
+    }
+
+    try {
+      rsvp.set("has_collected_souvenir", hasCollected ? "TRUE" : "FALSE");
+      await rsvp.save();
+    } catch (_) {
+      return new ServiceError(
+        ServiceErrorCode.FAILED_TO_UPDATE_GUEST_ATTENDANCE,
+        i18n.t("error_msg_failed_update_guest_attendance"),
+      );
+    }
+  }
+
   public async getGuestData(
     id: string,
   ): Promise<[RSVPGuestData, null] | [null, ServiceError]> {
