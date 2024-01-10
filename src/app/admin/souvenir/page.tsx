@@ -25,7 +25,7 @@ export default async function AttendanceAdmin(_: AdminProps) {
         Souvenir Collection
       </h1>
       <AdminPanel
-        spreadsheetId={process.env.ADMIN_SHEET_DOCUMENT_ID as string}
+        spreadsheetId={process.env.GOOGLE_DOCUMENT_ID as string}
         sendResult={updateGuestIsCollectingSouvenir}
       />
     </main>
