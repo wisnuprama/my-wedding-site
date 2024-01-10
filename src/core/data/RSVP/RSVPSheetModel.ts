@@ -18,6 +18,7 @@ export type RSVPRow = {
   vip: "TRUE" | "FALSE";
   source: string;
   personal_message: string;
+  has_collected_souvenir: "TRUE" | "FALSE";
 };
 
 export class RSVPSheetModel {

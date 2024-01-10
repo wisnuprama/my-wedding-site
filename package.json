@@ -16,7 +16,7 @@
   "dependencies": {
     "@material-ui/icons": "^4.11.3",
     "@vercel/analytics": "^1.1.1",
-    "@yudiel/react-qr-scanner": "^1.1.10",
+    "@yudiel/react-qr-scanner": "1.2.4",
     "autoprefixer": "10.4.16",
     "cookie": "^0.6.0",
     "cookies-next": "^4.1.0",

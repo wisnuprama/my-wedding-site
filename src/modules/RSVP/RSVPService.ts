@@ -7,7 +7,7 @@ import { ServiceErrorCode } from "@/modules/ServiceError/errorcode";
 import { WishesSheetModel, sheetdb } from "@/core/data";
 import { deserializeSheetData, serializeSheetData } from "@/core/data/utils";
 import { evalOnce } from "@/common/helper";
-import { RSVPFormExtraData, RSVPUserData } from "./types";
+import { RSVPFormExtraData, RSVPUserData, RSVPGuestData } from "./types";
 import { ServiceError } from "@/modules/ServiceError";
 
 export interface RSVPInstance {
@@ -198,6 +198,89 @@ export class RSVPService {
     return {
       error: ServiceErrorCode.OK,
     };
+  }
+
+  public async updateGuestAttendance(
+    id: string,
+    isAttending: boolean,
+  ): Promise<ServiceError | undefined> {
+    const i18n = getServerI18n();
+    const rsvp = await this.rsvpModel.findById(id);
+
+    if (!rsvp) {
+      console.info(`RSVP not found: ${id}`);
+      return new ServiceError(
+        ServiceErrorCode.RSVP_NOT_FOUND,
+        i18n.t("error_msg_rsvp_not_found"),
+      );
+    }
+
+    try {
+      rsvp.set("attended", isAttending ? "TRUE" : "FALSE");
+      await rsvp.save();
+    } catch (_) {
+      return new ServiceError(
+        ServiceErrorCode.FAILED_TO_UPDATE_GUEST_ATTENDANCE,
+        i18n.t("error_msg_failed_update_guest_attendance"),
+      );
+    }
+  }
+
+  public async updateGuestSouvenirCollection(
+    id: string,
+    hasCollected: boolean,
+  ): Promise<ServiceError | undefined> {
+    const i18n = getServerI18n();
+    const rsvp = await this.rsvpModel.findById(id);
+
+    if (!rsvp) {
+      console.info(`RSVP not found: ${id}`);
+      return new ServiceError(
+        ServiceErrorCode.RSVP_NOT_FOUND,
+        i18n.t("error_msg_rsvp_not_found"),
+      );
+    }
+
+    try {
+      rsvp.set("has_collected_souvenir", hasCollected ? "TRUE" : "FALSE");
+      await rsvp.save();
+    } catch (_) {
+      return new ServiceError(
+        ServiceErrorCode.FAILED_TO_UPDATE_GUEST_ATTENDANCE,
+        i18n.t("error_msg_failed_update_guest_attendance"),
+      );
+    }
+  }
+
+  public async getGuestData(
+    id: string,
+  ): Promise<[RSVPGuestData, null] | [null, ServiceError]> {
+    const i18n = getServerI18n();
+    const rsvp = await this.rsvpModel.findById(id);
+
+    if (!rsvp) {
+      console.info(`RSVP not found: ${id}`);
+      return [
+        null,
+        new ServiceError(
+          ServiceErrorCode.RSVP_NOT_FOUND,
+          i18n.t("error_msg_rsvp_not_found"),
+        ),
+      ];
+    }
+
+    return [
+      deserializeSheetData({
+        id: rsvp.get("id"),
+        name: rsvp.get("nama"),
+        pax: rsvp.get("actual_pax") || rsvp.get("estimated_pax"),
+        vip: rsvp.get("vip"),
+        willAttend: rsvp.get("will_attend"),
+        hasCollectedSouvenir: rsvp.get("has_collected_souvenir"),
+        isAttending: rsvp.get("attended"),
+      }),
+      null,
+    ];
   }
 
   public static createRSVPServiceWithSheet(spreadsheet: GoogleSpreadsheet) {
