@@ -14,11 +14,15 @@ function _PersonalMessage(_: PersonalMessageProps) {
 
   const rsvp = useContext(RSVPContext);
 
-  if (!rsvp.isValidRSVP) {
+  if (!rsvp.isValidRSVP || !rsvp.data?.message) {
     return null;
   }
 
   const personalMessage = rsvp.data?.message;
+
+  if (!personalMessage) {
+    return null;
+  }
 
   const openDialog = () => {
     if (!msgContent.current) {
