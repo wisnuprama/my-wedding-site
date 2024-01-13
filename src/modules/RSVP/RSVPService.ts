@@ -182,7 +182,17 @@ export class RSVPService {
     await rsvp.save();
 
     if (data.wishMessage) {
-      this.wishesModel.createWish(rsvp.get("nama"), data.wishMessage);
+      try {
+        await this.wishesModel.createWish(rsvp.get("nama"), data.wishMessage);
+      } catch (e) {
+        console.error({
+          data: {
+            from: rsvp.get("nama"),
+            message: data.wishMessage,
+          },
+          error: ServiceErrorCode.FAILED_TO_CREATE_WISH,
+        });
+      }
     }
 
     try {
