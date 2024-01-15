@@ -15,7 +15,7 @@ export async function submitRSVP(
   _: RSVPFormState,
   form: FormData,
 ): Promise<RSVPFormState> {
-  const rsvpToken = form.get("rsvpToken");
+  const rsvpToken = form.get("rsvpToken")?.toString();
 
   if (!rsvpToken) {
     console.warn("[submitRSVP] Submitting form without token");
@@ -27,9 +27,8 @@ export async function submitRSVP(
 
   const manager = new RSVPTokenManager();
 
-  const [isValidRSVP, tokenData] = await manager.verifyAndDecodeToken(
-    rsvpToken.toString(),
-  );
+  const [isValidRSVP, tokenData] =
+    await manager.verifyAndDecodeToken(rsvpToken);
 
   if (!isValidRSVP) {
     return {
@@ -38,13 +37,41 @@ export async function submitRSVP(
     };
   }
 
-  const rsvp = new RSVPFormDTO(
-    form.get("actualPax")?.toString(),
-    form.get("willAttend")?.toString(),
-    form.get("wishMessage")?.toString(),
+  const rsvpService = await getRSVPService();
+
+  // when user is eligible for RSVP
+  const [isEligibleForRSVP, err] = await rsvpService.isEligibleForRSVP(
+    tokenData.id,
   );
 
-  const rsvpService = await getRSVPService();
+  if (err) {
+    console.error(
+      "[submitRSVP] Failed to value of isEligibleForRSVP",
+      JSON.stringify({
+        rsvpId: tokenData.id,
+        error: err.message,
+      }),
+    );
+    return {
+      status: "error",
+      message: getServerI18n().t("msg_submit_error"),
+    };
+  }
+
+  // get the actual pax from the form
+  // otherwise, assume the users are not attending, and set the actual pax to 0
+  const actualPax = isEligibleForRSVP ? form.get("actualPax")?.toString() : "0";
+  // get the willAttend from the form
+  // otherwise, assume the users are not attending, and set the willAttend to false
+  const willAttend = isEligibleForRSVP
+    ? form.get("willAttend")?.toString()
+    : "false";
+
+  let rsvp = new RSVPFormDTO(
+    actualPax,
+    willAttend,
+    form.get("wishMessage")?.toString(),
+  );
 
   try {
     rsvp.validate();

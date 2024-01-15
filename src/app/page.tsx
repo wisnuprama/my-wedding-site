@@ -38,9 +38,11 @@ export default async function Home({ searchParams }: HomeProps) {
   const rsvpContextValue: RSVPContextValue = !rsvpViewModel.isValidRSVP
     ? {
         isValidRSVP: rsvpViewModel.isValidRSVP,
+        rsvpMode: rsvpViewModel.rsvpMode,
       }
     : {
         isValidRSVP: rsvpViewModel.isValidRSVP,
+        rsvpMode: rsvpViewModel.rsvpMode,
         data: rsvpViewModel.rsvpUserData,
       };
 

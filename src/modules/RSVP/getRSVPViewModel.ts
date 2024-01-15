@@ -3,7 +3,12 @@
 import { getRSVPService } from "./RSVPService";
 import { RSVPTokenManager } from "./RSVPTokenManager";
 import { submitRSVP } from "./actions";
-import { RSVPFormExtraData, RSVPUserData, RSVPViewModel } from "./types";
+import {
+  RSVPFormExtraData,
+  RSVPMode,
+  RSVPUserData,
+  RSVPViewModel,
+} from "./types";
 import { ServiceError } from "@/modules/ServiceError";
 import { withPerfTraceLog } from "@/modules/PerfTrace";
 
@@ -15,6 +20,9 @@ interface RSVPService {
   getFormExtraData: (
     rsvpID: string,
   ) => Promise<[RSVPFormExtraData, undefined] | [undefined, ServiceError]>;
+  isEligibleForRSVP: (
+    rsvpID: string,
+  ) => Promise<[boolean, undefined] | [undefined, ServiceError]>;
 }
 
 export async function getRSVPViewModel(): Promise<RSVPViewModel> {
@@ -28,6 +36,7 @@ export async function getRSVPViewModel(): Promise<RSVPViewModel> {
   if (!isValidRSVP || !rsvpToken) {
     return {
       isValidRSVP: false,
+      rsvpMode: RSVPMode.OFF,
     };
   }
 
@@ -39,21 +48,38 @@ export async function getRSVPViewModel(): Promise<RSVPViewModel> {
 
   const rsvpService: RSVPService = await getRSVPService();
 
-  const [userDataFromDb, err] = await withPerfTraceLog(
+  const [serverUserData, err] = await withPerfTraceLog(
     "rsvpService.getUserData",
     () => rsvpService.getUserData(tokenData.id),
   );
 
   // replace with data from db if available
-  if (userDataFromDb) {
-    userData.name = userDataFromDb.name;
-    userData.message = userDataFromDb.message;
+  if (serverUserData) {
+    userData.name = serverUserData.name;
+    userData.message = serverUserData.message;
   } else {
     console.warn("[getRSVPViewModel] Error when getting userdata from DB", err);
   }
 
+  const [isEligibleForRSVP, err2] = await rsvpService.isEligibleForRSVP(
+    tokenData.id,
+  );
+
+  if (err2) {
+    console.warn(
+      "[getRSVPViewModel] Error when getting isEligibleForRSVP from DB",
+      err2,
+    );
+  }
+
+  let rsvpMode = RSVPMode.BLESSING;
+  if (isEligibleForRSVP) {
+    rsvpMode = RSVPMode.FULL;
+  }
+
   return {
     isValidRSVP,
+    rsvpMode,
     rsvpToken,
     rsvpUserData: userData,
     shouldDisplayEventCard: async () => {

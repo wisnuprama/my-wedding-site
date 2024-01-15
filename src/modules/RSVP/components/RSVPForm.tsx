@@ -7,6 +7,7 @@ import { useFormState, useFormStatus } from "react-dom";
 import IcWarning from "@material-ui/icons/Warning";
 import config from "@/core/config";
 import { useRouter } from "next/navigation";
+import { RSVPMode } from "..";
 
 type InputProps = {
   labelText: string;
@@ -43,6 +44,7 @@ type RSVPFormProps = {
   submit: (state: RSVPFormState, formData: FormData) => Promise<RSVPFormState>;
   name: string;
   estimatedPax: number;
+  rsvpMode: RSVPMode;
   rsvpToken: string;
 };
 
@@ -52,7 +54,7 @@ const initialState: RSVPFormState = {
 };
 
 export function RSVPForm(props: RSVPFormProps) {
-  const { name, estimatedPax, submit, rsvpToken } = props;
+  const { name, estimatedPax, submit, rsvpToken, rsvpMode } = props;
   const router = useRouter();
   const i18n = useI18n();
 
@@ -85,6 +87,10 @@ export function RSVPForm(props: RSVPFormProps) {
     return options;
   }, []);
 
+  const isFullRSVP = rsvpMode === RSVPMode.FULL;
+  const disableName = [RSVPMode.BLESSING, RSVPMode.FULL].includes(rsvpMode);
+  const isWishesRequired = [RSVPMode.OFF].includes(rsvpMode);
+
   return (
     <div className="mt-12 md:w-1/2 w-full self-center">
       <form className="flex flex-col" action={formAction}>
@@ -94,41 +100,46 @@ export function RSVPForm(props: RSVPFormProps) {
           name="name"
           id="name"
         >
-          <input type="text" disabled value={name} required />
+          <input type="text" disabled={disableName} value={name} required />
         </InputContainer>
 
-        <InputContainer
-          labelText={i18n.t("label_attendance")}
-          name="willAttend"
-          id="willAttend"
-        >
-          <select placeholder="Please select" defaultValue="" required>
-            <option value="">---</option>
-            <option value="true">{i18n.t("label_yes")}</option>
-            <option value="false">{i18n.t("label_no")}</option>
-          </select>
-        </InputContainer>
-
-        <InputContainer
-          labelText={i18n.t("label_no_of_guest")}
-          name="actualPax"
-          id="actualPax"
-          helpText={i18n.t("msg_no_of_guest_help_text")}
-        >
-          <select
-            placeholder="Please select"
-            defaultValue={estimatedPax ?? 1}
-            required
+        {isFullRSVP ? (
+          <InputContainer
+            labelText={i18n.t("label_attendance")}
+            name="willAttend"
+            id="willAttend"
           >
-            {attendancesOptions}
-          </select>
-        </InputContainer>
+            <select placeholder="Please select" defaultValue="" required>
+              <option value="">---</option>
+              <option value="true">{i18n.t("label_yes")}</option>
+              <option value="false">{i18n.t("label_no")}</option>
+            </select>
+          </InputContainer>
+        ) : null}
+
+        {isFullRSVP ? (
+          <InputContainer
+            labelText={i18n.t("label_no_of_guest")}
+            name="actualPax"
+            id="actualPax"
+            helpText={i18n.t("msg_no_of_guest_help_text")}
+          >
+            <select
+              placeholder="Please select"
+              defaultValue={estimatedPax ?? 1}
+              required
+            >
+              {attendancesOptions}
+            </select>
+          </InputContainer>
+        ) : null}
 
         <InputContainer labelText="Wishes" name="wishMessage" id="wishMessage">
           <textarea
             rows={4}
             maxLength={500}
             placeholder={i18n.t("msg_wish_placeholder_help_text")}
+            required={isWishesRequired}
           />
         </InputContainer>
 

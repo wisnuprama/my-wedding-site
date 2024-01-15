@@ -33,8 +33,15 @@ export type RSVPUserData = {
   message?: string;
 };
 
+export enum RSVPMode {
+  OFF = "off",
+  BLESSING = "blessing",
+  FULL = "full",
+}
+
 export type ValidRSVPViewModel = {
   isValidRSVP: true;
+  rsvpMode: RSVPMode;
   rsvpUserData: RSVPUserData;
   rsvpToken: string;
   shouldDisplayEventCard: () => Promise<boolean>;
@@ -47,6 +54,7 @@ export type ValidRSVPViewModel = {
 export type RSVPViewModel =
   | {
       isValidRSVP: false;
+      rsvpMode: RSVPMode.OFF;
     }
   | ValidRSVPViewModel;
 

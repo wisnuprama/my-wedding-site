@@ -34,19 +34,6 @@ export async function RSVPWishesSection(props: RSVPWishesSectionProps) {
     return JSON.stringify(rows);
   }
 
-  let content: ReactNode = null;
-
-  if (!rsvpViewModel.isValidRSVP) {
-    content = <RSVPWishesPagination wishesJSON={await getWishes()} />;
-  } else {
-    content = (
-      <>
-        <RSVPWishesForm rsvpViewModel={rsvpViewModel} />
-        <RSVPWishesPagination wishesJSON={await getWishes()} />
-      </>
-    );
-  }
-
   return (
     <section className="min-h-screen px-4 py-24 md:flex md:flex-col">
       <h1
@@ -54,7 +41,8 @@ export async function RSVPWishesSection(props: RSVPWishesSectionProps) {
       >
         {i18n.t("title_rsvp_and_wishes")}
       </h1>
-      {content}
+      <RSVPWishesForm rsvpViewModel={rsvpViewModel} />
+      <RSVPWishesPagination wishesJSON={await getWishes()} />
     </section>
   );
 }

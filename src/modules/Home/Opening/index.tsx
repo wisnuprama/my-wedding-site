@@ -38,7 +38,7 @@ export async function OpeningSection(props: OpeningSectionProps) {
         <div id="pg-2" style={styles.anchorToPage2} />
       </div>
       <CountdownSection
-        isValidRSVP={rsvpViewModel.isValidRSVP}
+        rsvpViewModel={rsvpViewModel}
         containerStyle={styles.pageTwoContainer}
       />
     </div>

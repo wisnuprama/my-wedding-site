@@ -71,7 +71,7 @@ export function EventCardClient(props: EventCardClient) {
             {personName}
           </h1>
           <InvitationQR value={qrcodeValue} />
-          <div className="mt-10 sm:mt-12">
+          <div className="mt-6">
             <div className="w-full flex flex-col items-center">
               <div className={`text-center text-base sm:text-lg md:text-xl`}>
                 <span>{dateFormatter.format(weddingDate * 1000)}</span>
