@@ -32,6 +32,7 @@
   "title_event_reception": "Reception",
   "label_event_save_the_date": "SAVE THE DATE",
   "title_rsvp_and_wishes": "RSVP & Wishes",
+  "error_msg_rsvp_not_found": "RSVP is not found",
   "label_full_name": "Full Name",
   "label_attendance": "Will you join us?*",
   "label_no_of_guest": "No. of Guest(s)*",
