@@ -25,7 +25,11 @@ export interface RSVPModel {
 }
 
 export interface WishesModel {
-  createWish(from: string, message: string): Promise<unknown>;
+  createWish(
+    from: string,
+    message: string,
+    isVerified: boolean,
+  ): Promise<unknown>;
   refreshCache(): Promise<void>;
 }
 
@@ -94,6 +98,22 @@ export class RSVPService {
     return [rsvp, undefined];
   }
 
+  public async isEligibleForRSVP(
+    id: string,
+  ): Promise<[boolean, undefined] | [undefined, ServiceError]> {
+    const [rsvp, err] = await this.getRSVPByIdOrCache(id);
+
+    if (err != null) {
+      return [undefined, err];
+    }
+
+    const { estimatedPax } = deserializeSheetData({
+      estimatedPax: rsvp.get("estimated_pax"),
+    });
+
+    return [estimatedPax > 0, undefined];
+  }
+
   public async getUserData(
     id: string,
   ): Promise<[RSVPUserData, undefined] | [undefined, ServiceError]> {
@@ -103,12 +123,23 @@ export class RSVPService {
       return [undefined, err];
     }
 
+    const [eligibleForRSVP, err2] = await this.isEligibleForRSVP(id);
+
+    if (err2 != null) {
+      return [undefined, err2];
+    }
+
+    const data = deserializeSheetData({
+      rsvpID: id,
+      name: rsvp.get("nama"),
+      message: rsvp.get("personal_message"),
+    });
+
     return [
-      deserializeSheetData({
-        rsvpID: id,
-        name: rsvp.get("nama"),
-        message: rsvp.get("personal_message"),
-      }),
+      {
+        ...data,
+        eligibleForRSVP,
+      },
       undefined,
     ];
   }
@@ -138,14 +169,13 @@ export class RSVPService {
       return [undefined, err];
     }
 
-    return [
-      deserializeSheetData({
-        filled: rsvp.get("rsvp_done"),
-        willAttend: rsvp.get("will_attend"),
-        estimatedPax: rsvp.get("estimated_pax"),
-      }),
-      undefined,
-    ];
+    const data = deserializeSheetData({
+      filled: rsvp.get("rsvp_done"),
+      willAttend: rsvp.get("will_attend"),
+      estimatedPax: rsvp.get("estimated_pax"),
+    });
+
+    return [data, undefined];
   }
 
   public async fillRSVPById(
@@ -183,7 +213,11 @@ export class RSVPService {
 
     if (data.wishMessage) {
       try {
-        await this.wishesModel.createWish(rsvp.get("nama"), data.wishMessage);
+        await this.wishesModel.createWish(
+          rsvp.get("nama"),
+          data.wishMessage,
+          true,
+        );
       } catch (e) {
         console.error({
           data: {

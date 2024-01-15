@@ -32,11 +32,12 @@ export class WishesSheetModel {
     this.rowCache = await this.sheet.getRows<WishRow>();
   }
 
-  public async createWish(from: string, message: string) {
+  public async createWish(from: string, message: string, isVerified: boolean) {
     const r = await this.sheet.addRow({
       from,
       message,
       ctime: Date.now() / 1000,
+      is_verified: isVerified ? "TRUE" : "FALSE",
     });
 
     await this.refreshCache();

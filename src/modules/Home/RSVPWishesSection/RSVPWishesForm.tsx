@@ -1,10 +1,10 @@
 "use server";
 import { PrimaryLink } from "@/components/Link";
 import { useServerI18n } from "@/core/i18n";
-import { RSVPForm, ValidRSVPViewModel } from "@/modules/RSVP";
+import { RSVPForm, RSVPViewModel } from "@/modules/RSVP";
 
 type RSVPWishesFormProps = {
-  rsvpViewModel: ValidRSVPViewModel;
+  rsvpViewModel: RSVPViewModel;
 };
 
 export async function RSVPWishesForm(props: RSVPWishesFormProps) {
@@ -52,6 +52,7 @@ export async function RSVPWishesForm(props: RSVPWishesFormProps) {
       rsvpToken={rsvpViewModel.rsvpToken}
       name={name}
       estimatedPax={formExtraData.estimatedPax}
+      rsvpMode={rsvpViewModel.rsvpMode}
       submit={rsvpViewModel.submit}
     />
   );
