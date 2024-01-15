@@ -123,25 +123,13 @@ export class RSVPService {
       return [undefined, err];
     }
 
-    const [eligibleForRSVP, err2] = await this.isEligibleForRSVP(id);
-
-    if (err2 != null) {
-      return [undefined, err2];
-    }
-
     const data = deserializeSheetData({
       rsvpID: id,
       name: rsvp.get("nama"),
       message: rsvp.get("personal_message"),
     });
 
-    return [
-      {
-        ...data,
-        eligibleForRSVP,
-      },
-      undefined,
-    ];
+    return [data, undefined];
   }
 
   public async shouldDisplayEventCard(id: string): Promise<boolean> {
