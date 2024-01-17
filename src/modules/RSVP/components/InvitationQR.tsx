@@ -2,7 +2,6 @@
 import { memo } from "react";
 import QRCode from "react-qr-code";
 import IcInfo from "@material-ui/icons/InfoOutlined";
-import { IcButton } from "@/components/Link";
 import { useI18n } from "@/core/i18n";
 
 type InvitationQRProps = {

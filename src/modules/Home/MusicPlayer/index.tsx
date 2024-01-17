@@ -54,15 +54,28 @@ const PlayerBtn = memo(function _PlayerBtn(props: {
 
   const IcPlayer =
     audioPlayer.current == null || audioPlayer.current.paused ? (
-      <IcPlay />
+      <IcPlay fontSize="small" />
     ) : (
-      <IcStop />
+      <IcStop fontSize="small" />
     );
 
   return (
-    <div className="h-full flex items-center justify-center">
-      <IcButton onClick={handlePlay} className="text-right h-auto w-auto">
+    <div className="flex items-center justify-center">
+      <IcButton
+        onClick={handlePlay}
+        className="text-right h-auto w-auto relative rounded-full hover:rounded-none overflow-hidden"
+        style={{
+          transition: "all .3s ease-in-out",
+        }}
+      >
         {IcPlayer}
+        <Image
+          src="/assets/images/home-mp3.jpg"
+          alt="Album cover of NÉO–ROMANCE"
+          width={40}
+          height={40}
+          className="h-full w-full absolute opacity-50 left-0 right-0 top-0 bottom-0 -z-10"
+        />
       </IcButton>
     </div>
   );
@@ -75,53 +88,11 @@ function _MusicPlayer() {
   const containerRef = useRef<HTMLDivElement>(null);
   const playerBtnContainerRef = useRef<HTMLDivElement>(null);
 
-  const [_, startTransition] = useTransition();
-  const [isHiding, setHideState] = useState(false);
-
-  const prevStopScrollPosition = useRef(0);
-  useLayoutEffect(() => {
-    const handleScroll = debounce(
-      () => {
-        const { scrollY } = window;
-        const isScrolling =
-          Math.abs(prevStopScrollPosition.current - scrollY) > SCROLL_THRESHOLD;
-
-        if (isScrolling) {
-          prevStopScrollPosition.current = scrollY;
-          startTransition(() => {
-            setHideState(isScrolling);
-          });
-        }
-      },
-      100,
-      { leading: false, trailing: true },
-    );
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  });
-
-  const handleShow = useCallback(() => setHideState(false), []);
-  const handleHide = useCallback(() => setHideState(true), []);
-
-  const containerStyle: CSSProperties = {
-    background: "rgba(var(--background-card))",
-  };
-  if (isHiding) {
-    const btnWidth = playerBtnContainerRef?.current?.offsetWidth ?? 0;
-    containerStyle["left"] =
-      -(containerRef.current?.offsetWidth ?? 0) + btnWidth;
-  }
-
   return (
     <div
       ref={containerRef}
       id="music-container"
-      className="fixed bottom-3 flex backdrop-blur-md rounded-md pr-1 shadow-sm"
-      style={containerStyle}
+      // className="fixed bottom-3 flex backdrop-blur-md rounded-md pr-1 shadow-sm"
     >
       <audio
         ref={audioPlayerRef}
@@ -131,35 +102,31 @@ function _MusicPlayer() {
         preload="auto"
       />
       <div className="flex">
-        <a
+        {/* <div className="px-1">
+          <div className="text-sm">New Romance</div>
+          <div className="text-xs"> by Alexandra Stréliski</div>
+        </div> */}
+      </div>
+      <div ref={playerBtnContainerRef} className="relative">
+        {/* <a
           href="https://open.spotify.com/track/0LGbC0S4fcUIcaEk08Hc8r?si=cd7fb27c19d74ce7"
           target="_blank"
           rel="noreferrer"
+          className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2"
+          style={{
+            height: 64,
+            width: 64,
+          }}
         >
           <Image
             src="/assets/images/home-mp3.jpg"
             alt="Album cover of NÉO–ROMANCE"
             width={40}
             height={40}
-            style={{ height: 40, width: 40 }}
+            className="h-full w-full rounded-md"
           />
-        </a>
-        <div className="px-1">
-          <div className="text-sm">New Romance</div>
-          <div className="text-xs"> by Alexandra Stréliski</div>
-        </div>
-      </div>
-      <div ref={playerBtnContainerRef}>
-        {isHiding ? (
-          <button
-            onClick={handleShow}
-            className="h-full flex items-center pl-1"
-          >
-            <IcMusic />
-          </button>
-        ) : (
-          <PlayerBtn onStartPlay={handleHide} audioPlayer={audioPlayerRef} />
-        )}
+        </a> */}
+        <PlayerBtn audioPlayer={audioPlayerRef} />
       </div>
     </div>
   );

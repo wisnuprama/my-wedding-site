@@ -1,5 +1,11 @@
 import invariant from "invariant";
-import { useCallback, useLayoutEffect, useMemo, useRef } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+} from "react";
 
 function translateValueToOverflow(value: "enabled" | "disabled") {
   switch (value) {

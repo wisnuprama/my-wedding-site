@@ -13,7 +13,7 @@ export function PrimaryLink(props: PrimaryLinkProps) {
   return (
     <Link
       {...restProps}
-      className={`uppercase drop-shadow-md hover:bg-white hover:bg-opacity-50 ${props.className}`}
+      className={`uppercase drop-shadow-md hover:bg-white hover:bg-opacity-50 cursor-pointer ${props.className}`}
     >
       {props.children}
       <DoubleUnderline />
@@ -27,7 +27,7 @@ export function PrimaryAnchor(props: HTMLProps<HTMLAnchorElement>) {
   return (
     <a
       {...restProps}
-      className={`uppercase drop-shadow-md hover:bg-white hover:bg-opacity-50  ${props.className}`}
+      className={`uppercase drop-shadow-md hover:bg-white hover:bg-opacity-50 cursor-pointer ${props.className}`}
     >
       {props.children}
       <DoubleUnderline />
@@ -41,7 +41,7 @@ export function PrimaryButton(props: PrimaryButtonProps) {
   return (
     <button
       {...props}
-      className={`uppercase drop-shadow-md hover:bg-white hover:bg-opacity-50 ${props.className}`}
+      className={`uppercase drop-shadow-md hover:bg-white hover:bg-opacity-50 cursor-pointer ${props.className}`}
     >
       {props.children}
       <DoubleUnderline />
@@ -54,7 +54,7 @@ export function IcLink(props: PrimaryLinkProps) {
   return (
     <Link
       {...restProps}
-      className={`flex justify-center items-center drop-shadow-md rounded-full p-1 w-10 h-10 backdrop-blur-sm hover:bg-opacity-60 active:bg-white active:bg-opacity-5 ${props.className}`}
+      className={`flex justify-center items-center drop-shadow-md rounded-full p-1 w-10 h-10 cursor-pointer backdrop-blur-sm hover:bg-opacity-60 active:bg-white active:bg-opacity-5 ${props.className}`}
     >
       {props.children}
     </Link>
@@ -65,7 +65,7 @@ export function IcButton(props: PrimaryButtonProps) {
   return (
     <button
       {...props}
-      className={`flex justify-center items-center drop-shadow-md rounded-full p-1 w-10 h-10 backdrop-blur-sm hover:bg-opacity-60 active:bg-white active:bg-opacity-5 ${props.className}`}
+      className={`flex justify-center items-center drop-shadow-md rounded-full p-1 w-10 h-10 cursor-pointer backdrop-blur-sm hover:bg-opacity-60 active:bg-white active:bg-opacity-5 ${props.className}`}
     >
       {props.children}
     </button>

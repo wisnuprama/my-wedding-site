@@ -11,11 +11,10 @@ import {
   BrideGroomSection,
   HomeDisableScrollContainer,
   WeddingEventInfoSection,
-  MusicPlayer,
   RSVPWishesSection,
-  Sharing,
 } from "@/modules/Home";
 import { reviewRSVPSession } from "@/modules/RSVP/components/RSVPSessionCookies";
+import { BottomNavigation } from "@/modules/Home/BottomNavigation";
 
 type HomeProps = {
   searchParams: {
@@ -50,16 +49,15 @@ export default async function Home({ searchParams }: HomeProps) {
     <RSVPContextProvider value={rsvpContextValue}>
       <HomeDisableScrollContainer>
         <Navbar />
-        <main>
+        <main id="home">
           <OpeningSection rsvpViewModel={rsvpViewModel} />
           <QuranSection />
           <BrideGroomSection />
           <WeddingEventInfoSection />
           <RSVPWishesSection rsvpViewModel={rsvpViewModel} />
           <LoveGiftSection />
-          <Sharing />
-          <MusicPlayer />
         </main>
+        <BottomNavigation />
         <Footer />
         <AnchorTagSmoothScroll />
       </HomeDisableScrollContainer>

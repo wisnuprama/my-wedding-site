@@ -35,7 +35,10 @@ export async function RSVPWishesSection(props: RSVPWishesSectionProps) {
   }
 
   return (
-    <section className="min-h-screen px-4 py-24 md:flex md:flex-col">
+    <section
+      id="wishes"
+      className="min-h-screen px-4 py-24 md:flex md:flex-col"
+    >
       <h1
         className={`text-4xl sm:text-5xl ${fontCursive.className} text-center`}
       >

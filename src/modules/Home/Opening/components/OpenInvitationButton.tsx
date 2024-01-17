@@ -10,8 +10,6 @@ export function OpenInvitationButton() {
   const { enableScroll } = useContext(DisableScrollContext);
   const rsvp = useContext(RSVPContext);
 
-  console.log(rsvp);
-
   const handleLink = useCallback(() => enableScroll(), [enableScroll]);
 
   const btnTextKey =
