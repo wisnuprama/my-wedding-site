@@ -17,12 +17,11 @@ function _BottomNavigation(_: BottomNavigationProps) {
 
   const i18n = useI18n();
 
-  const url = typeof window !== "undefined" ? window.location.origin : "";
-  const handleSharing = useSharing({
+  const handleSharing = useSharing(() => ({
     title: document.title,
     text: document.title,
-    url,
-  });
+    url: window.location.origin,
+  }));
 
   return (
     <div
