@@ -1,7 +1,7 @@
 "use client";
-import IcHome from "@material-ui/icons/HomeOutlined";
-import IcRSVP from "@material-ui/icons/InsertInvitationOutlined";
-import IcShare from "@material-ui/icons/ShareOutlined";
+import IcHome from "@material-ui/icons/Home";
+import IcRSVP from "@material-ui/icons/InsertInvitation";
+import IcShare from "@material-ui/icons/Share";
 import IcWishes from "@material-ui/icons/SendRounded";
 import { ReactNode, memo, useContext } from "react";
 import { MusicPlayer, useSharing } from "../index";

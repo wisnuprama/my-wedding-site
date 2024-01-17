@@ -1,21 +1,15 @@
 "use client";
 
-import IcMusic from "@material-ui/icons/MusicNote";
 import IcPlay from "@material-ui/icons/PlayArrow";
 import IcStop from "@material-ui/icons/Stop";
 import {
-  CSSProperties,
   RefObject,
   memo,
   startTransition,
   useCallback,
-  useLayoutEffect,
   useReducer,
   useRef,
-  useState,
-  useTransition,
 } from "react";
-import debounce from "lodash.debounce";
 
 import "./index.css";
 import invariant from "invariant";
