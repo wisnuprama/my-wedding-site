@@ -4,7 +4,7 @@ import { CountdownSection } from "./CountdownSection";
 import { InvitationSection } from "./InvitationSection";
 import { NAVBAR_HEIGHT } from "..";
 import { useServerI18n } from "@/core/i18n";
-import { RSVPViewModel } from "@/modules/RSVP";
+import { RSVPMode, RSVPViewModel } from "@/modules/RSVP";
 
 export type OpeningSectionProps = {
   rsvpViewModel: RSVPViewModel;
@@ -30,10 +30,7 @@ export async function OpeningSection(props: OpeningSectionProps) {
         </div>
         <InvitationSection
           containerStyle={styles.invitationContainer}
-          displayEventCard={
-            rsvpViewModel.isValidRSVP &&
-            (await rsvpViewModel.shouldDisplayEventCard())
-          }
+          displayEventCard={rsvpViewModel.rsvpMode === RSVPMode.FILLED_ATTEND}
         />
         <div id="pg-2" style={styles.anchorToPage2} />
       </div>

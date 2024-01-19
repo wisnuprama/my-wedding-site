@@ -98,20 +98,18 @@ export class RSVPService {
     return [rsvp, undefined];
   }
 
-  public async isEligibleForRSVP(
-    id: string,
-  ): Promise<[boolean, undefined] | [undefined, ServiceError]> {
+  public async isEligibleForRSVP(id: string): Promise<boolean> {
     const [rsvp, err] = await this.getRSVPByIdOrCache(id);
 
     if (err != null) {
-      return [undefined, err];
+      return false;
     }
 
     const { estimatedPax } = deserializeSheetData({
       estimatedPax: rsvp.get("estimated_pax"),
     });
 
-    return [estimatedPax > 0, undefined];
+    return estimatedPax > 0;
   }
 
   public async getUserData(
@@ -132,7 +130,7 @@ export class RSVPService {
     return [data, undefined];
   }
 
-  public async shouldDisplayEventCard(id: string): Promise<boolean> {
+  public async isFilled(id: string): Promise<boolean> {
     const [rsvp, err] = await this.getRSVPByIdOrCache(id);
 
     if (err != null) {
@@ -140,6 +138,22 @@ export class RSVPService {
     }
 
     return rsvp.get("rsvp_done") === "TRUE";
+  }
+
+  public async willAttend(id: string): Promise<boolean> {
+    const [rsvp, err] = await this.getRSVPByIdOrCache(id);
+
+    if (err != null) {
+      return false;
+    }
+
+    return (
+      rsvp.get("will_attend") === "TRUE" && rsvp.get("rsvp_done") === "TRUE"
+    );
+  }
+
+  public async shouldDisplayEventCard(id: string): Promise<boolean> {
+    return this.willAttend(id);
   }
 
   /**

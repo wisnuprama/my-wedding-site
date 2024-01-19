@@ -14,7 +14,10 @@ export function WeddingEventInfoSection(_: WeddingEventInfoSectionProps) {
   const calendarURL = config.CALENDAR_URL;
 
   return (
-    <section className="px-4 py-10 flex items-center justify-center md:min-h-screen">
+    <section
+      id="event-info"
+      className="px-4 py-10 flex items-center justify-center md:min-h-screen"
+    >
       <div
         className="relative h-full w-full md:w-1/2 flex flex-col items-center justify-between rounded-md p-8 backdrop-blur-sm"
         style={{

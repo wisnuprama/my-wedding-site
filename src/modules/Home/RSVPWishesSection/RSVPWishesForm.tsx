@@ -1,7 +1,7 @@
 "use server";
 import { PrimaryLink } from "@/components/Link";
 import { useServerI18n } from "@/core/i18n";
-import { RSVPForm, RSVPViewModel } from "@/modules/RSVP";
+import { RSVPForm, RSVPMode, RSVPViewModel } from "@/modules/RSVP";
 
 type RSVPWishesFormProps = {
   rsvpViewModel: RSVPViewModel;
@@ -26,7 +26,7 @@ export async function RSVPWishesForm(props: RSVPWishesFormProps) {
     );
   }
 
-  if (formExtraData.filled && formExtraData.willAttend) {
+  if (rsvpViewModel.rsvpMode === RSVPMode.FILLED_ATTEND) {
     return (
       <div className="pt-8 px-8 flex flex-col justify-center items-center">
         <p>{i18n.t("msg_thank_you_attending")}</p>
@@ -37,7 +37,7 @@ export async function RSVPWishesForm(props: RSVPWishesFormProps) {
     );
   }
 
-  if (formExtraData.filled && !formExtraData.willAttend) {
+  if (rsvpViewModel.rsvpMode === RSVPMode.FILLED) {
     return (
       <div className="pt-8 px-8 flex justify-center items-center">
         <p>{i18n.t("msg_thank_you_responding")}</p>

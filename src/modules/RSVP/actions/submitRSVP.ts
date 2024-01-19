@@ -39,14 +39,11 @@ export async function submitRSVP(
 
   const rsvpService = await getRSVPService();
 
-  // when user is eligible for RSVP
-  const [isEligibleForRSVP, err] = await rsvpService.isEligibleForRSVP(
-    tokenData.id,
-  );
+  const [__, err] = await rsvpService.getUserData(tokenData.id);
 
   if (err) {
     console.error(
-      "[submitRSVP] Failed to value of isEligibleForRSVP",
+      "[submitRSVP] Failed to get the user data",
       JSON.stringify({
         rsvpId: tokenData.id,
         error: err.message,
@@ -58,6 +55,8 @@ export async function submitRSVP(
     };
   }
 
+  // when user is eligible for RSVP
+  const isEligibleForRSVP = await rsvpService.isEligibleForRSVP(tokenData.id);
   // get the actual pax from the form
   // otherwise, assume the users are not attending, and set the actual pax to 0
   const actualPax = isEligibleForRSVP ? form.get("actualPax")?.toString() : "0";

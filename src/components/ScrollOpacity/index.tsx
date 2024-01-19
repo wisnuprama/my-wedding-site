@@ -15,7 +15,7 @@ export function useScrollOpacity(tagID: string, acceleration: number = 1) {
 
       invariant(element, `Element with ID ${tagID} is not found.`);
 
-      const elementTop = element.offsetTop;
+      // const elementTop = element.offsetTop;
       const elementBottom = element.offsetTop + element.clientHeight;
       const scrollPosition = window.scrollY + window.innerHeight;
 

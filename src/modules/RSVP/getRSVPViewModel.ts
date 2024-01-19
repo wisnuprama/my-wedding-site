@@ -13,16 +13,15 @@ import { ServiceError } from "@/modules/ServiceError";
 import { withPerfTraceLog } from "@/modules/PerfTrace";
 
 interface RSVPService {
-  shouldDisplayEventCard: (rsvpID: string) => Promise<boolean>;
+  isFilled: (rsvpID: string) => Promise<boolean>;
+  willAttend: (rsvpID: string) => Promise<boolean>;
   getUserData: (
     rsvpID: string,
   ) => Promise<[RSVPUserData, undefined] | [undefined, ServiceError]>;
   getFormExtraData: (
     rsvpID: string,
   ) => Promise<[RSVPFormExtraData, undefined] | [undefined, ServiceError]>;
-  isEligibleForRSVP: (
-    rsvpID: string,
-  ) => Promise<[boolean, undefined] | [undefined, ServiceError]>;
+  isEligibleForRSVP: (rsvpID: string) => Promise<boolean>;
 }
 
 export async function getRSVPViewModel(): Promise<RSVPViewModel> {
@@ -61,19 +60,12 @@ export async function getRSVPViewModel(): Promise<RSVPViewModel> {
     console.warn("[getRSVPViewModel] Error when getting userdata from DB", err);
   }
 
-  const [isEligibleForRSVP, err2] = await rsvpService.isEligibleForRSVP(
-    tokenData.id,
-  );
-
-  if (err2) {
-    console.warn(
-      "[getRSVPViewModel] Error when getting isEligibleForRSVP from DB",
-      err2,
-    );
-  }
-
   let rsvpMode = RSVPMode.BLESSING;
-  if (isEligibleForRSVP) {
+  if (await rsvpService.willAttend(tokenData.id)) {
+    rsvpMode = RSVPMode.FILLED_ATTEND;
+  } else if (await rsvpService.isFilled(tokenData.id)) {
+    rsvpMode = RSVPMode.FILLED;
+  } else if (await rsvpService.isEligibleForRSVP(tokenData.id)) {
     rsvpMode = RSVPMode.FULL;
   }
 
@@ -82,11 +74,6 @@ export async function getRSVPViewModel(): Promise<RSVPViewModel> {
     rsvpMode,
     rsvpToken,
     rsvpUserData: userData,
-    shouldDisplayEventCard: async () => {
-      return withPerfTraceLog("rsvpService.shouldDisplayEventCard", () =>
-        rsvpService.shouldDisplayEventCard(tokenData.id),
-      );
-    },
     submit: submitRSVP,
     getFormExtraData: async () => {
       return withPerfTraceLog("rsvpService.getFormExtraData", () =>

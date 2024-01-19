@@ -37,6 +37,8 @@ export enum RSVPMode {
   OFF = "off",
   BLESSING = "blessing",
   FULL = "full",
+  FILLED = "filled",
+  FILLED_ATTEND = "filled-attend",
 }
 
 export type ValidRSVPViewModel = {
@@ -44,7 +46,6 @@ export type ValidRSVPViewModel = {
   rsvpMode: RSVPMode;
   rsvpUserData: RSVPUserData;
   rsvpToken: string;
-  shouldDisplayEventCard: () => Promise<boolean>;
   submit: (state: RSVPFormState, formData: FormData) => Promise<RSVPFormState>;
   getFormExtraData: () => Promise<
     [RSVPFormExtraData, undefined] | [undefined, ServiceError]
