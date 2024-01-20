@@ -68,6 +68,7 @@ export default function RootLayout({ event, children }: RootLayoutProps) {
           type="image/<generated>"
           sizes="<generated>"
         />
+        <script src="https://www.google.com/recaptcha/api.js" async defer />
       </Head>
       <body className={font.className}>
         {event}
