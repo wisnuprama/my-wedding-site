@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import config from "@/core/config";
 
 const metadata: Metadata = {
   metadataBase: new URL("https://nadiawisnu.wedding"),
   title: "The Wedding of Nadia & Wisnu",
-  description: `Join us for the wedding of Nadia and Wisnu on Saturday, 15 June 2024, at SOHO Pancoran Building in Jakarta, Indonesia.`,
+  description:
+    "Celebrate the joy of Nadia and Wisnu's wedding day on Saturday, June 15, 2024, at SOHO Pancoran Building in Jakarta, Indonesia. Your warm wishes and presence will make this wedding day a truly enchanting. We look forward to sharing this special moment with you!",
   robots: "noindex",
   authors: [
     {
