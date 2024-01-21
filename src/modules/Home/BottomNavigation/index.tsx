@@ -96,7 +96,7 @@ function _BottomNavigation(_: BottomNavigationProps) {
         ) : null}
 
         <TabItem>
-          <div className="flex-1 h-full md:pt-0 md:pb-0 flex justify-center items-center">
+          <div className="flex-1 h-full pt-1.5 md:pt-0 md:pb-0 flex justify-center items-center">
             <MusicPlayer />
           </div>
         </TabItem>
