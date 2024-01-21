@@ -8,6 +8,8 @@ import { MusicPlayer, useSharing } from "../index";
 import { RSVPContext, RSVPMode } from "@/modules/RSVP";
 import Link from "next/link";
 
+import "./index.css";
+
 type BottomNavigationProps = {};
 
 function _BottomNavigation(_: BottomNavigationProps) {
@@ -116,7 +118,7 @@ function _BottomNavigation(_: BottomNavigationProps) {
 
 function TabItem({ children }: { children: ReactNode }) {
   return (
-    <div className="w-full h-full text-gray-800 focus:text-teal-500 hover:text-teal-500 hover:fill-teal-500 focus:fill-teal-500 flex items-center justify-center text-center">
+    <div className="w-full h-full flex items-center justify-center text-center">
       {children}
     </div>
   );

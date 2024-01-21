@@ -1,0 +1,25 @@
+#bottom-navigation svg {
+  fill: rgba(var(--foreground-rgb));
+}
+
+#bottom-navigation {
+  color: rgba(var(--foreground-rgb));
+}
+
+#bottom-navigation svg:hover {
+  transform: scale(1.5);
+  fill: rgba(var(--primary-color));
+}
+
+#bottom-navigation:hover {
+  color: rgba(var(--primary-color));
+}
+
+#bottom-navigation svg:active {
+  transform: scale(1.25);
+  fill: rgba(var(--primary-color));
+}
+
+#bottom-navigation:active {
+  color: rgba(var(--primary-color));
+}
