@@ -14,6 +14,7 @@ import Head from "next/head";
 // export const runtime = "edge";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://nadiawisnu.wedding"),
   title: "Nadia & Wisnu Wedding",
   description: "Wedding Invitation",
   robots: "noindex",
