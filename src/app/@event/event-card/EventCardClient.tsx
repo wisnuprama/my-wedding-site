@@ -53,7 +53,7 @@ export function EventCardClient(props: EventCardClient) {
   return (
     <dialog
       ref={dialogRef}
-      className="rounded-md backdrop-blur-2xl shadow-md w-full md:w-4/5 lg:w-1/2 h-full md:h-5/6"
+      className="rounded-md backdrop-blur-2xl shadow-md w-full md:w-4/5 lg:w-1/2 h-fit"
       style={{
         background: "rgba(250, 204, 204, 0.5)",
         color: "rgb(var(--foreground-rgb))",
