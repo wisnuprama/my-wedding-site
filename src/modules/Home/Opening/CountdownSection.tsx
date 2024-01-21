@@ -26,10 +26,14 @@ export function CountdownSection(props: CountdownSectionProps) {
       return null;
     }
 
-    const quoteText =
-      rsvpViewModel.rsvpMode === RSVPMode.FULL
-        ? "label_invitation_card_invite_quote"
-        : "label_invitation_card_blessing_quote";
+    // TODO: refactor this, move to RSVPViewModel
+    const quoteText = [
+      RSVPMode.FULL,
+      RSVPMode.FILLED_ATTEND,
+      RSVPMode.FILLED,
+    ].includes(rsvpViewModel.rsvpMode)
+      ? "label_invitation_card_invite_quote"
+      : "label_invitation_card_blessing_quote";
 
     return (
       <div className="flex-1 flex flex-col justify-center items-center px-2">
