@@ -1,3 +1,4 @@
+import { getServerI18n } from "@/core/i18n";
 import type { Metadata } from "next";
 
 const metadata: Metadata = {
@@ -41,4 +42,14 @@ const metadata: Metadata = {
   },
 };
 
-export default metadata;
+export function generateMetadata() {
+  const description = getServerI18n().t("site_description");
+
+  const m = { ...metadata };
+
+  if (description) {
+    m.description = description;
+  }
+
+  return m;
+}

@@ -5,7 +5,7 @@ import { font } from "@/core/styles";
 import { Analytics } from "@vercel/analytics/react";
 import Head from "next/head";
 
-import _metadata from "./metadata";
+import { generateMetadata as _generateMetadata } from "./metadata";
 
 /**
  * We are using cloudflare so, set this to edge
@@ -15,7 +15,8 @@ import _metadata from "./metadata";
  */
 // export const runtime = "edge";
 
-export const metadata: Metadata = _metadata;
+// export const metadata: Metadata = _metadata;
+export const generateMetadata = _generateMetadata;
 
 type RootLayoutProps = {
   event: React.ReactNode;
