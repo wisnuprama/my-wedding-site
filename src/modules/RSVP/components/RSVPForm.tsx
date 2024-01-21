@@ -46,6 +46,7 @@ type RSVPFormProps = {
   estimatedPax: number;
   rsvpMode: RSVPMode;
   rsvpToken: string;
+  recaptchaSiteKey?: string;
 };
 
 const initialState: RSVPFormState = {
@@ -54,7 +55,8 @@ const initialState: RSVPFormState = {
 };
 
 export function RSVPForm(props: RSVPFormProps) {
-  const { name, estimatedPax, submit, rsvpToken, rsvpMode } = props;
+  const { name, estimatedPax, submit, rsvpToken, rsvpMode, recaptchaSiteKey } =
+    props;
   const router = useRouter();
   const i18n = useI18n();
 
@@ -94,6 +96,9 @@ export function RSVPForm(props: RSVPFormProps) {
   return (
     <div className="mt-12 md:w-1/2 w-full self-center">
       <form className="flex flex-col" action={formAction}>
+        {recaptchaSiteKey && (
+          <div className="g-recaptcha" data-sitekey={recaptchaSiteKey} />
+        )}
         <input type="hidden" value={rsvpToken} name="rsvpToken" />
         <InputContainer
           labelText={i18n.t("label_full_name")}

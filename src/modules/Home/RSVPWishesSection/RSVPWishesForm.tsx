@@ -54,6 +54,7 @@ export async function RSVPWishesForm(props: RSVPWishesFormProps) {
       estimatedPax={formExtraData.estimatedPax}
       rsvpMode={rsvpViewModel.rsvpMode}
       submit={rsvpViewModel.submit}
+      recaptchaSiteKey={rsvpViewModel.recaptchaSiteKey}
     />
   );
 }

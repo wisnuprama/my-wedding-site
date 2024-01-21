@@ -11,6 +11,7 @@ import {
 } from "./types";
 import { ServiceError } from "@/modules/ServiceError";
 import { withPerfTraceLog } from "@/modules/PerfTrace";
+import { GoogleCaptchaV2 } from "../Captcha";
 
 interface RSVPService {
   isFilled: (rsvpID: string) => Promise<boolean>;
@@ -69,11 +70,14 @@ export async function getRSVPViewModel(): Promise<RSVPViewModel> {
     rsvpMode = RSVPMode.FULL;
   }
 
+  const captch = GoogleCaptchaV2.create();
+
   return {
     isValidRSVP,
     rsvpMode,
     rsvpToken,
     rsvpUserData: userData,
+    recaptchaSiteKey: captch.getSiteKey(),
     submit: submitRSVP,
     getFormExtraData: async () => {
       return withPerfTraceLog("rsvpService.getFormExtraData", () =>

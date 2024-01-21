@@ -46,6 +46,7 @@ export type ValidRSVPViewModel = {
   rsvpMode: RSVPMode;
   rsvpUserData: RSVPUserData;
   rsvpToken: string;
+  recaptchaSiteKey: string;
   submit: (state: RSVPFormState, formData: FormData) => Promise<RSVPFormState>;
   getFormExtraData: () => Promise<
     [RSVPFormExtraData, undefined] | [undefined, ServiceError]

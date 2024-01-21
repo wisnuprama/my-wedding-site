@@ -10,8 +10,8 @@ type VerifyResponse = {
 
 export class GoogleCaptchaV2 implements Captcha<string> {
   constructor(
-    public siteKey: string,
-    private secretKey: string,
+    private readonly siteKey: string,
+    private readonly secretKey: string,
   ) {}
 
   getSiteKey(): string {
