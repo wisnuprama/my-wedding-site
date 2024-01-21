@@ -5,6 +5,8 @@ import { font } from "@/core/styles";
 import { Analytics } from "@vercel/analytics/react";
 import Head from "next/head";
 
+import _metadata from "./metadata";
+
 /**
  * We are using cloudflare so, set this to edge
  * https://nextjs.org/docs/app/building-your-application/rendering/edge-and-nodejs-runtimes#segment-runtime-option
@@ -13,45 +15,7 @@ import Head from "next/head";
  */
 // export const runtime = "edge";
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://nadiawisnu.wedding"),
-  title: "Nadia & Wisnu Wedding",
-  description: "Wedding Invitation",
-  robots: "noindex",
-  authors: [
-    {
-      name: "Wisnu Pramadhitya Ramadhan",
-    },
-    {
-      name: "Nadia Rizqi Aziza",
-    },
-  ],
-  icons: {
-    apple: "/apple-touch-icon.png",
-    icon: [
-      {
-        url: "/favicon-16x16.png",
-        sizes: "16x16",
-        type: "image/png",
-      },
-      {
-        url: "/favicon-32x32.png",
-        sizes: "32x32",
-        type: "image/png",
-      },
-      {
-        url: "/android-chrome-192x192.png",
-        sizes: "192x192",
-        type: "image/png",
-      },
-      {
-        url: "/android-chrome-512x512.png",
-        sizes: "512x512",
-        type: "image/png",
-      },
-    ],
-  },
-};
+export const metadata: Metadata = _metadata;
 
 type RootLayoutProps = {
   event: React.ReactNode;
