@@ -53,7 +53,8 @@ export function EventCardClient(props: EventCardClient) {
   return (
     <dialog
       ref={dialogRef}
-      className="rounded-md backdrop-blur-2xl shadow-md w-full md:w-4/5 lg:w-1/2 h-fit"
+      // we should h-fit, but safari does not support. Must hardcode specific value
+      className="rounded-md backdrop-blur-2xl shadow-md w-full md:w-4/5 lg:w-1/2 h-full md:h-5/6"
       style={{
         background: "rgba(250, 204, 204, 0.5)",
         color: "rgb(var(--foreground-rgb))",
