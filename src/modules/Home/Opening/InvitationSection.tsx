@@ -64,8 +64,8 @@ export function InvitationSection(props: InvitationSectionProps) {
           playsInline
           poster="/assets/images/fallback-opening-video.jpeg"
         >
-          <source src="/assets/videos/home.webm" type="video/webm" />
-          <source src="/assets/videos/home.mp4" type="video/mp4" />
+          <source src="/assets/videos/home-1.webm" type="video/webm" />
+          <source src="/assets/videos/home-1.mp4" type="video/mp4" />
         </video>
         <VideoAutoPlay />
       </div>
