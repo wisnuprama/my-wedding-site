@@ -26,6 +26,7 @@ function BankAccount(props: BankAccountProps) {
         alt={`Bank logo of ${bankName}`}
         width={65}
         height={46}
+        loading="lazy"
       />
       <div className="text-center">
         <div>{accountNumber}</div>

@@ -33,6 +33,7 @@ export function PersonInfo(props: PersonInfoProps) {
         src={imageSrc}
         width={140}
         height={140}
+        loading="lazy"
         alt={[name, subtitle, description].join(" ")}
         className="rounded-full object-cover aspect-square"
         style={imageStyle}
