@@ -69,7 +69,8 @@ function _BottomNavigation(_: BottomNavigationProps) {
   return (
     <div
       id="bottom-navigation"
-      className="fixed bottom-4 z-10 shadow w-4/5 left-1/2 -translate-x-1/2 rounded-xl backdrop-blur-md md:w-12 md:bottom-1/2 md:translate-y-1/2 md:left-full md:-ml-10 md:h-1/3"
+      className={`z-10 shadow w-4/5 rounded-xl backdrop-blur-md sticky bottom-4 left-[10%]
+      md:fixed md:w-12 md:bottom-1/2 md:translate-y-1/2 md:-translate-x-1/2 md:left-full md:-ml-10 md:h-1/3`}
       style={{
         background: "rgba(var(--background-dialog))",
       }}
