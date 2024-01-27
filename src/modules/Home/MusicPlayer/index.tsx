@@ -57,7 +57,9 @@ const PlayerBtn = memo(function _PlayerBtn(props: {
     <div className="flex items-center justify-center">
       <IcButton
         onClick={handlePlay}
-        className="text-right h-auto w-auto relative rounded-full hover:rounded-none overflow-hidden"
+        className={`text-right h-auto w-auto relative rounded-full ${
+          audioPlayer.current?.paused ? "" : "rounded-none"
+        } hover:rounded-none overflow-hidden`}
         style={{
           transition: "all .3s ease-in-out",
         }}
@@ -69,7 +71,7 @@ const PlayerBtn = memo(function _PlayerBtn(props: {
           width={40}
           height={40}
           priority
-          className="h-full w-full absolute opacity-50 left-0 right-0 top-0 bottom-0 -z-10"
+          className="h-full w-full absolute opacity-50 left-0 right-0 top-0 bottom-0 -z-10 rounded-sm"
         />
       </IcButton>
     </div>
