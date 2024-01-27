@@ -26,31 +26,9 @@ function _Wish(props: {
 
   const i18n = useI18n();
 
-  const formatter = new Intl.RelativeTimeFormat(i18n.getLocale(), {
-    style: "short",
-  });
-
-  const diffDays = useMemo(() => {
-    // Calculate the number of days between today and the wish date
-    const today = new Date();
-    const wishDate = new Date(data.ctime * 1000);
-    const diffTime = Math.abs(today.getTime() - wishDate.getTime());
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  }, [data.ctime]);
-
-  const format = (() => {
-    if (diffDays < 1) {
-      return "hours";
-    } else if (diffDays < 7) {
-      return "days";
-    } else if (diffDays < 30) {
-      return "weeks";
-    } else if (diffDays < 365) {
-      return "months";
-    }
-
-    return "years";
-  })();
+  const timeAgo = useMemo(() => {
+    return formatTimeAgo(new Date(data.ctime * 1000), i18n);
+  }, [data.ctime, i18n]);
 
   return (
     <div style={props.style} className="pb-2">
@@ -64,7 +42,7 @@ function _Wish(props: {
           <p>
             <strong>{data.from}</strong>
           </p>
-          <p>{formatter.format(-diffDays, format)}</p>
+          <p>{timeAgo}</p>
         </div>
         <p className="mt-1 break-words text-ellipsis text-truncate">
           {data.message}
@@ -119,4 +97,31 @@ export function RSVPWishesPagination(props: RSVPWishesPaginationProps) {
       )}
     </div>
   );
+}
+
+const DIVISIONS: Array<{ amount: number; name: Intl.RelativeTimeFormatUnit }> =
+  [
+    { amount: 60, name: "seconds" },
+    { amount: 60, name: "minutes" },
+    { amount: 24, name: "hours" },
+    { amount: 7, name: "days" },
+    { amount: 4.34524, name: "weeks" },
+    { amount: 12, name: "months" },
+    { amount: Number.POSITIVE_INFINITY, name: "years" },
+  ];
+
+function formatTimeAgo(date: Date, i18n: ReturnType<typeof useI18n>) {
+  // @ts-expect-error
+  let duration = (date - new Date()) / 1000;
+
+  const formatter = new Intl.RelativeTimeFormat(i18n.getLocale(), {
+    style: "short",
+  });
+
+  for (const division of DIVISIONS) {
+    if (Math.abs(duration) < division.amount) {
+      return formatter.format(Math.round(duration), division.name);
+    }
+    duration /= division.amount;
+  }
 }
