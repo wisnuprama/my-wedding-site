@@ -15,6 +15,7 @@ import "./index.css";
 import invariant from "invariant";
 import Image from "next/image";
 import { IcButton } from "@/components/Link";
+import config from "@/core/config";
 
 const PlayerBtn = memo(function _PlayerBtn(props: {
   audioPlayer: RefObject<HTMLAudioElement>;
@@ -29,7 +30,7 @@ const PlayerBtn = memo(function _PlayerBtn(props: {
     const player = audioPlayer.current;
 
     if (player.paused) {
-      player.volume = 0.2;
+      player.volume = config.MUSIC_MAX_VOLUME ?? 1;
       player.play();
 
       setTimeout(() => {

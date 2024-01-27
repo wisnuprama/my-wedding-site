@@ -19,6 +19,11 @@ interface Config {
    * In cronjob syntax. Default daily at 00:00.
    */
   CACHE_REFRESH_SCHEDULE?: string;
+
+  /**
+   * Default is 1 (100%)
+   */
+  MUSIC_MAX_VOLUME?: number;
 }
 
 declare const config: Config;
