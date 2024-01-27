@@ -29,7 +29,7 @@ export function InvitationSection(props: InvitationSectionProps) {
         id="open-invitation"
         className="flex flex-col h-full justify-end md:pt-24"
       >
-        <div className="flex flex-col items-center justify-evenly">
+        <div className="flex flex-col items-center justify-evenly pb-8 md:pb-0">
           <div key="block" />
           <div className="flex flex-col items-center">
             <span className="text-xl">
