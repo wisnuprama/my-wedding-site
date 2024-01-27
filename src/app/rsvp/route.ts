@@ -2,6 +2,7 @@ import { RSVPTokenManager } from "@/modules/RSVP/RSVPTokenManager";
 import { NextResponse } from "next/server";
 // @ts-expect-error - no types
 import cookie from "cookie";
+import { generateMetadata } from "../metadata";
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -56,8 +57,40 @@ export async function GET(request: Request) {
       maxAge: 60 * 60 * 24 * 365 * 10,
     }),
   );
+
+  const metadata = generateMetadata();
+
+  // NOTE
+  // need to update the opengraph metadata manually
   const response = new Response(
-    `<script>window.location.href = '${redirectURL.toString()}'</script>`,
+    `<html>
+    <head>
+      <title>${metadata.title}</title>
+      <meta name="description" content="${metadata.description}" />
+      <meta name="robots" content="${metadata.robots}" />
+      <meta property="og:title" content="The Wedding of Nadia &amp; Wisnu">
+      <meta property="og:description"
+        content="${metadata.description}">
+      <meta property="og:image:type" content="image/jpeg">
+      <meta property="og:image:width" content="1200">
+      <meta property="og:image:height" content="630">
+      <meta property="og:image:alt"
+        content="Join us for the wedding of Nadia and Wisnu on Saturday, 15 June 2024, at SOHO Pancoran Building in Jakarta, Indonesia.">
+      <meta property="og:image" content="https://nadiawisnu.wedding/opengraph-image.jpg?9ad113ebb9deb4e2">
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:title" content="The Wedding of Nadia &amp; Wisnu">
+      <meta name="twitter:description"
+        content="${metadata.description}">
+      <meta name="twitter:image:type" content="image/jpeg">
+      <meta name="twitter:image:width" content="1200">
+      <meta name="twitter:image:height" content="630">
+      <meta name="twitter:image:alt"
+        content="Join us for the wedding of Nadia and Wisnu on Saturday, 15 June 2024, at SOHO Pancoran Building in Jakarta, Indonesia.">
+      <meta name="twitter:image" content="https://nadiawisnu.wedding/twitter-image.jpg?9ad113ebb9deb4e2">
+      <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16">
+    </head>
+    <script>window.location.href = '${redirectURL.toString()}'</script>
+    </html>`,
     {
       status: 200,
       headers,
