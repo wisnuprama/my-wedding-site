@@ -50,7 +50,7 @@ export class WishesSheetModel {
       await this.refreshCache();
     }
 
-    return this.rowCache;
+    return this.rowCache!;
   }
 
   public async findAll() {
