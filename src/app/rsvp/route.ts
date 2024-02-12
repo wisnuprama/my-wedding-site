@@ -4,6 +4,10 @@ import { NextResponse } from "next/server";
 import cookie from "cookie";
 import { generateMetadata } from "../metadata";
 
+/**
+ * Some opengraph service can only accept limited chars and the RSVP token is too long.
+ * So in some cases it won't display properly. We will use URL shortener /s/:slug for sharing.
+ */
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const rsvpToken = url.searchParams.get("t");
