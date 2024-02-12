@@ -24,6 +24,11 @@ interface Config {
    * Default is 1 (100%)
    */
   MUSIC_MAX_VOLUME?: number;
+
+  /**
+   * To control how many images to be displayed in the gallery.
+   */
+  MAX_GALLERY_IMAGES?: number;
 }
 
 declare const config: Config;
