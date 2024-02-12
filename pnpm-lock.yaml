@@ -59,12 +59,12 @@ dependencies:
   react-dom:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
+  react-photo-gallery:
+    specifier: ^8.0.0
+    version: 8.0.0(react-dom@18.2.0)(react@18.2.0)
   react-qr-code:
     specifier: ^2.0.12
     version: 2.0.12(react@18.2.0)
-  react-responsive-masonry:
-    specifier: ^2.1.7
-    version: 2.1.7
   react-virtualized-auto-sizer:
     specifier: ^1.0.20
     version: 1.0.20(react-dom@18.2.0)(react@18.2.0)
@@ -100,9 +100,6 @@ devDependencies:
   '@types/react-dom':
     specifier: 18.2.15
     version: 18.2.15
-  '@types/react-responsive-masonry':
-    specifier: ^2.1.3
-    version: 2.1.3
   '@types/react-virtualized-auto-sizer':
     specifier: ^1.0.3
     version: 1.0.3
@@ -537,12 +534,6 @@ packages:
 
   /@types/react-dom@18.2.15:
     resolution: {integrity: sha512-HWMdW+7r7MR5+PZqJF6YFNSCtjz1T0dsvo/f1BV6HkV+6erD/nA7wd9NM00KVG83zf2nJ7uATPO9ttdIPvi3gg==}
-    dependencies:
-      '@types/react': 18.2.37
-    dev: true
-
-  /@types/react-responsive-masonry@2.1.3:
-    resolution: {integrity: sha512-aOFUtv3QwNMmy0BgpQpvivQ/+vivMTB6ARrzf9eTSXsLzXpVnfEtjpHpSknYDnr8KaQmlgeauAj8E7wo/qMOTg==}
     dependencies:
       '@types/react': 18.2.37
     dev: true
@@ -3111,6 +3102,14 @@ packages:
     hasBin: true
     dev: true
 
+  /prop-types@15.7.2:
+    resolution: {integrity: sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+      react-is: 16.13.1
+    dev: false
+
   /prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
     dependencies:
@@ -3171,6 +3170,18 @@ packages:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: false
 
+  /react-photo-gallery@8.0.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-Y9458yygEB9cIZAWlBWuenlR+ghin1RopmmU3Vice8BeJl0Se7hzfxGDq8W1armB/ic/kphGg+G1jq5fOEd0sw==}
+    peerDependencies:
+      react: ^16.8.0
+      react-dom: ^16.8.0
+    dependencies:
+      prop-types: 15.7.2
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      resize-observer-polyfill: 1.5.1
+    dev: false
+
   /react-qr-code@2.0.12(react@18.2.0):
     resolution: {integrity: sha512-k+pzP5CKLEGBRwZsDPp98/CAJeXlsYRHM2iZn1Sd5Th/HnKhIZCSg27PXO58zk8z02RaEryg+60xa4vyywMJwg==}
     peerDependencies:
@@ -3183,10 +3194,6 @@ packages:
       prop-types: 15.8.1
       qr.js: 0.0.0
       react: 18.2.0
-    dev: false
-
-  /react-responsive-masonry@2.1.7:
-    resolution: {integrity: sha512-/jOqnTVNtO8zRJMTl6ZXBex7EFYEIFBLVlkIFjiCT7omfm0CgNF2z4ST8RIr0v2ut15NWAQs7Q3kJJPhMoe3Ew==}
     dev: false
 
   /react-transition-group@4.4.5(react-dom@18.2.0)(react@18.2.0):
@@ -3278,6 +3285,10 @@ packages:
       call-bind: 1.0.5
       define-properties: 1.2.1
       set-function-name: 2.0.1
+    dev: false
+
+  /resize-observer-polyfill@1.5.1:
+    resolution: {integrity: sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==}
     dev: false
 
   /resolve-from@4.0.0:
