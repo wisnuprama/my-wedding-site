@@ -28,7 +28,7 @@ export function CountdownSection(props: CountdownSectionProps) {
 
     // TODO: refactor this, move to RSVPViewModel
     const quoteText = [
-      RSVPMode.FULL,
+      RSVPMode.ELIGIBLE,
       RSVPMode.FILLED_ATTEND,
       RSVPMode.FILLED,
     ].includes(rsvpViewModel.rsvpMode)

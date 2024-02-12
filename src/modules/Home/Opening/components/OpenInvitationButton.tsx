@@ -14,7 +14,7 @@ export function OpenInvitationButton() {
 
   const btnTextKey = useMemo(
     () =>
-      [RSVPMode.FULL, RSVPMode.FILLED_ATTEND, RSVPMode.FILLED].includes(
+      [RSVPMode.ELIGIBLE, RSVPMode.FILLED_ATTEND, RSVPMode.FILLED].includes(
         rsvp.rsvpMode,
       )
         ? "label_open_invitation"

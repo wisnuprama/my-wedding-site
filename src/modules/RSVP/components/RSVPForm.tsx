@@ -87,8 +87,8 @@ export function RSVPForm(props: RSVPFormProps) {
     return options;
   }, []);
 
-  const isFullRSVP = rsvpMode === RSVPMode.FULL;
-  const disableName = [RSVPMode.BLESSING, RSVPMode.FULL].includes(rsvpMode);
+  const isFullRSVP = rsvpMode === RSVPMode.ELIGIBLE;
+  const disableName = [RSVPMode.BLESSING, RSVPMode.ELIGIBLE].includes(rsvpMode);
   const isWishesRequired = [RSVPMode.OFF].includes(rsvpMode);
 
   return (

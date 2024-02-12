@@ -66,7 +66,7 @@ export async function getRSVPViewModel(): Promise<RSVPViewModel> {
   } else if (await rsvpService.isFilled(tokenData.id)) {
     rsvpMode = RSVPMode.FILLED;
   } else if (await rsvpService.isEligibleForRSVP(tokenData.id)) {
-    rsvpMode = RSVPMode.FULL;
+    rsvpMode = RSVPMode.ELIGIBLE;
   }
 
   return {
