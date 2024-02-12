@@ -15,6 +15,7 @@ import {
 } from "@/modules/Home";
 import { reviewRSVPSession } from "@/modules/RSVP/components/RSVPSessionCookies";
 import { BottomNavigation } from "@/modules/Home/BottomNavigation";
+import { GallerySection } from "@/modules/Home/ImageGallery";
 
 type HomeProps = {
   searchParams: {
@@ -56,6 +57,7 @@ export default async function Home({ searchParams }: HomeProps) {
           <WeddingEventInfoSection />
           <RSVPWishesSection rsvpViewModel={rsvpViewModel} />
           <LoveGiftSection />
+          <GallerySection />
         </main>
         <BottomNavigation />
         <Footer />

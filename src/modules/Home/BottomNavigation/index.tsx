@@ -37,7 +37,7 @@ function _BottomNavigation(_: BottomNavigationProps) {
           </TabItem>
         );
 
-      case RSVPMode.FULL:
+      case RSVPMode.ELIGIBLE:
         return (
           <>
             <TabItem>

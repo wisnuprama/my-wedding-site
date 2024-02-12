@@ -36,7 +36,7 @@ export type RSVPUserData = {
 export enum RSVPMode {
   OFF = "off",
   BLESSING = "blessing",
-  FULL = "full",
+  ELIGIBLE = "eligible",
   FILLED = "filled",
   FILLED_ATTEND = "filled-attend",
 }
