@@ -39,7 +39,7 @@ function ImageGallery(props: ImageGalleryProps) {
   const { images } = props;
 
   return (
-    <Gallery photos={images} direction="row" margin={8} renderImage={Photo} />
+    <Gallery photos={images} direction="row" margin={4} renderImage={Photo} />
   );
 }
 
