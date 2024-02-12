@@ -1,7 +1,7 @@
 "use client";
 import { FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { memo, useMemo } from "react";
+import { memo, useEffect, useMemo, useReducer } from "react";
 import { useI18n } from "@/core/i18n";
 
 export type WishItem = {
@@ -17,18 +17,50 @@ type RSVPWishesPaginationProps = {
   wishesJSON: string;
 };
 
+const NEED_REFRESH_TIME = 1 * 60 * 1000;
+
+function CreatedRelativeTime(props: { ctime: number }) {
+  const i18n = useI18n();
+
+  const [renderCount, forceRender] = useReducer((state) => state + 1, 0);
+
+  const timeAgo = useMemo(() => {
+    renderCount; // to silent react lint
+    return formatTimeAgo(new Date(props.ctime * 1000), i18n);
+  }, [props.ctime, i18n, renderCount]);
+
+  useEffect(() => {
+    const cmilis = props.ctime * 1000;
+
+    let interval: ReturnType<typeof setInterval>;
+
+    // if below 1 min
+    if (Date.now() - cmilis < NEED_REFRESH_TIME) {
+    }
+
+    interval = setInterval(() => {
+      if (Date.now() - cmilis > NEED_REFRESH_TIME) {
+        clearInterval(interval);
+        return;
+      }
+
+      forceRender();
+    }, 1000);
+
+    return () => {
+      interval && clearInterval(interval);
+    };
+  }, [props.ctime]);
+
+  return timeAgo;
+}
+
 function _Wish(props: {
   index: number;
   style: React.CSSProperties;
   data: WishItem[];
 }) {
   const data = props.data[props.index];
-
-  const i18n = useI18n();
-
-  const timeAgo = useMemo(() => {
-    return formatTimeAgo(new Date(data.ctime * 1000), i18n);
-  }, [data.ctime, i18n]);
 
   return (
     <div style={props.style} className="pb-2">
@@ -42,7 +74,9 @@ function _Wish(props: {
           <p>
             <strong>{data.from}</strong>
           </p>
-          <p>{timeAgo}</p>
+          <p>
+            <CreatedRelativeTime ctime={data.ctime} />
+          </p>
         </div>
         <p className="mt-1 break-words text-ellipsis text-truncate">
           {data.message}
