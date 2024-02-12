@@ -19,7 +19,7 @@ function InnerInvitationQR({ value }: InvitationQRProps) {
     <div className="flex flex-col items-center">
       <p className="text-center">{i18n.t("msg_qrcode_description")}</p>
       <div
-        className="mt-4 p-2 bg-white shadow-inner rounded-md cursor-pointer active:opacity-50"
+        className="mt-8 p-2 bg-white shadow-inner rounded-md cursor-pointer active:opacity-50"
         onClick={warnHandler}
       >
         <QRCode size={140} value={value} />
