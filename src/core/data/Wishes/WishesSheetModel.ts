@@ -46,7 +46,11 @@ export class WishesSheetModel {
   }
 
   public async findAllFromCache() {
-    return this.rowCache ?? this.findAll();
+    if (!this.rowCache || process.env.DISABLE_CACHING) {
+      await this.refreshCache();
+    }
+
+    return this.rowCache;
   }
 
   public async findAll() {

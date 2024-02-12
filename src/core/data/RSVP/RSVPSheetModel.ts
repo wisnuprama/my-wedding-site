@@ -54,7 +54,7 @@ export class RSVPSheetModel {
    * @returns CellRow | undefined
    */
   public async findByIdFromCache(id: string) {
-    if (this.rowCache.size === 0) {
+    if (this.rowCache.size === 0 || process.env.DISABLE_CACHING) {
       // load cache first, cheaper than calling Google Sheets API everytime we get a request
       await this.refreshCache();
     }
