@@ -50,6 +50,54 @@ export function EventCardClient(props: EventCardClient) {
     day: "numeric",
   });
 
+  function renderEventContent() {
+    return (
+      <div className="mt-6">
+        <div className="w-full flex flex-col items-center">
+          <div className={`text-center text-base sm:text-lg md:text-xl`}>
+            <span>{dateFormatter.format(weddingDate * 1000)}</span>
+            {schedules && (
+              <div className="underline underline-offset-2">
+                {schedules.map((s) => (
+                  <Fragment key={s.titleKey}>
+                    {timeFormatter.formatRange(
+                      s.startTime * 1000,
+                      s.endTime * 1000,
+                    )}{" "}
+                    ({i18n.t(s.titleKey)})
+                    <br />
+                  </Fragment>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="w-full flex flex-col items-center mt-6 sm:mt-10">
+          <div className="text-center">
+            <div className="text-base sm:text-lg md:text-xl">
+              {i18n.t("label_venue_building")}
+            </div>
+            <div className="text-base mt-1">
+              {i18n.t("label_venue_address_1")}{" "}
+              {i18n.t("label_venue_address_2")}
+            </div>
+          </div>
+
+          {mapURL && (
+            <PrimaryAnchor
+              className="mt-5"
+              target="_blank"
+              href={mapURL}
+              rel="noreferrer nofollow"
+            >
+              {i18n.t("label_view_maps")}
+            </PrimaryAnchor>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <dialog
       ref={dialogRef}
@@ -72,49 +120,7 @@ export function EventCardClient(props: EventCardClient) {
             {personName}
           </h1>
           <InvitationQR value={qrcodeValue} />
-          <div className="mt-6">
-            <div className="w-full flex flex-col items-center">
-              <div className={`text-center text-base sm:text-lg md:text-xl`}>
-                <span>{dateFormatter.format(weddingDate * 1000)}</span>
-                {schedules && (
-                  <div className="underline underline-offset-2">
-                    {schedules.map((s) => (
-                      <Fragment key={s.titleKey}>
-                        {timeFormatter.formatRange(
-                          s.startTime * 1000,
-                          s.endTime * 1000,
-                        )}{" "}
-                        ({i18n.t(s.titleKey)})
-                        <br />
-                      </Fragment>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="w-full flex flex-col items-center mt-6 sm:mt-10">
-              <div className="text-center">
-                <div className="text-base sm:text-lg md:text-xl">
-                  {i18n.t("label_venue_building")}
-                </div>
-                <div className="text-base mt-1">
-                  {i18n.t("label_venue_address_1")}{" "}
-                  {i18n.t("label_venue_address_2")}
-                </div>
-              </div>
-
-              {mapURL && (
-                <PrimaryAnchor
-                  className="mt-5"
-                  target="_blank"
-                  href={mapURL}
-                  rel="noreferrer nofollow"
-                >
-                  {i18n.t("label_view_maps")}
-                </PrimaryAnchor>
-              )}
-            </div>
-          </div>
+          {renderEventContent()}
         </main>
         <div
           className="backdrop-filter-md flex flex-col justify-between items-center p-2"
