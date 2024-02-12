@@ -10,6 +10,10 @@ export type GallerySectionProps = {};
 function GallerySection() {
   const i18n = useI18n();
 
+  if (images.length === 0) {
+    return null; // hide gallery if no images
+  }
+
   const filteredImages =
     config.MAX_GALLERY_IMAGES && images.length > config.MAX_GALLERY_IMAGES
       ? images.slice(0, config.MAX_GALLERY_IMAGES)
