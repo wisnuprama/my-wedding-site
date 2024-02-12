@@ -56,6 +56,7 @@ const Wish = memo(_Wish);
 
 export function RSVPWishesPagination(props: RSVPWishesPaginationProps) {
   const { wishesJSON } = props;
+  const i18n = useI18n();
 
   const parsedWishes = useMemo((): WishItem[] => {
     try {
@@ -92,7 +93,7 @@ export function RSVPWishesPagination(props: RSVPWishesPaginationProps) {
         </AutoSizer>
       ) : (
         <div className="text-3xl flex justify-center items-center h-full">
-          ❤️
+          {i18n.t("msg_empty_wishes")}
         </div>
       )}
     </div>
