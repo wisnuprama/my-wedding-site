@@ -8,16 +8,17 @@ export function useSharing(
   const i18n = useI18n();
 
   const handleSharing = async () => {
-    if (!navigator.share) {
-      alert(i18n.t("msg_alert_sharing_clipboard"));
-    }
-
     const data = getData();
 
-    navigator.clipboard.writeText(data.url);
-    try {
-      await navigator.share(data);
-    } catch (_) {}
+    console.log(data);
+
+    if (!navigator.share) {
+      await navigator.clipboard.writeText(data.url);
+      alert(i18n.t("msg_alert_sharing_clipboard"));
+      return;
+    }
+
+    await navigator.share(data);
   };
 
   return handleSharing;
