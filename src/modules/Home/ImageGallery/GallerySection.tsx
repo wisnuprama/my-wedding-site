@@ -31,11 +31,7 @@ function GallerySection() {
       >
         {i18n.t("title_gallery")}
       </h1>
-      <div className=" h-full w-full absolute overflow-x-scroll pl-8 md:pl-16 lg:pl-24 xl:pl-64 scroll-smooth no-scrollbar top-40">
-        <div className="w-[calc(100vh*6)]">
-          <ImageGallery images={filteredImages} />
-        </div>
-      </div>
+      <ImageGallery images={filteredImages} />
     </section>
   );
 }

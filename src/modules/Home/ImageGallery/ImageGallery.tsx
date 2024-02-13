@@ -6,6 +6,7 @@ import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
 import { memo, useCallback, useContext, useState } from "react";
 import { DisableScrollContext } from "@/components/DisableScroll/context";
+import { useDragScrollX } from "@/common/hooks";
 
 type ImageItem = {
   src: string;
@@ -92,41 +93,48 @@ function InnerImageGallery(props: ImageGalleryProps) {
     enableScroll();
   }, [enableScroll]);
 
+  const containerRef = useDragScrollX();
+
   return (
-    <>
-      <TypedGallery
-        photos={images}
-        direction="row"
-        margin={4}
-        renderImage={Photo}
-        onClick={handleImageClick}
-      />
-      <Lightbox
-        index={index}
-        slides={images}
-        render={{
-          slide: ({ slide }) => (
-            <Image
-              key={index}
-              // @ts-expect-error
-              src={slide.static}
-              alt={slide.alt ?? ""}
-              fill
-              loading="lazy"
-              placeholder="blur"
-              className="yarl__slide_image"
-              unoptimized // need to be unoptimized for preserve the quality when zooming
-              draggable={false}
-            />
-          ),
-        }}
-        open={index >= 0}
-        close={handleReset}
-        plugins={[Zoom]}
-        zoom={ZOOM_CONFIG}
-        animation={ANIMATION_CONFIG}
-      />
-    </>
+    <div
+      ref={containerRef}
+      className=" h-full w-full absolute overflow-x-scroll pl-8 md:pl-16 lg:pl-24 xl:pl-64 scroll-smooth no-scrollbar top-40"
+    >
+      <div className="w-[calc(100vh*6)]">
+        <TypedGallery
+          photos={images}
+          direction="row"
+          margin={4}
+          renderImage={Photo}
+          onClick={handleImageClick}
+        />
+        <Lightbox
+          index={index}
+          slides={images}
+          render={{
+            slide: ({ slide }) => (
+              <Image
+                key={index}
+                // @ts-expect-error
+                src={slide.static}
+                alt={slide.alt ?? ""}
+                fill
+                loading="lazy"
+                placeholder="blur"
+                className="yarl__slide_image"
+                unoptimized // need to be unoptimized for preserve the quality when zooming
+                draggable={false}
+              />
+            ),
+          }}
+          open={index >= 0}
+          close={handleReset}
+          plugins={[Zoom]}
+          zoom={ZOOM_CONFIG}
+          animation={ANIMATION_CONFIG}
+        />
+      </div>
+    </div>
   );
 }
 
