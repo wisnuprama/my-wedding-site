@@ -22,14 +22,18 @@ function GallerySection() {
   return (
     <section
       id="gallery"
-      className="min-h-screen px-8 py-8 md:px-16 lg:px-24 xl:px-64 md:flex md:flex-col"
+      className="min-h-screen py-8 md:flex md:flex-col relative"
     >
       <h1
         className={`text-4xl sm:text-5xl md:text-7xl ${fontCursive.className} text-center mb-8`}
       >
         {i18n.t("title_gallery")}
       </h1>
-      <ImageGallery images={filteredImages} />
+      <div className=" h-full w-full absolute overflow-x-scroll pl-8 md:pl-16 lg:pl-24 xl:pl-64 scroll-smooth no-scrollbar top-40">
+        <div className="w-[calc(100vh*6)]">
+          <ImageGallery images={filteredImages} />
+        </div>
+      </div>
     </section>
   );
 }

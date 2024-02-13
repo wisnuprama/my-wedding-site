@@ -56,8 +56,8 @@ export default async function Home({ searchParams }: HomeProps) {
           <BrideGroomSection />
           <WeddingEventInfoSection />
           <RSVPWishesSection rsvpViewModel={rsvpViewModel} />
-          <LoveGiftSection />
           <GallerySection />
+          <LoveGiftSection />
         </main>
         <BottomNavigation />
         <Footer />
