@@ -3,12 +3,21 @@
 import { PrimaryButton } from "@/components/Link";
 import "./globals.css";
 
+import * as Sentry from "@sentry/nextjs";
+import Error from "next/error";
+import { useEffect } from "react";
+
 export default function GlobalError({
   reset,
+  error,
 }: {
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  useEffect(() => {
+    Sentry.captureException(error);
+  }, [error]);
+
   return (
     <html>
       <body>
