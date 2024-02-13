@@ -38,7 +38,8 @@
     "react-window": "^1.8.10",
     "sharp": "^0.32.6",
     "tailwindcss": "3.4.0",
-    "typescript": "5.3.3"
+    "typescript": "5.3.3",
+    "yet-another-react-lightbox": "^3.17.0"
   },
   "devDependencies": {
     "@types/invariant": "^2.2.36",
