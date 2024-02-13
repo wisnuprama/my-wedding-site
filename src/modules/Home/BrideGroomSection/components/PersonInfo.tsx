@@ -1,11 +1,11 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 type PersonInfoProps = {
   name: string;
   subtitle: string;
   description: string;
 
-  imageSrc: string;
+  imageSrc: StaticImageData | string;
 
   containerClassName?: string;
 };
@@ -37,6 +37,7 @@ export function PersonInfo(props: PersonInfoProps) {
         alt={[name, subtitle, description].join(" ")}
         className="rounded-full object-cover aspect-square"
         style={imageStyle}
+        placeholder="blur"
       />
       <h2 className="text-2xl mt-2">{name}</h2>
       <p className="mt-1">

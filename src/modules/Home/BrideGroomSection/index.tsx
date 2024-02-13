@@ -2,6 +2,9 @@ import { fontCursive } from "@/core/styles";
 import { PersonInfo } from "./components/PersonInfo";
 import { useServerI18n } from "@/core/i18n";
 
+import Bride from "./assets/bride-20240128.jpg";
+import Groom from "./assets/groom-20240128.jpg";
+
 export function BrideGroomSection() {
   const i18n = useServerI18n();
   return (
@@ -13,14 +16,14 @@ export function BrideGroomSection() {
       </h1>
       <div className="h-full w-full md:flex md:flex-row md:justify-evenly md:flex-1">
         <PersonInfo
-          imageSrc="/assets/images/bride-20240128.jpg"
+          imageSrc={Bride}
           name={i18n.t("label_name_of_the_bride")}
           subtitle={i18n.t("label_daughter")}
           description={i18n.t("label_bride_parents")}
           containerClassName="mt-14 md:mt-14"
         />
         <PersonInfo
-          imageSrc="/assets/images/groom-20240128.jpg"
+          imageSrc={Groom}
           name={i18n.t("label_the_groom")}
           subtitle={i18n.t("label_son")}
           description={i18n.t("Label_groom_parents")}
