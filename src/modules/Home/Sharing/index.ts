@@ -9,9 +9,6 @@ export function useSharing(
 
   const handleSharing = async () => {
     const data = getData();
-
-    console.log(data);
-
     if (!navigator.share) {
       await navigator.clipboard.writeText(data.url);
       alert(i18n.t("msg_alert_sharing_clipboard"));
