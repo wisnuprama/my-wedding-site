@@ -1,9 +1,11 @@
 import config from "@/core/config";
-import { ImageGallery } from "./ImageGallery";
 
 import images from "./images";
 import { useI18n } from "@/core/i18n";
 import { fontCursive } from "@/core/styles";
+import dynamic from "next/dynamic";
+
+const ImageGallery = dynamic(() => import("./ImageGallery"), { ssr: false });
 
 export type GallerySectionProps = {};
 
