@@ -1,12 +1,12 @@
 {
   "title_wedding1": "The Wedding of",
   "title_wedding2": "Nadia & Wisnu",
-  "label_dear": "Kepada Yth. Bapak/Ibu<br>",
-  "label_dear_shorter": "Kepada Bapak/Ibu<br>",
+  "label_dear": "Kepada Yth.<br>Bapak/Ibu/Saudara/i",
+  "label_dear_shorter": "Kepada Bapak/Ibu/Saudara/i<br>",
   "label_open_invitation": "BUKA UNDANGAN",
   "label_open": "BUKA",
   "title_invitation_card": "Kartu Undangan",
-  "label_invitation_card_invite_quote": "Dengan segala kerendahan hati,<br>Kami mengundang Bapak/Ibu untuk menjadi bagian penting di hari bahagia kami.",
+  "label_invitation_card_invite_quote": "Dengan segala kerendahan hati,<br>Kami mengundang Bapak/Ibu/Saudara/i untuk menjadi bagian penting di hari bahagia kami.",
   "label_see_your_invitation_card": "Lihat Kartu Undangan",
   "label_button_see_special_msg": "Pesan spesial untukmu",
   "label_click_for_rsvp": "Klik disini untuk RSVP",
@@ -43,7 +43,7 @@
   "label_submit": "SIMPAN",
   "title_gallery": "Galeri Foto",
   "title_love_gift": "Hadiah Pernikahan",
-  "label_love_gift_quote": "Tanpa mengurangi rasa hormat, bagi Bapak/Ibu yang ingin memberikan tanda kasih sayang kepada kedua mempelai secara online dapat menggunakan akun virtual di bawah ini.",
+  "label_love_gift_quote": "Tanpa mengurangi rasa hormat, bagi Bapak/Ibu/Saudara/i yang ingin memberikan tanda kasih sayang kepada kedua mempelai secara online dapat menggunakan akun virtual di bawah ini.",
   "label_click_account": "KLIK DISINI",
   "label_thank_you": "Terimakasih telah menjadi bagian dari hari bahagia kami!",
   "title_account": "Hadiah Pernikahan",
@@ -64,7 +64,7 @@
   "msg_qrcode_tooltip_help": "QR code berikut digunakan untuk registrasi buku tamu dan pengambilan souvenir. Apabila anda tidak dapat menggunakan QR code, gunakan kode berikut atau sebutkan nama anda sebagai alternatif kepada tim buku tamu kami di hari acara.",
   "msg_qrcode_description": "Mohon gunakan QR berikut untuk buku tamu pada hari acara, terima kasih.",
   "msg_alert_sharing_clipboard": "URL sudah berhasil disalin silahkan bagikan dengan tempel/paste diaplikasi lain.",
-  "label_invitation_card_blessing_quote": "Dengan segala kerendahan hati, kami memohon doa restu kepada Bapak/Ibu untuk melanjutkan ke jenjang pernikahan.",
+  "label_invitation_card_blessing_quote": "Dengan segala kerendahan hati, kami memohon doa restu kepada Bapak/Ibu/Saudara/i untuk melanjutkan ke jenjang pernikahan.",
   "site_description": "Rayakan kebahagiaan hari pernikahan Nadia dan Wisnu pada hari Sabtu, 15 Juni 2024, di Gedung SOHO Pancoran, Jakarta, Indonesia. Doa hangat dan kehadiran Anda akan membuat hari pernikahan ini benar-benar mempesona. Kami berharap dapat berbagi momen istimewa ini bersama Anda!",
   "msg_empty_wishes": "Belum ada ucapan ❤️"
 }
