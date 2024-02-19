@@ -1,13 +1,7 @@
 import { NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
 
-export async function GET(req: Request) {
-  if (
-    req.headers.get("Authorization") !== `Bearer ${process.env.CRON_SECRET}`
-  ) {
-    return new NextResponse("Unauthorized", { status: 401 });
-  }
-
+export async function GET(_: Request) {
   const abortCont = new AbortController();
 
   const timeout = setTimeout(() => {
