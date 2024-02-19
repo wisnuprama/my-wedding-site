@@ -45,7 +45,14 @@ const getServerLocale = (): Locale => {
 
   const l = getBrowserLanguage(() => {
     const headers = require("next/headers").headers;
-    return headers().headers["accept-language"];
+
+    const h = headers().headers;
+
+    if (!h) {
+      return null;
+    }
+
+    return h["accept-language"];
   });
 
   setLocale(l);
