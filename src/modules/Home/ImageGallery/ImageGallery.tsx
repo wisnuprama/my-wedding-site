@@ -49,7 +49,7 @@ function Photo(props: RenderImageProps<ImageItem>) {
         loading="lazy"
         placeholder="blur"
         quality={THUMBNAIL_IMAGE_QUALITY}
-        className="object-cover w-full h-full rounded-lg"
+        className="object-cover w-full h-full rounded-lg cursor-pointer"
         onClick={(event) => {
           onClick?.(event, { ...props, index });
         }}
