@@ -11,7 +11,7 @@
     "prepare": "husky install"
   },
   "engines": {
-    "node": ">=18.17"
+    "node": "18.x"
   },
   "dependencies": {
     "@material-ui/icons": "^4.11.3",
