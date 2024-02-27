@@ -8,7 +8,7 @@
     "start": "next start -p $PORT",
     "lint": "next lint",
     "test": "",
-    "prepare": "husky install"
+    "prepare": "[ '$NODE_ENV' == 'production' ] && husky install || true"
   },
   "engines": {
     "npm": "10.x",
@@ -55,7 +55,6 @@
     "@types/react-dom": "18.2.15",
     "@types/react-virtualized-auto-sizer": "^1.0.3",
     "@types/react-window": "^1.8.8",
-    "husky": "^8.0.0",
     "lint-staged": "^15.0.2",
     "prettier": "3.1.0"
   }
