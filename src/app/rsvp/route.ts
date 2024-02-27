@@ -14,7 +14,7 @@ export async function GET(request: Request) {
 
   if (!rsvpToken) {
     console.warn("[rsvp.GET] No RSVP token provided");
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/"));
   }
 
   const tokenManager = new RSVPTokenManager();
@@ -24,14 +24,14 @@ export async function GET(request: Request) {
 
   if (!isValidRSVP) {
     console.warn("[rsvp.GET] Invalid RSVP token provided", { rsvpToken });
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/"));
   }
 
   console.info("[rsvp.GET] Valid token. Setting up RSVP cookies", {
     id: tokenData.id,
   });
 
-  const redirectURL = new URL("/", request.url);
+  const redirectURL = new URL("/");
 
   if (
     // no token from param
@@ -100,7 +100,7 @@ export async function GET(request: Request) {
       headers,
     },
   );
-  // const response = NextResponse.redirect(new URL("/", request.url));
+  // const response = NextResponse.redirect(new URL("/"));
   // response.cookies.set("ws_r", rsvpToken, {
   //   httpOnly: true,
   //   secure: true,

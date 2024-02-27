@@ -9,7 +9,7 @@ export async function GET(request: Request) {
 
   if (request.url.includes("logout")) {
     cookies().delete("ws_a");
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/"));
   }
 
   const userToken = userManager.getCurrentUser()?.token;
