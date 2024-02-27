@@ -3,13 +3,14 @@ import { NextResponse } from "next/server";
 import cookie from "cookie";
 import { cookies } from "next/headers";
 import { UserManager } from "@/modules/Admin";
+import { getHostname } from "@/common/nextjs/navigation";
 
 export async function GET(request: Request) {
   const userManager = UserManager.createUserManagerUsingEnvVariable();
 
   if (request.url.includes("logout")) {
     cookies().delete("ws_a");
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/", getHostname()));
   }
 
   const userToken = userManager.getCurrentUser()?.token;
