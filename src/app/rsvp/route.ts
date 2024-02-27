@@ -12,6 +12,8 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   const rsvpToken = url.searchParams.get("t");
 
+  console.info("[rsvp.GET] Received RSVP request URL", request.url);
+
   if (!rsvpToken) {
     console.warn("[rsvp.GET] No RSVP token provided");
     return NextResponse.redirect(new URL("/", request.url));
