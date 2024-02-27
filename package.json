@@ -8,11 +8,10 @@
     "start": "next start -p $PORT -H $HOSTNAME",
     "lint": "next lint",
     "test": "",
-    "prepare": "husky install",
-    "heroku-prebuild": "npm config set ignore-scripts true"
+    "prepare": "husky install"
   },
   "engines": {
-    "node": "18.17"
+    "node": "18.x"
   },
   "cacheDirectories": [
     ".next/cache"
