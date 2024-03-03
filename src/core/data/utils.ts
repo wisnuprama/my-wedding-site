@@ -37,7 +37,8 @@ export function serializeSheetData<
     if (typeof value === "boolean") {
       parsedValue = (value ? "TRUE" : "FALSE") as "TRUE" | "FALSE";
     } else {
-      parsedValue = String(value);
+      // sanitize string from formula injection
+      parsedValue = `'${value}`;
     }
 
     // @ts-expect-error
