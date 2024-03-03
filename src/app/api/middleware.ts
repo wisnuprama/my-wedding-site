@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server";
 
-function withAuthorization() {
+function withLooseAuthorization() {
   return async (
     req: Request,
     next: () => unknown,
   ): Promise<NextResponse | unknown> => {
-    if (req.headers.get("Authorization") === process.env.API_KEY) {
+    const url = new URL(req.url);
+
+    // The API is not that important we just want an easy access to the resource
+    if (url.searchParams.get("p") === process.env.API_KEY) {
       return next();
     }
 
@@ -15,7 +18,7 @@ function withAuthorization() {
 
 const middlewares: Array<
   (req: Request, next: () => unknown) => Promise<NextResponse | unknown>
-> = [withAuthorization()];
+> = [withLooseAuthorization()];
 
 const MiddlewareNextResponse = Symbol("MiddlewareNextResponse");
 
