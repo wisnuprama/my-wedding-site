@@ -55,11 +55,12 @@ function _PersonalMessage(_: PersonalMessageProps) {
           ref={msgContent}
           className="h-full flex flex-col justify-between p-1"
         >
-          <p>{personalMessage}</p>
+          <p dangerouslySetInnerHTML={{ __html: personalMessage }} />
           <div className="flex flex-col justify-between items-center">
             <PrimaryButton onClick={closeDialog}>
               {i18n.t("label_close")}
             </PrimaryButton>
+            p
           </div>
         </div>
       </dialog>
