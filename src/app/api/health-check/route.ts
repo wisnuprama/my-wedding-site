@@ -1,11 +1,8 @@
 import { NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
+import { middleware } from "../middleware";
 
-export async function GET(req: Request) {
-  if (req.headers.get("Authorization") !== process.env.API_KEY) {
-    return NextResponse.json({ ok: false });
-  }
-
+export const GET = middleware(async () => {
   const abortCont = new AbortController();
 
   const timeout = setTimeout(() => {
@@ -33,4 +30,4 @@ export async function GET(req: Request) {
   }
 
   return NextResponse.json({ ok: true });
-}
+});
