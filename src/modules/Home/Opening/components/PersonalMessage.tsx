@@ -46,7 +46,8 @@ function _PersonalMessage(_: PersonalMessageProps) {
         ref={dialogRef}
         className="p-8 rounded-md backdrop-blur-2xl shadow-md w-screen md:w-1/2"
         style={{
-          height: "25vh",
+          minHeight: "25vh",
+          maxHeight: "80vh",
           background: "rgba(var(--background-dialog))",
           color: "rgb(var(--foreground-rgb))",
         }}
@@ -60,7 +61,6 @@ function _PersonalMessage(_: PersonalMessageProps) {
             <PrimaryButton onClick={closeDialog}>
               {i18n.t("label_close")}
             </PrimaryButton>
-            p
           </div>
         </div>
       </dialog>
