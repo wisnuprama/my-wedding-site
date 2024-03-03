@@ -4,6 +4,7 @@ import { getServerI18n } from "@/core/i18n";
 import { RSVPFormDTO } from "../dto";
 import { getRSVPService } from "../RSVPService";
 import { RSVPTokenManager } from "../RSVPTokenManager";
+import * as Sentry from "@sentry/nextjs";
 
 export type RSVPFormState = {
   message: string | null | undefined;
@@ -85,6 +86,20 @@ export async function submitRSVP(
           rsvpId: tokenData.id,
         }),
       );
+
+      Sentry.captureMessage(`Submit RSVP error`, {
+        level: "warning",
+        extra: {
+          ...rsvp.toObject(),
+          rsvpId: tokenData.id,
+          errorMsg: resp.errorMsg,
+        },
+        tags: {
+          actionRequired: "contact_support",
+          userJourney: "submit-rsvp",
+        },
+      });
+
       return {
         status: "error",
         message: getServerI18n().t("msg_submit_error"),
@@ -103,6 +118,19 @@ export async function submitRSVP(
   } catch (e) {
     const err = e as Error;
 
+    Sentry.captureException(err, {
+      level: "error",
+      extra: {
+        ...rsvp.toObject(),
+        rsvpId: tokenData.id,
+        errorMsg: err.message,
+      },
+      tags: {
+        userJourney: "submit-rsvp",
+        actionRequired: "investigation",
+      },
+    });
+
     console.error(
       "[submitRSVP] Exception when updating RSVP",
       JSON.stringify({
@@ -114,7 +142,7 @@ export async function submitRSVP(
 
     return {
       status: "error",
-      message: err.message ?? getServerI18n().t("msg_submit_error"),
+      message: `Internal error. ${getServerI18n().t("msg_submit_error")}`,
     };
   }
 }

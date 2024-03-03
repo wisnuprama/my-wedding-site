@@ -3,6 +3,7 @@ import { FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { memo, useEffect, useMemo, useReducer } from "react";
 import { useI18n } from "@/core/i18n";
+import * as Sentry from "@sentry/nextjs";
 
 export type WishItem = {
   from: string;
@@ -32,12 +33,12 @@ function CreatedRelativeTime(props: { ctime: number }) {
   useEffect(() => {
     const cmilis = props.ctime * 1000;
 
-    let interval: ReturnType<typeof setInterval>;
-
     // if below 1 min
-    if (Date.now() - cmilis < NEED_REFRESH_TIME) {
+    if (Date.now() - cmilis > NEED_REFRESH_TIME) {
+      return;
     }
 
+    let interval: ReturnType<typeof setInterval>;
     interval = setInterval(() => {
       if (Date.now() - cmilis > NEED_REFRESH_TIME) {
         clearInterval(interval);
@@ -95,7 +96,16 @@ export function RSVPWishesPagination(props: RSVPWishesPaginationProps) {
   const parsedWishes = useMemo((): WishItem[] => {
     try {
       return JSON.parse(wishesJSON);
-    } catch {
+    } catch (e) {
+      Sentry.captureException(e, {
+        extra: {
+          wishesJSON,
+        },
+        tags: {
+          actionRequired: "investigation",
+          userJourney: "wishes",
+        },
+      });
       return [];
     }
   }, [wishesJSON]);

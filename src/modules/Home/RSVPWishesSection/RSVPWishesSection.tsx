@@ -5,8 +5,8 @@ import { RSVPViewModel } from "@/modules/RSVP";
 import { RSVPWishesForm } from "./RSVPWishesForm";
 import { RSVPWishesPagination, WishItem } from "./RSVPWishesPagination";
 import { WishRow, WishesSheetModel, sheetdb } from "@/core/data";
-import { ReactNode } from "react";
 import { deserializeSheetData } from "@/core/data/utils";
+import * as Sentry from "@sentry/nextjs";
 
 export type RSVPWishesSectionProps = {
   rsvpViewModel: RSVPViewModel;
@@ -28,7 +28,12 @@ export async function RSVPWishesSection(props: RSVPWishesSectionProps) {
         .map((row): WishItem => deserializeSheetData(row.toObject() as WishRow))
         .sort((a, b) => b.ctime - a.ctime);
     } catch (e) {
-      // TODO: log error
+      Sentry.captureException(e, {
+        tags: {
+          actionRequired: "investigation",
+          userJourney: "wishes",
+        },
+      });
     }
 
     return JSON.stringify(rows);

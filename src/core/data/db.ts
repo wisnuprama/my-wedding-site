@@ -2,6 +2,7 @@ import { createGoogleSpreadsheet } from "@/modules/GoogleSpreadsheet";
 import { withPerfTraceLog } from "@/modules/PerfTrace";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import invariant from "invariant";
+import * as Sentry from "@sentry/nextjs";
 
 export interface Database<Q> {
   connect(): Promise<Error | undefined>;
@@ -52,7 +53,29 @@ class GoogleSpreadsheetDatabase implements Database<{}> {
           title: this.spreadsheet.title,
         },
       );
+      Sentry.captureMessage(
+        "[GoogleSpreadsheetDatabase] connected to Google Spreadsheet",
+        {
+          level: "info",
+          extra: {
+            title: this.spreadsheet.title,
+          },
+          tags: {
+            userJourney: "db-connection",
+          },
+        },
+      );
     } catch (e: any) {
+      Sentry.captureException(e, {
+        extra: {
+          "GoogleSpreadsheetDatabase.connect":
+            "failed to connect to Google Spreadsheet",
+        },
+        tags: {
+          actionRequired: "investigation",
+          userJourney: "db-connection",
+        },
+      });
       console.error(
         "[GoogleSpreadsheetDatabase] failed to connect to Google Spreadsheet",
         process.env.NODE_ENV === "development" ? e : undefined,

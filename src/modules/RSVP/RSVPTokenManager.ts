@@ -1,6 +1,7 @@
 import { jwtVerify } from "jose";
 import { RSVPTokenData } from "./types";
 import { cookies } from "next/headers";
+import * as Sentry from "@sentry/nextjs";
 
 export class RSVPTokenManager {
   private privateKey: Uint8Array | null = null;
@@ -39,6 +40,12 @@ export class RSVPTokenManager {
 
       return [true, res.payload as RSVPTokenData];
     } catch (error) {
+      Sentry.captureException(error, {
+        tags: {
+          actionRequired: "investigation",
+          userJourney: "verify-rsvp",
+        },
+      });
       return [false, null];
     }
   }
