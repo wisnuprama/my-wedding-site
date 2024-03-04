@@ -3,9 +3,11 @@ import { withPerfTraceLog } from "@/modules/PerfTrace";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import invariant from "invariant";
 import * as Sentry from "@sentry/nextjs";
+import schedule from "node-schedule";
 
 export interface Database<Q> {
   connect(): Promise<Error | undefined>;
+  reset(): Promise<Error | undefined>;
 }
 
 class GoogleSpreadsheetDatabase implements Database<{}> {
@@ -36,6 +38,15 @@ class GoogleSpreadsheetDatabase implements Database<{}> {
 
     await this.initialize;
     return this.spreadsheet;
+  }
+
+  public reset(): Promise<Error | undefined> {
+    console.info("[GoogleSpreadsheetDatabase] resetting Google Spreadsheet");
+
+    return withPerfTraceLog("GoogleSpreadsheetDatabase.reset", () => {
+      this.initialize = undefined;
+      return this.connect();
+    });
   }
 
   public async connect(): Promise<Error | undefined> {
@@ -86,3 +97,19 @@ class GoogleSpreadsheetDatabase implements Database<{}> {
 }
 
 export const sheetdb = new GoogleSpreadsheetDatabase(createGoogleSpreadsheet());
+
+schedule.scheduleJob("0 * * * * ", async () => {
+  console.info("CRON: Refreshing Google Spreadsheet connection");
+  try {
+    await sheetdb.reset();
+    console.info("CRON: Google Spreadsheet connection refreshed");
+  } catch (e: unknown) {
+    console.error("CRON: Google Spreadsheet connection error", e);
+    Sentry.captureException(e, {
+      tags: {
+        actionRequired: "investigation",
+        userJourney: "db-connection",
+      },
+    });
+  }
+});
