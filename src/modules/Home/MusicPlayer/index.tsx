@@ -16,6 +16,7 @@ import invariant from "invariant";
 import Image from "next/image";
 import { IcButton } from "@/components/Link";
 import config from "@/core/config";
+import * as Sentry from "@sentry/nextjs";
 
 const PlayerBtn = memo(function _PlayerBtn(props: {
   audioPlayer: RefObject<HTMLAudioElement>;
@@ -31,7 +32,16 @@ const PlayerBtn = memo(function _PlayerBtn(props: {
 
     if (player.paused) {
       player.volume = config.MUSIC_MAX_VOLUME ?? 1;
-      player.play();
+
+      (async () => {
+        try {
+          await player.play();
+        } catch (e: any) {
+          Sentry.captureException(e, {
+            tags: { userJourney: "music", actionRequired: "investigation" },
+          });
+        }
+      })();
 
       setTimeout(() => {
         onStartPlay &&

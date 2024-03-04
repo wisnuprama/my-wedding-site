@@ -1,6 +1,7 @@
 "use client";
 
 import { useI18n } from "@/core/i18n";
+import * as Sentry from "@sentry/nextjs";
 
 export function useSharing(
   getData: () => { title: string; text: string; url: string },
@@ -15,7 +16,17 @@ export function useSharing(
       return;
     }
 
-    await navigator.share(data);
+    try {
+      await navigator.share(data);
+    } catch (e: any) {
+      Sentry.captureException(e, {
+        extra: { data },
+        tags: {
+          userJourney: "sharing",
+          actionRequired: "monitor",
+        },
+      });
+    }
   };
 
   return handleSharing;
