@@ -65,7 +65,7 @@ function _PersonalMessage(_: PersonalMessageProps) {
           {shouldDisplayMessage && (
             <p dangerouslySetInnerHTML={{ __html: personalMessage }} />
           )}
-          <div className="flex flex-col justify-between items-center">
+          <div className="flex flex-col justify-between items-center mt-4">
             <PrimaryButton onClick={closeDialog}>
               {i18n.t("label_close")}
             </PrimaryButton>
