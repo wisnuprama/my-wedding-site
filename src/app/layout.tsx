@@ -1,8 +1,6 @@
 import { useServerI18n } from "@/core/i18n";
 import "./globals.css";
-import type { Metadata } from "next";
 import { font } from "@/core/styles";
-import { Analytics } from "@vercel/analytics/react";
 import Head from "next/head";
 
 import { generateMetadata as _generateMetadata } from "./metadata";
@@ -46,7 +44,6 @@ export default function RootLayout({ event, children }: RootLayoutProps) {
       <body className={font.className}>
         {event}
         {children}
-        <Analytics />
       </body>
     </html>
   );
