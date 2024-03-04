@@ -3,7 +3,7 @@
 import { PrimaryButton } from "@/components/Link";
 import { useI18n } from "@/core/i18n";
 import { RSVPContext } from "@/modules/RSVP";
-import { memo, useContext, useRef } from "react";
+import { memo, useContext, useReducer, useRef } from "react";
 
 type PersonalMessageProps = {};
 
@@ -11,6 +11,11 @@ function _PersonalMessage(_: PersonalMessageProps) {
   const i18n = useI18n();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const msgContent = useRef<HTMLDivElement>(null);
+
+  // Because of some limitation when using dangerouslySetInnerHTML
+  // and the content has HTML tag and could be long, the content will be cut off.
+  // So we will use state instead and display the msg when the dialog is opened
+  const [shouldDisplayMessage, showMessage] = useReducer(() => true, false);
 
   const rsvp = useContext(RSVPContext);
 
@@ -28,6 +33,7 @@ function _PersonalMessage(_: PersonalMessageProps) {
     if (!msgContent.current) {
       return;
     }
+    showMessage(); // show message
     requestAnimationFrame(() => {
       dialogRef?.current?.showModal?.();
     });
@@ -56,7 +62,9 @@ function _PersonalMessage(_: PersonalMessageProps) {
           ref={msgContent}
           className="h-full flex flex-col justify-between p-1"
         >
-          <p dangerouslySetInnerHTML={{ __html: personalMessage }} />
+          {shouldDisplayMessage && (
+            <p dangerouslySetInnerHTML={{ __html: personalMessage }} />
+          )}
           <div className="flex flex-col justify-between items-center">
             <PrimaryButton onClick={closeDialog}>
               {i18n.t("label_close")}
