@@ -9,15 +9,15 @@ export const GET = middleware(async () => {
     abortCont.abort();
   }, 30000);
 
-  const result = await fetch(
-    "https://nadiawisnu.wedding/rsvp?t=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjRCRCIsIm5tIjoiSGlseWEgJiBBYmkifQ.UPB9syvxzOagFQ0FCXqg0cp91OKoLVt9nHKjNmZFn0I",
-    {
-      signal: abortCont.signal,
-      headers: {
-        "accept-language": "en-GB",
-      },
+  const dummyUrl =
+    "https://nadiawisnu.wedding/rsvp?t=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjRCRCIsIm5tIjoiSGlseWEgJiBBYmkifQ.UPB9syvxzOagFQ0FCXqg0cp91OKoLVt9nHKjNmZFn0I";
+
+  const result = await fetch(dummyUrl, {
+    signal: abortCont.signal,
+    headers: {
+      "accept-language": "en-GB",
     },
-  ).finally(() => {
+  }).finally(() => {
     clearTimeout(timeout);
   });
 
