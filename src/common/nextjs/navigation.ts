@@ -1,3 +1,4 @@
+import invariant from "invariant";
 import { RedirectType, redirect as nextRedirect } from "next/navigation";
 
 /**
@@ -14,5 +15,6 @@ export function redirect(url: string, type?: RedirectType) {
 }
 
 export function getHostname() {
-  return process.env.APP_HOSTNAME ?? "0.0.0.0";
+  invariant(process.env.APP_HOSTNAME, "APP_HOSTNAME is not defined");
+  return process.env.APP_HOSTNAME;
 }
