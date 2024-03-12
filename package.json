@@ -13,7 +13,7 @@
   },
   "engines": {
     "npm": "10.x",
-    "node": "18.x"
+    "node": "20.x"
   },
   "cacheDirectories": [
     ".next/cache"
