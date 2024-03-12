@@ -16,7 +16,8 @@
     "node": "20.x"
   },
   "cacheDirectories": [
-    ".next/cache"
+    "node_modules/",
+    ".next/cache/"
   ],
   "dependencies": {
     "@material-ui/icons": "^4.11.3",
