@@ -42,6 +42,8 @@ function _PersonalMessage(_: PersonalMessageProps) {
     dialogRef?.current?.close?.();
   };
 
+  const paddingSize = 2;
+
   return (
     <div className="pt-8">
       <PrimaryButton className="text-base" onClick={openDialog}>
@@ -50,17 +52,15 @@ function _PersonalMessage(_: PersonalMessageProps) {
 
       <dialog
         ref={dialogRef}
-        className="p-8 rounded-md backdrop-blur-2xl shadow-md w-screen md:w-1/2"
+        className={`p-[${paddingSize}rem] rounded-md backdrop-blur-2xl shadow-md w-screen md:w-1/2 min-h-[80vh] md:min-h-[25vh] max-h-[80vh] md:max-h-[80vh] overflow-y-auto`}
         style={{
-          minHeight: "25vh",
-          maxHeight: "80vh",
           background: "rgba(var(--background-dialog))",
           color: "rgb(var(--foreground-rgb))",
         }}
       >
         <div
           ref={msgContent}
-          className="h-full flex flex-col justify-between p-1"
+          className={`min-h-[calc(80vh-${paddingSize}rem*2)] md:min-h-[calc(25vh-${paddingSize}rem*2)] flex flex-col justify-between`}
         >
           {shouldDisplayMessage && (
             <p dangerouslySetInnerHTML={{ __html: personalMessage }} />
