@@ -52,7 +52,7 @@ function _PersonalMessage(_: PersonalMessageProps) {
 
       <dialog
         ref={dialogRef}
-        className={`p-[${paddingSize}rem] rounded-md backdrop-blur-2xl shadow-md w-screen md:w-1/2 min-h-[80vh] md:min-h-[25vh] max-h-[80vh] md:max-h-[80vh] overflow-y-auto`}
+        className={`p-[2rem] rounded-md backdrop-blur-2xl shadow-md w-screen md:w-1/2 min-h-[80vh] md:min-h-[25vh] max-h-[80vh] md:max-h-[80vh] overflow-y-auto`}
         style={{
           background: "rgba(var(--background-dialog))",
           color: "rgb(var(--foreground-rgb))",
@@ -60,7 +60,7 @@ function _PersonalMessage(_: PersonalMessageProps) {
       >
         <div
           ref={msgContent}
-          className={`min-h-[calc(80vh-${paddingSize}rem*2)] md:min-h-[calc(25vh-${paddingSize}rem*2)] flex flex-col justify-between`}
+          className={`min-h-[calc(80vh-4rem)] md:min-h-[calc(25vh-4rem)] flex flex-col justify-between`}
         >
           {shouldDisplayMessage && (
             <p dangerouslySetInnerHTML={{ __html: personalMessage }} />
