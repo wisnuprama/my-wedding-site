@@ -37,8 +37,13 @@ export function useScrollOpacity(tagID: string, acceleration: number = 1) {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const options: Parameters<typeof window.addEventListener>[2] = {
+      capture: false,
+      passive: true,
+    };
+
+    window.addEventListener("scroll", handleScroll, options);
+    return () => window.removeEventListener("scroll", handleScroll, options);
   }, [tagID, acceleration]);
 }
 

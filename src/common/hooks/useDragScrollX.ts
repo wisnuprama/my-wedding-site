@@ -39,18 +39,24 @@ export function useDragScrollX() {
   useLayoutEffect(() => {
     const elem = slider.current;
     invariant(elem, "Slider is null, need to bind it to an element");
+
+    const options: Parameters<typeof elem.addEventListener>[2] = {
+      capture: false,
+      passive: true,
+    };
+
     // Add the event listeners
-    elem.addEventListener("mousemove", move, false);
-    elem.addEventListener("mousedown", startDragging, false);
-    elem.addEventListener("mouseup", stopDragging, false);
-    elem.addEventListener("mouseleave", stopDragging, false);
+    elem.addEventListener("mousemove", move, options);
+    elem.addEventListener("mousedown", startDragging, options);
+    elem.addEventListener("mouseup", stopDragging, options);
+    elem.addEventListener("mouseleave", stopDragging, options);
 
     return () => {
       // Remove the event listeners
-      elem.removeEventListener("mousemove", move, false);
-      elem.removeEventListener("mousedown", startDragging, false);
-      elem.removeEventListener("mouseup", stopDragging, false);
-      elem.removeEventListener("mouseleave", stopDragging, false);
+      elem.removeEventListener("mousemove", move, options);
+      elem.removeEventListener("mousedown", startDragging, options);
+      elem.removeEventListener("mouseup", stopDragging, options);
+      elem.removeEventListener("mouseleave", stopDragging, options);
     };
   }, []);
 

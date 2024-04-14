@@ -7,6 +7,11 @@ export function VideoAutoPlay() {
   useLayoutEffect(() => {
     const body = document.querySelector("body");
 
+    const options: Parameters<typeof window.addEventListener>[2] = {
+      capture: false,
+      passive: true,
+    };
+
     async function trigger() {
       const videoElement = document.getElementById(
         "home-video",
@@ -34,12 +39,12 @@ export function VideoAutoPlay() {
         });
       }
 
-      body?.removeEventListener("click", trigger);
-      body?.removeEventListener("touchstart", trigger);
+      body?.removeEventListener("click", trigger, options);
+      body?.removeEventListener("touchstart", trigger, options);
     }
 
-    body?.addEventListener("click", trigger);
-    body?.addEventListener("touchstart", trigger);
+    body?.addEventListener("click", trigger, options);
+    body?.addEventListener("touchstart", trigger, options);
   }, []);
 
   return null;
