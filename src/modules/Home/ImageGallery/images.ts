@@ -40,247 +40,262 @@ interface ImageItem {
   type: "image";
 }
 
-const images: ImageItem[] = [
-  {
-    static: Photo100042,
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    alt: "",
-    type: "image",
-    width: 250,
-    height: 250,
-  },
-  {
-    static: Photo100131,
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    alt: "",
-    type: "image",
-    width: 500,
-    height: 333,
-  },
-  {
-    static: Photo100501,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 500,
-    height: 333,
-  },
-  {
-    static: Photo100485,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 250,
-    height: 250,
-  },
-  {
-    static: Photo100458,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 500,
-    height: 333,
-  },
-  {
-    static: Photo100647,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 500,
-    height: 333,
-  },
-  {
-    static: Photo100733,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 250,
-    height: 250,
-  },
-  {
-    static: Photo100970,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 333,
-    height: 500,
-  },
-  {
-    static: Photo101194,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 333,
-    height: 500,
-  },
-  {
-    static: Photo101321,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 500,
-    height: 333,
-  },
-  {
-    static: Photo101621,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 333,
-    height: 500,
-  },
-  {
-    static: Photo101944,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 333,
-    height: 500,
-  },
-  {
-    static: Photo101955,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 333,
-    height: 500,
-  },
-  {
-    static: Photo101976,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 333,
-    height: 500,
-  },
-  {
-    static: Photo200049,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 500,
-    height: 333,
-  },
-  {
-    static: Photo200266,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 333,
-    height: 500,
-  },
-  {
-    static: Photo200467,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 333,
-    height: 500,
-  },
-  {
-    static: Photo200433,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 250,
-    height: 250,
-  },
-  {
-    static: Photo200538,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 500,
-    height: 333,
-  },
-  {
-    static: Photo200897,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 333,
-    height: 500,
-  },
-  {
-    static: Photo200973,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 500,
-    height: 333,
-  },
-  {
-    static: Photo201024,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 333,
-    height: 500,
-  },
-  {
-    static: Photo201124,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 250,
-    height: 250,
-  },
-  {
-    static: Photo201137,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 333,
-    height: 500,
-  },
-  {
-    static: Photo201338,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 333,
-    height: 500,
-  },
-  {
-    static: Photo201697,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 333,
-    height: 500,
-  },
-  {
-    static: Photo201785,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 333,
-    height: 500,
-  },
-  {
-    static: Photo201411,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 500,
-    height: 333,
-  },
-  {
-    static: Photo201462,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 500,
-    height: 333,
-  },
-  {
-    static: Photo201824,
-    alt: "",
-    type: "image",
-    src: "true", // just placeholder to fit the type check of gallery and lightbox
-    width: 333,
-    height: 500,
-  },
-];
+interface YoutubeItem {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  type: "youtube";
+}
 
-export default images;
+export function getImages(): Array<YoutubeItem | ImageItem> {
+  return [
+    {
+      src: "https://www.youtube-nocookie.com/embed/tHFy_PGUvLY?si=EWuuZN6--W5dDtms",
+      alt: "Wisnu & Nadia - Prewedding Video",
+      width: 1920,
+      height: 1080,
+      type: "youtube",
+    },
+    {
+      static: Photo100042,
+      src: "true-Photo100042", // just placeholder to fit the type check of gallery and lightbox
+      alt: "",
+      type: "image",
+      width: 250,
+      height: 250,
+    },
+    {
+      static: Photo100131,
+      src: "true-Photo100131", // just placeholder to fit the type check of gallery and lightbox
+      alt: "",
+      type: "image",
+      width: 500,
+      height: 333,
+    },
+    {
+      static: Photo100501,
+      alt: "",
+      type: "image",
+      src: "true-Photo100501", // just placeholder to fit the type check of gallery and lightbox
+      width: 500,
+      height: 333,
+    },
+    {
+      static: Photo100485,
+      alt: "",
+      type: "image",
+      src: "true-Photo100485", // just placeholder to fit the type check of gallery and lightbox
+      width: 250,
+      height: 250,
+    },
+    {
+      static: Photo100458,
+      alt: "",
+      type: "image",
+      src: "true-Photo100458", // just placeholder to fit the type check of gallery and lightbox
+      width: 500,
+      height: 333,
+    },
+    {
+      static: Photo100647,
+      alt: "",
+      type: "image",
+      src: "truePhoto100647", // just placeholder to fit the type check of gallery and lightbox
+      width: 500,
+      height: 333,
+    },
+    {
+      static: Photo100733,
+      alt: "",
+      type: "image",
+      src: "truePhoto100733", // just placeholder to fit the type check of gallery and lightbox
+      width: 250,
+      height: 250,
+    },
+    {
+      static: Photo100970,
+      alt: "",
+      type: "image",
+      src: "truePhoto100970", // just placeholder to fit the type check of gallery and lightbox
+      width: 333,
+      height: 500,
+    },
+    {
+      static: Photo101194,
+      alt: "",
+      type: "image",
+      src: "truePhoto101194", // just placeholder to fit the type check of gallery and lightbox
+      width: 333,
+      height: 500,
+    },
+    {
+      static: Photo101321,
+      alt: "",
+      type: "image",
+      src: "truePhoto101321", // just placeholder to fit the type check of gallery and lightbox
+      width: 500,
+      height: 333,
+    },
+    {
+      static: Photo101621,
+      alt: "",
+      type: "image",
+      src: "truePhoto101621", // just placeholder to fit the type check of gallery and lightbox
+      width: 333,
+      height: 500,
+    },
+    {
+      static: Photo101944,
+      alt: "",
+      type: "image",
+      src: "truePhoto101944", // just placeholder to fit the type check of gallery and lightbox
+      width: 333,
+      height: 500,
+    },
+    {
+      static: Photo101955,
+      alt: "",
+      type: "image",
+      src: "truePhoto101955", // just placeholder to fit the type check of gallery and lightbox
+      width: 333,
+      height: 500,
+    },
+    {
+      static: Photo101976,
+      alt: "",
+      type: "image",
+      src: "truePhoto101976", // just placeholder to fit the type check of gallery and lightbox
+      width: 333,
+      height: 500,
+    },
+    {
+      static: Photo200049,
+      alt: "",
+      type: "image",
+      src: "truePhoto200049", // just placeholder to fit the type check of gallery and lightbox
+      width: 500,
+      height: 333,
+    },
+    {
+      static: Photo200266,
+      alt: "",
+      type: "image",
+      src: "truePhoto200266", // just placeholder to fit the type check of gallery and lightbox
+      width: 333,
+      height: 500,
+    },
+    {
+      static: Photo200467,
+      alt: "",
+      type: "image",
+      src: "truePhoto200467", // just placeholder to fit the type check of gallery and lightbox
+      width: 333,
+      height: 500,
+    },
+    {
+      static: Photo200433,
+      alt: "",
+      type: "image",
+      src: "truePhoto200433", // just placeholder to fit the type check of gallery and lightbox
+      width: 250,
+      height: 250,
+    },
+    {
+      static: Photo200538,
+      alt: "",
+      type: "image",
+      src: "truePhoto200538", // just placeholder to fit the type check of gallery and lightbox
+      width: 500,
+      height: 333,
+    },
+    {
+      static: Photo200897,
+      alt: "",
+      type: "image",
+      src: "truePhoto200897", // just placeholder to fit the type check of gallery and lightbox
+      width: 333,
+      height: 500,
+    },
+    {
+      static: Photo200973,
+      alt: "",
+      type: "image",
+      src: "truePhoto200973", // just placeholder to fit the type check of gallery and lightbox
+      width: 500,
+      height: 333,
+    },
+    {
+      static: Photo201024,
+      alt: "",
+      type: "image",
+      src: "truePhoto201024", // just placeholder to fit the type check of gallery and lightbox
+      width: 333,
+      height: 500,
+    },
+    {
+      static: Photo201124,
+      alt: "",
+      type: "image",
+      src: "truePhoto201124", // just placeholder to fit the type check of gallery and lightbox
+      width: 250,
+      height: 250,
+    },
+    {
+      static: Photo201137,
+      alt: "",
+      type: "image",
+      src: "truePhoto201137", // just placeholder to fit the type check of gallery and lightbox
+      width: 333,
+      height: 500,
+    },
+    {
+      static: Photo201338,
+      alt: "",
+      type: "image",
+      src: "truePhoto201338", // just placeholder to fit the type check of gallery and lightbox
+      width: 333,
+      height: 500,
+    },
+    {
+      static: Photo201697,
+      alt: "",
+      type: "image",
+      src: "truePhoto201697", // just placeholder to fit the type check of gallery and lightbox
+      width: 333,
+      height: 500,
+    },
+    {
+      static: Photo201785,
+      alt: "",
+      type: "image",
+      src: "truePhoto201785", // just placeholder to fit the type check of gallery and lightbox
+      width: 333,
+      height: 500,
+    },
+    {
+      static: Photo201411,
+      alt: "",
+      type: "image",
+      src: "truePhoto201411", // just placeholder to fit the type check of gallery and lightbox
+      width: 500,
+      height: 333,
+    },
+    {
+      static: Photo201462,
+      alt: "",
+      type: "image",
+      src: "truePhoto201462", // just placeholder to fit the type check of gallery and lightbox
+      width: 500,
+      height: 333,
+    },
+    {
+      static: Photo201824,
+      alt: "",
+      type: "image",
+      src: "truePhoto201824", // just placeholder to fit the type check of gallery and lightbox
+      width: 333,
+      height: 500,
+    },
+  ];
+}

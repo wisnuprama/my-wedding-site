@@ -1,6 +1,6 @@
 import config from "@/core/config";
 
-import images from "./images";
+import { getImages } from "./images";
 import { useI18n } from "@/core/i18n";
 import { fontCursive } from "@/core/styles";
 import dynamic from "next/dynamic";
@@ -11,6 +11,8 @@ export type GallerySectionProps = {};
 
 function GallerySection() {
   const i18n = useI18n();
+
+  const images = getImages();
 
   if (images.length === 0) {
     return null; // hide gallery if no images
