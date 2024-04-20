@@ -12,7 +12,7 @@ export type RSVPFormState = {
   redirectTo?: string;
 };
 
-export async function submitRSVP(
+async function _submitRSVP(
   _: RSVPFormState,
   form: FormData,
 ): Promise<RSVPFormState> {
@@ -146,3 +146,28 @@ export async function submitRSVP(
     };
   }
 }
+
+function withErrorBoundary<F extends (...args: any[]) => any>(fn: F): F {
+  return (async (...args: any[]) => {
+    try {
+      return fn(...args);
+    } catch (e) {
+      const err = e as Error;
+      Sentry.captureException(err, {
+        level: "error",
+        tags: {
+          userJourney: "submit-rsvp",
+          actionRequired: "investigation",
+        },
+      });
+
+      console.error("[withErrorBoundary] Error occurred", e);
+      return {
+        status: "error",
+        message: `Internal error. ${getServerI18n().t("msg_submit_error")}`,
+      };
+    }
+  }) as F;
+}
+
+export const submitRSVP = withErrorBoundary(_submitRSVP);
