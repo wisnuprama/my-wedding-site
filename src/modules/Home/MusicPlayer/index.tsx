@@ -7,6 +7,7 @@ import {
   memo,
   startTransition,
   useCallback,
+  useLayoutEffect,
   useReducer,
   useRef,
 } from "react";
@@ -30,32 +31,85 @@ const PlayerBtn = memo(function _PlayerBtn(props: {
 
     const player = audioPlayer.current;
 
+    if (!player.paused) {
+      return;
+    }
+
+    player.volume = config.MUSIC_MAX_VOLUME ?? 1;
+
+    (async () => {
+      try {
+        await player.play();
+      } catch (e: any) {
+        Sentry.captureException(e, {
+          tags: { userJourney: "music", actionRequired: "investigation" },
+        });
+      }
+    })();
+
+    setTimeout(() => {
+      onStartPlay &&
+        startTransition(() => {
+          onStartPlay();
+        });
+    }, 1000);
+  }, [audioPlayer, onStartPlay]);
+
+  const handlePlayButton = useCallback(() => {
+    invariant(audioPlayer.current, "Must render audio player before start");
+
+    const player = audioPlayer.current;
+
     if (player.paused) {
-      player.volume = config.MUSIC_MAX_VOLUME ?? 1;
-
-      (async () => {
-        try {
-          await player.play();
-        } catch (e: any) {
-          Sentry.captureException(e, {
-            tags: { userJourney: "music", actionRequired: "investigation" },
-          });
-        }
-      })();
-
-      setTimeout(() => {
-        onStartPlay &&
-          startTransition(() => {
-            onStartPlay();
-          });
-      }, 1000);
+      handlePlay();
     } else {
       player.pause();
     }
 
     forceRender();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [audioPlayer, handlePlay]);
+
+  // effect handling play event
+  // need to re-render
+  useLayoutEffect(() => {
+    const player = audioPlayer.current;
+    if (!player) {
+      return;
+    }
+
+    player.addEventListener("play", forceRender);
+
+    return () => {
+      player.removeEventListener("play", forceRender);
+    };
+  }, [audioPlayer]);
+
+  // effect handling auto play
+  const once = useRef(false);
+  useLayoutEffect(() => {
+    function handler() {
+      if (once.current) {
+        return;
+      }
+
+      once.current = true;
+      handlePlay();
+    }
+
+    window.addEventListener("click", handler, { passive: true, once: true });
+    window.addEventListener("touchstart", handler, {
+      passive: true,
+      once: true,
+    });
+    window.addEventListener("scroll", handler, { passive: true, once: true });
+
+    return () => {
+      // remove in case
+      window.removeEventListener("click", handler);
+      window.removeEventListener("touchstart", handler);
+      window.removeEventListener("scroll", handler);
+    };
+  }, [handlePlay]);
 
   const IcPlayer =
     audioPlayer.current == null || audioPlayer.current.paused ? (
@@ -67,7 +121,7 @@ const PlayerBtn = memo(function _PlayerBtn(props: {
   return (
     <div className="flex items-center justify-center">
       <IcButton
-        onClick={handlePlay}
+        onClick={handlePlayButton}
         className={`text-right h-auto w-auto relative rounded-full ${
           audioPlayer.current?.paused ? "" : "rounded-none"
         } hover:rounded-none overflow-hidden`}
@@ -105,6 +159,7 @@ function _MusicPlayer() {
       <audio
         ref={audioPlayerRef}
         src="/assets/audios/home.mp3"
+        autoPlay
         playsInline
         loop
         preload="auto"
