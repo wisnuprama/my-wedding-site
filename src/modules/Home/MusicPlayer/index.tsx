@@ -101,13 +101,11 @@ const PlayerBtn = memo(function _PlayerBtn(props: {
       passive: true,
       once: true,
     });
-    window.addEventListener("scroll", handler, { passive: true, once: true });
 
     return () => {
       // remove in case
       window.removeEventListener("click", handler);
       window.removeEventListener("touchstart", handler);
-      window.removeEventListener("scroll", handler);
     };
   }, [handlePlay]);
 
@@ -159,7 +157,6 @@ function _MusicPlayer() {
       <audio
         ref={audioPlayerRef}
         src="/assets/audios/home.mp3"
-        autoPlay
         playsInline
         loop
         preload="auto"
