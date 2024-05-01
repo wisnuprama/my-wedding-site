@@ -36,7 +36,7 @@ export function serializeSheetData<
 
     if (typeof value === "boolean") {
       parsedValue = (value ? "TRUE" : "FALSE") as "TRUE" | "FALSE";
-    } else if(typeof value === "string") {
+    } else if(typeof value === "string" && !!value) {
       // sanitize string from formula injection
       parsedValue = `'${value}`;
     } else {
