@@ -19,7 +19,7 @@ export class RSVPFormDTO {
 
   // TODO: estabilish validation framework
   public validate() {
-    const actualPax = parseInt(this.actualPax, 10);
+    let actualPax = parseInt(this.actualPax, 10);
 
     if (isNaN(actualPax) || this.actualPax < 0) {
       throw new Error("Actual pax cannot be negative");
@@ -30,6 +30,12 @@ export class RSVPFormDTO {
     }
 
     const willAttend = this.willAttend === "true";
+
+    // if user not attending, set actualPax to 0 so it won't be counted
+    // in the total pax.
+    if (!willAttend) {
+      actualPax = 0;
+    }
 
     this.object = {
       actualPax,
