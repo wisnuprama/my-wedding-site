@@ -3,7 +3,7 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 import * as Sentry from "@sentry/nextjs";
-import { nodeProfilingIntegration } from "@sentry/profiling-node";
+// import { nodeProfilingIntegration } from "@sentry/profiling-node";
 
 Sentry.init({
   dsn: "https://0dd255a72378aafc8bb6ab6c2e01dcbb@o4506740397375488.ingest.sentry.io/4506740403077120",
@@ -25,6 +25,6 @@ Sentry.init({
 
   integrations: [
     // Enable the Node.js integration to get the performance metrics for your Node.js server
-    nodeProfilingIntegration(),
+    // nodeProfilingIntegration(),
   ],
 });
