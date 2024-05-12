@@ -22,6 +22,7 @@
   "dependencies": {
     "@material-ui/icons": "^4.11.3",
     "@sentry/nextjs": "^7.114.0",
+    "@sentry/profiling-node": "^7.114.0",
     "@yudiel/react-qr-scanner": "1.2.4",
     "autoprefixer": "10.4.16",
     "cookie": "^0.6.0",

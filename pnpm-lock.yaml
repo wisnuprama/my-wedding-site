@@ -11,6 +11,9 @@ dependencies:
   '@sentry/nextjs':
     specifier: ^7.114.0
     version: 7.114.0(next@14.1.3)(react@18.2.0)
+  '@sentry/profiling-node':
+    specifier: ^7.114.0
+    version: 7.114.0
   '@yudiel/react-qr-scanner':
     specifier: 1.2.4
     version: 1.2.4(react-dom@18.2.0)(react@18.2.0)
@@ -833,6 +836,16 @@ packages:
       '@sentry/integrations': 7.114.0
       '@sentry/types': 7.114.0
       '@sentry/utils': 7.114.0
+    dev: false
+
+  /@sentry/profiling-node@7.114.0:
+    resolution: {integrity: sha512-JgTOythJKfhxDrO5jm3QxBHf8MQvpZpGHpoXe4mXRXwFKU3dP0GNjHKNp4VAOqWQh0+wDjkydSGffejJYsWppw==}
+    engines: {node: '>=8.0.0'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      detect-libc: 2.0.2
+      node-abi: 3.62.0
     dev: false
 
   /@sentry/react@7.114.0(react@18.2.0):
@@ -3153,6 +3166,13 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
+    dev: false
+
+  /node-abi@3.62.0:
+    resolution: {integrity: sha512-CPMcGa+y33xuL1E0TcNIu4YyaZCxnnvkVaEXrsosR3FxN+fV8xvb7Mzpb7IgKler10qeMkE6+Dp8qJhpzdq35g==}
+    engines: {node: '>=10'}
+    dependencies:
+      semver: 7.5.4
     dev: false
 
   /node-fetch@2.7.0:
