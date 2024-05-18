@@ -68,7 +68,7 @@ export function AdminPanel(props: AdminPanelProps) {
   invariant(props.spreadsheetId, "GOOGLE_DOCUMENT_ID is required");
 
   return (
-    <div className="h-full">
+    <div className="h-screen">
       <div className="flex flex-col justify-center items-center">
         <h1 className="text-xl">Scan invitation QR</h1>
         <div style={{ height: 200, width: 200 }}>
