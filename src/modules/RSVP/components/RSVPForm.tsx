@@ -75,9 +75,11 @@ export function RSVPForm(props: RSVPFormProps) {
     }
   }, [state.status, router, state.redirectTo]);
 
+  const maxAttendances = estimatedPax ?? config.MAX_ATTENDANCES
+
   const attendancesOptions = useMemo(() => {
     const options = [];
-    for (let i = 1; i <= config.MAX_ATTENDANCES; i++) {
+    for (let i = 1; i <= maxAttendances; i++) {
       options.push(
         <option key={i} value={i}>
           {i}
