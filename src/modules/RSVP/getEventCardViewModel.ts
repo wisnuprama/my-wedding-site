@@ -38,10 +38,9 @@ export async function getEventCardViewModel(): Promise<EventCardViewModel> {
     };
   }
 
-  const userData = {
-    name: tokenData.nm,
+  const userData: RSVPUserData = {
+    name: "",
     rsvpID: tokenData.id,
-    message: tokenData.m,
   };
 
   const rsvpService: RSVPService = await getRSVPService();
