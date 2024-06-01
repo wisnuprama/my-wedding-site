@@ -39,10 +39,9 @@ export async function getRSVPViewModel(): Promise<RSVPViewModel> {
     };
   }
 
-  const userData = {
-    name: tokenData.nm,
+  const userData: RSVPUserData = {
+    name: "",
     rsvpID: tokenData.id,
-    message: tokenData.m,
   };
 
   const rsvpService: RSVPService = await getRSVPService();

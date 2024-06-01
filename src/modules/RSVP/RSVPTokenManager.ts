@@ -38,7 +38,12 @@ export class RSVPTokenManager {
         typ: "JWT",
       });
 
-      return [true, res.payload as RSVPTokenData];
+      return [
+        true,
+        {
+          id: String(res.payload.id),
+        } as RSVPTokenData,
+      ];
     } catch (error) {
       Sentry.captureException(error, {
         tags: {
