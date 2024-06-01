@@ -1,6 +1,6 @@
 "use client";
 import { useStableCallback } from "@/common/hooks";
-import { QrScanner } from "@yudiel/react-qr-scanner";
+import { Scanner } from "@yudiel/react-qr-scanner";
 import debounce from "lodash.debounce";
 import { useLayoutEffect, useMemo, useReducer } from "react";
 import IcSuccess from "@material-ui/icons/CheckCircle";
@@ -72,13 +72,15 @@ export function AdminPanel(props: AdminPanelProps) {
       <div className="flex flex-col justify-center items-center">
         <h1 className="text-xl">Scan invitation QR</h1>
         <div style={{ height: 200, width: 200 }}>
-          <QrScanner
+          <Scanner
             key={state.scanTimestamp}
-            tracker
             scanDelay={1000}
-            constraints={{ frameRate: 10 }}
-            onDecode={(result) => sendResult(result)}
-            onError={(error) => alert(error.message)}
+            constraints={{ frameRate: 24, facingMode: "environment" }}
+            formats={["qr_code"]}
+            onScan={(result) => {
+              Promise.all(result.map((r) => sendResult(r.rawValue)));
+            }}
+            allowMultiple={true}
           />
         </div>
         <div className="w-full" style={{ maxHeight: 200 }}>
@@ -146,7 +148,7 @@ function renderResultState(state: InvitationQRState, dispatch: Function) {
           </span>
           <div className="flex flex-1 flex-wrap justify-evenly items-start">
             {rows.map(([key, value]) => (
-              <div key={key + value} className="p-1 bg-white mr-1">
+              <div key={key + value} className="p-1 mr-1">
                 {key}={renderValue(value)}
               </div>
             ))}

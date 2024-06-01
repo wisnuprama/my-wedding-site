@@ -6,14 +6,6 @@ export type RSVPTokenData = {
    * RSVP ID
    */
   id: string;
-  /**
-   * User full name
-   */
-  nm: string;
-  /**
-   * Personal message to the invitee
-   */
-  m?: string;
 };
 
 export type RSVPUserData = {
