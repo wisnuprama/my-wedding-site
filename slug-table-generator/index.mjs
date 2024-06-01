@@ -8,7 +8,7 @@ function slugTableGenerator() {
 
 function main() {
   fs.writeFileSync(
-    path.join(process.cwd(), "slug-table-generator", "table.minified.json"),
+    path.join(process.cwd(), "table.minified.json"),
     slugTableGenerator(),
   );
 }
