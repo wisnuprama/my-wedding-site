@@ -75,7 +75,7 @@ export function RSVPForm(props: RSVPFormProps) {
     }
   }, [state.status, router, state.redirectTo]);
 
-  const maxAttendances = estimatedPax ?? config.MAX_ATTENDANCES
+  const maxAttendances = estimatedPax ?? config.MAX_ATTENDANCES;
 
   const attendancesOptions = useMemo(() => {
     const options = [];
@@ -170,6 +170,7 @@ function SubmitButton() {
       className="self-center"
       type="submit"
       style={{ cursor: "pointer" }}
+      disabled={pending}
     >
       {pending ? i18n.t("label_submit_pending") : i18n.t("label_submit")}
     </PrimaryButton>
