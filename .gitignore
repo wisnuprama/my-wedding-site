@@ -37,4 +37,4 @@ next-env.d.ts
 # Sentry Config File
 .sentryclirc
 
-slug-table-generator/*.json
+slug-table-generator/*.minified.json
