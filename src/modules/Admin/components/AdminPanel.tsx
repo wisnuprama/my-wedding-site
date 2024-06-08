@@ -136,16 +136,19 @@ function RSVPScanner({
       if (resp.status === "success") {
         stableSetSearchQuery(resp.data.id);
       }
+
+      setTimeout(() => {
+        alert("Refreshing...");
+        window.location.reload();
+      }, 1000);
     }, 1000);
   }, [sendResultProp, stableSetSearchQuery]);
 
   const [state, dispatch] = useReducer(rsvpScannerReducer, getInitialState());
 
-  useLayoutEffect(() => {
-    if (state.loadingState === "scanning") {
-      stableSetSearchQuery("");
-    }
-  }, [state.loadingState, stableSetSearchQuery]);
+  function reset() {
+    window.location.reload();
+  }
 
   return (
     <>
@@ -163,7 +166,7 @@ function RSVPScanner({
         />
       </div>
       <div className="w-full" style={{ maxHeight: 200 }}>
-        {renderResultState(state, dispatch)}
+        {renderResultState(state, reset)}
       </div>
     </>
   );
@@ -198,13 +201,14 @@ const GuestList = memo(
     const [searchText, setSearchText] = useState(() => {
       if (typeof window !== "undefined" && "URLSearchParams" in window) {
         const url = new URL(String(window.location));
+        console.log(url.searchParams.get("q"));
         return url.searchParams.get("q") || "";
       }
 
       return "";
     });
 
-    const setQuery = useStableCallback((value: string) => {
+    const setQuery = useStableCallback((value) => {
       setSearchText(value);
       if ("URLSearchParams" in window) {
         const url = new URL(String(window.location));
@@ -231,9 +235,11 @@ const GuestList = memo(
 
     const filteredData = searchText
       ? guestListData.filter((data) => {
+          const query = searchText.trim().toLowerCase();
           return (
             data.id.includes(searchText) ||
-            data.name.toLowerCase().includes(searchText.toLowerCase())
+            data.name.toLowerCase().includes(query) ||
+            data.reason?.toLowerCase().includes(query)
           );
         })
       : guestListData;
@@ -354,7 +360,7 @@ function makeGuestRow(
       () =>
         debounce(() => {
           setValue(guestData.id, !guestData.isAttending);
-        }),
+        }, 500),
       [guestData.id, guestData.isAttending],
     );
 
@@ -380,7 +386,7 @@ function makeGuestRow(
           <div className="flex items-center justify-center">
             <input
               type="checkbox"
-              onClick={debouncedOnClick}
+              onChange={debouncedOnClick}
               checked={Boolean(guestData.isAttending)}
               style={{ width: 24, height: 24 }}
               className={`py-1 px-2 rounded`}
@@ -394,7 +400,7 @@ function makeGuestRow(
   return GuestRow;
 }
 
-function renderResultState(state: InvitationQRState, dispatch: Function) {
+function renderResultState(state: InvitationQRState, reset: Function) {
   switch (state.loadingState) {
     case "scanning":
       return (
@@ -412,29 +418,23 @@ function renderResultState(state: InvitationQRState, dispatch: Function) {
       return (
         <div
           className="bg-red-500 p-2 flex flex-col justify-center items-center w-full cursor-pointer"
-          onClick={() => dispatch({ type: "reset", payload: undefined })}
+          onClick={() => reset()}
         >
           <b>
             <IcError fontSize="small" />
             Error, please try to re-scan
           </b>
           <p>Reason: {state.invitationData.message}</p>
-          <PrimaryButton
-            onClick={() => dispatch({ type: "reset", payload: undefined })}
-          >
-            OK
-          </PrimaryButton>
+          <PrimaryButton onClick={() => reset()}>OK</PrimaryButton>
         </div>
       );
     case "success": {
       const { data, message } = state.invitationData;
 
-      const rows = Object.entries(data).sort((e) => (e[0] === "name" ? -1 : 1));
-
       return (
         <div
           className="p-2 flex flex-col justify-center items-center bg-green-400 w-full cursor-pointer"
-          onClick={() => dispatch({ type: "reset", payload: undefined })}
+          onClick={() => reset()}
         >
           <span>
             <b>
@@ -442,11 +442,7 @@ function renderResultState(state: InvitationQRState, dispatch: Function) {
               Status: {message}
             </b>
           </span>
-          <PrimaryButton
-            onClick={() => dispatch({ type: "reset", payload: undefined })}
-          >
-            Done
-          </PrimaryButton>
+          <PrimaryButton onClick={() => reset()}>Done</PrimaryButton>
         </div>
       );
     }
@@ -455,18 +451,21 @@ function renderResultState(state: InvitationQRState, dispatch: Function) {
 
 type InvitationQRState =
   | {
+      firstLoad: boolean;
       qrValue?: string;
       invitationData: undefined;
       loadingState: "scanning" | "loading";
       scanTimestamp: number;
     }
   | {
+      firstLoad: boolean;
       qrValue?: string;
       invitationData: SendResultSuccessResponse;
       loadingState: "success";
       scanTimestamp: number;
     }
   | {
+      firstLoad: boolean;
       qrValue?: string;
       invitationData: SendResultErrorResponse;
       loadingState: "error";
@@ -475,6 +474,7 @@ type InvitationQRState =
 
 function getInitialState(): InvitationQRState {
   return {
+    firstLoad: true,
     qrValue: undefined,
     invitationData: undefined,
     loadingState: "scanning",
@@ -489,6 +489,7 @@ function rsvpScannerReducer(
   switch (action.type) {
     case "scanning_result": {
       return {
+        ...state,
         invitationData: undefined,
         qrValue: action.payload as string,
         loadingState: "loading",
@@ -505,6 +506,7 @@ function rsvpScannerReducer(
 
       if (payload.status === "success") {
         return {
+          firstLoad: false,
           qrValue: state.qrValue,
           invitationData: payload,
           loadingState: "success",
@@ -512,6 +514,7 @@ function rsvpScannerReducer(
         };
       } else if (payload.status === "error") {
         return {
+          firstLoad: false,
           qrValue: state.qrValue,
           invitationData: payload,
           loadingState: "error",
