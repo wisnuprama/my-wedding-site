@@ -79,9 +79,7 @@ function _Wish(props: {
             <CreatedRelativeTime ctime={data.ctime} />
           </p>
         </div>
-        <p className="mt-1 break-words text-ellipsis text-truncate">
-          {data.message}
-        </p>
+        <p className="mt-1 break-words text-ellipsis h-full">{data.message}</p>
       </div>
     </div>
   );
@@ -125,7 +123,7 @@ export function RSVPWishesPagination(props: RSVPWishesPaginationProps) {
               itemCount={parsedWishes.length}
               width={width}
               height={500}
-              itemSize={140}
+              itemSize={200}
               itemKey={(index, data) =>
                 data[index].ctime + data[index].from + index
               }
