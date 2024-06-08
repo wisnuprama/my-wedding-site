@@ -212,7 +212,7 @@ const GuestList = memo(
             </div>
           </div>
         ) : null}
-        <div ref={containerRef} className="bg-white w-full h-full px-2">
+        <div ref={containerRef} className="bg-white w-full h-full px-2 pt-2">
           <AutoSizer>
             {({ width }) => (
               <FixedSizeList<GuestData[]>
