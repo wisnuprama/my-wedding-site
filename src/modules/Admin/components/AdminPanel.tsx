@@ -3,6 +3,7 @@ import { useStableCallback } from "@/common/hooks";
 import { Scanner } from "@yudiel/react-qr-scanner";
 import debounce from "lodash.debounce";
 import {
+  ReactNode,
   memo,
   useImperativeHandle,
   useLayoutEffect,
@@ -70,14 +71,8 @@ export function AdminPanel(props: AdminPanelProps) {
   const searchRef = useRef<{ setQuery(s: string): void }>(null);
 
   return (
-    <div className="h-screen font-sans flex flex-col">
+    <div className="font-sans flex flex-col overflow-auto">
       <div className="flex flex-col justify-center items-center">
-        <button
-          onClick={handleToggleClick}
-          className="rounded-lg p-2 bg-blue-500 text-white font-bold cursor-pointer"
-        >
-          {isScannerEnabled ? "Disable" : "Enable"} Scanner
-        </button>
         {isScannerEnabled ? (
           <RSVPScanner
             sendScannerResult={props.sendScannerResult}
@@ -91,7 +86,18 @@ export function AdminPanel(props: AdminPanelProps) {
         searchRef={searchRef}
         guestListData={props.guestListData}
         setManualAttendance={props.setManualAttendance}
+        toggleScanner={toggleScanner}
         extraData={isScannerEnabled}
+        toggleButton={
+          <button
+            onClick={handleToggleClick}
+            className={`rounded-lg p-2 ml-2 ${
+              isScannerEnabled ? "bg-red-500" : "bg-green-500"
+            } text-white font-bold cursor-pointer`}
+          >
+            <CameraIcon />
+          </button>
+        }
       />
     </div>
   );
@@ -170,6 +176,8 @@ const GuestList = memo(
     setManualAttendance,
     extraData,
     searchRef,
+    toggleScanner,
+    toggleButton,
   }: {
     searchRef: React.RefObject<{ setQuery(s: string): void }>;
     guestListData: GuestData[];
@@ -178,6 +186,8 @@ const GuestList = memo(
       isAttending: boolean,
     ) => Promise<SendResultSuccessResponse | SendResultErrorResponse>;
     extraData: unknown;
+    toggleScanner: (state: boolean) => void;
+    toggleButton: ReactNode;
   }) => {
     const [isLoading, toggleLoading] = useReducer((state) => !state, false);
 
@@ -269,54 +279,44 @@ const GuestList = memo(
 
     return (
       <>
-        {isLoading ? (
-          <div
-            className="absolute top-0 bottom-0 left-0 right-0 z-50 flex justify-center items-center"
-            style={{
-              backgroundColor: "rgba(0,0,0,0.5)",
-            }}
-          >
-            <div role="status">
-              <svg
-                aria-hidden="true"
-                className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
-                viewBox="0 0 100 101"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                  fill="currentFill"
-                />
-              </svg>
-              <span className="sr-only">Loading...</span>
+        <div>
+          {isLoading ? (
+            <div
+              className="absolute top-0 bottom-0 left-0 right-0 z-50 flex justify-center items-center"
+              style={{
+                backgroundColor: "rgba(0,0,0,0.5)",
+              }}
+            >
+              <div role="status">
+                <LoadingIcon />
+                <span className="sr-only">Loading...</span>
+              </div>
             </div>
+          ) : null}
+          <div
+            ref={containerRef}
+            className="bg-white w-full px-2 pt-2 flex-grow"
+            style={{ height: "100dvh" }}
+          >
+            <AutoSizer>
+              {({ width }) => (
+                <FixedSizeList<GuestData[]>
+                  itemCount={filteredData.length}
+                  width={width}
+                  height={containerHeight}
+                  itemSize={150}
+                  itemKey={(index, data) => data[index].id}
+                  itemData={filteredData}
+                >
+                  {Row}
+                </FixedSizeList>
+              )}
+            </AutoSizer>
           </div>
-        ) : null}
-        <div ref={containerRef} className="bg-white w-full h-full px-2 pt-2">
-          <AutoSizer>
-            {({ width }) => (
-              <FixedSizeList<GuestData[]>
-                itemCount={filteredData.length}
-                width={width}
-                height={containerHeight}
-                itemSize={150}
-                itemKey={(index, data) => data[index].id}
-                itemData={filteredData}
-              >
-                {Row}
-              </FixedSizeList>
-            )}
-          </AutoSizer>
         </div>
-
         <div
           ref={bottomRef}
-          className="w-full flex p-2 absolute bottom-0 bg-white text-black shadow-[rgba(0,0,15,0.5)_50px_0px_0px_0px]"
+          className="w-full flex p-2 fixed bottom-0 bg-white text-black shadow-[rgba(0,0,15,0.5)_50px_0px_0px_0px] items-center"
         >
           <label htmlFor="search-name" className="mr-2">
             Search
@@ -331,7 +331,9 @@ const GuestList = memo(
             onChange={(e) => {
               setQuery(e.target.value);
             }}
+            onClick={() => toggleScanner(false)}
           />
+          {toggleButton}
         </div>
       </>
     );
@@ -451,15 +453,6 @@ function renderResultState(state: InvitationQRState, dispatch: Function) {
   }
 }
 
-function renderValue(value: string | number | boolean) {
-  switch (typeof value) {
-    case "boolean":
-      return <input type="checkbox" checked={value} disabled />;
-    default:
-      return value;
-  }
-}
-
 type InvitationQRState =
   | {
       qrValue?: string;
@@ -531,4 +524,55 @@ function rsvpScannerReducer(
     default:
       return state;
   }
+}
+
+function CameraIcon() {
+  return (
+    <svg
+      fill="#000000"
+      height="16px"
+      width="16px"
+      version="1.1"
+      id="Capa_1"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 74.207 74.207"
+    >
+      <g>
+        <path
+          d="M57.746,14.658h-2.757l-1.021-3.363c-0.965-3.178-3.844-5.313-7.164-5.313H28.801c-3.321,0-6.201,2.135-7.165,5.313
+      l-1.021,3.363h-4.153C7.385,14.658,0,22.043,0,31.121v20.642c0,9.077,7.385,16.462,16.462,16.462h41.283
+      c9.077,0,16.462-7.385,16.462-16.462V31.121C74.208,22.043,66.823,14.658,57.746,14.658z M68.208,51.762
+      c0,5.769-4.693,10.462-10.462,10.462H16.462C10.693,62.223,6,57.53,6,51.762V31.121c0-5.769,4.693-10.462,10.462-10.462h8.603
+      l2.313-7.621c0.192-0.631,0.764-1.055,1.423-1.055h18.003c0.659,0,1.23,0.424,1.423,1.057l2.314,7.619h7.204
+      c5.769,0,10.462,4.693,10.462,10.462L68.208,51.762L68.208,51.762z"
+        />
+        <path
+          d="M37.228,25.406c-8.844,0-16.04,7.195-16.04,16.04c0,8.844,7.195,16.039,16.04,16.039s16.041-7.195,16.041-16.039
+      C53.269,32.601,46.073,25.406,37.228,25.406z M37.228,51.486c-5.536,0-10.04-4.504-10.04-10.039c0-5.536,4.504-10.04,10.04-10.04
+      c5.537,0,10.041,4.504,10.041,10.04C47.269,46.982,42.765,51.486,37.228,51.486z"
+        />
+      </g>
+    </svg>
+  );
+}
+
+function LoadingIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+      viewBox="0 0 100 101"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+        fill="currentColor"
+      />
+      <path
+        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+        fill="currentFill"
+      />
+    </svg>
+  );
 }

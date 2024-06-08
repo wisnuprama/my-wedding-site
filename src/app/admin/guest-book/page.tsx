@@ -32,13 +32,13 @@ export default async function GuestBookAdmin(_: AdminProps) {
         <p className="text-2xl mb-4">
           {guestListResponse.message}, report to dev on duty
         </p>
-        <PrimaryLink href="/">Return Home</PrimaryLink>
+        <PrimaryLink href="/admin/guest-book">Return Home</PrimaryLink>
       </div>
     );
   }
 
   return (
-    <main className="m-0 p-0 h-screen">
+    <main>
       <Navbar />
       <AdminPanel
         guestListData={guestListResponse.data}
