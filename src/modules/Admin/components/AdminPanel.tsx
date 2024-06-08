@@ -4,6 +4,7 @@ import { Scanner } from "@yudiel/react-qr-scanner";
 import debounce from "lodash.debounce";
 import {
   memo,
+  useImperativeHandle,
   useLayoutEffect,
   useMemo,
   useReducer,
@@ -66,6 +67,8 @@ export function AdminPanel(props: AdminPanelProps) {
     }
   }
 
+  const searchRef = useRef<{ setQuery(s: string): void }>(null);
+
   return (
     <div className="h-screen font-sans flex flex-col">
       <div className="flex flex-col justify-center items-center">
@@ -76,10 +79,16 @@ export function AdminPanel(props: AdminPanelProps) {
           {isScannerEnabled ? "Disable" : "Enable"} Scanner
         </button>
         {isScannerEnabled ? (
-          <RSVPScanner sendScannerResult={props.sendScannerResult} />
+          <RSVPScanner
+            sendScannerResult={props.sendScannerResult}
+            setSearchQuery={(query) => {
+              searchRef.current?.setQuery(query);
+            }}
+          />
         ) : null}
       </div>
       <GuestList
+        searchRef={searchRef}
         guestListData={props.guestListData}
         setManualAttendance={props.setManualAttendance}
         extraData={isScannerEnabled}
@@ -90,13 +99,17 @@ export function AdminPanel(props: AdminPanelProps) {
 
 function RSVPScanner({
   sendScannerResult,
+  setSearchQuery,
 }: {
   sendScannerResult: AdminPanelProps["sendScannerResult"];
+  setSearchQuery: (query: string) => void;
 }) {
   const sendResultProp: (
     result: string,
   ) => Promise<SendResultSuccessResponse | SendResultErrorResponse> =
     useStableCallback(sendScannerResult);
+
+  const stableSetSearchQuery = useStableCallback(setSearchQuery);
 
   const sendResult = useMemo(() => {
     return debounce(async (result: string) => {
@@ -113,10 +126,20 @@ function RSVPScanner({
         type: "process_response",
         payload: resp,
       });
+
+      if (resp.status === "success") {
+        stableSetSearchQuery(resp.data.id);
+      }
     }, 1000);
-  }, [sendResultProp]);
+  }, [sendResultProp, stableSetSearchQuery]);
 
   const [state, dispatch] = useReducer(rsvpScannerReducer, getInitialState());
+
+  useLayoutEffect(() => {
+    if (state.loadingState === "scanning") {
+      stableSetSearchQuery("");
+    }
+  }, [state.loadingState, stableSetSearchQuery]);
 
   return (
     <>
@@ -146,7 +169,9 @@ const GuestList = memo(
     guestListData,
     setManualAttendance,
     extraData,
+    searchRef,
   }: {
+    searchRef: React.RefObject<{ setQuery(s: string): void }>;
     guestListData: GuestData[];
     setManualAttendance: (
       id: string,
@@ -168,6 +193,23 @@ const GuestList = memo(
 
       return "";
     });
+
+    const setQuery = useStableCallback((value: string) => {
+      setSearchText(value);
+      if ("URLSearchParams" in window) {
+        const url = new URL(String(window.location));
+        url.searchParams.set("q", value);
+        history.pushState(null, "", url);
+      }
+    });
+
+    useImperativeHandle(
+      searchRef,
+      () => ({
+        setQuery,
+      }),
+      [setQuery],
+    );
 
     useLayoutEffect(() => {
       const height =
@@ -287,12 +329,7 @@ const GuestList = memo(
             placeholder="Enter 6 digit ID or Person Name or Group Name"
             value={searchText}
             onChange={(e) => {
-              setSearchText(e.target.value);
-              if ("URLSearchParams" in window) {
-                const url = new URL(String(window.location));
-                url.searchParams.set("q", e.target.value);
-                history.pushState(null, "", url);
-              }
+              setQuery(e.target.value);
             }}
           />
         </div>
@@ -329,14 +366,14 @@ function makeGuestRow(
         </div>
         <div className="flex flex-row gap-5">
           <ul className="flex-1">
-            <li>ID={guestData.id}</li>
-            <li>Pax={guestData.pax}</li>
-            <li>VIP={String(guestData.vip)}</li>
-            <li>Reason={guestData.reason}</li>
+            <li>ID: {guestData.id}</li>
+            <li>Pax: {guestData.pax}</li>
+            <li>VIP: {guestData.vip ? "yes" : "no"}</li>
+            <li>Reason: {guestData.reason}</li>
           </ul>
           <ul>
-            <li>Will attend={String(guestData.willAttend)}</li>
-            <li>Attended={String(guestData.isAttending)}</li>
+            <li>Will attend: {guestData.willAttend ? "yes" : "no"}</li>
+            <li>Attended: {guestData.isAttending ? "yes" : "no"}</li>
           </ul>
           <div className="flex items-center justify-center">
             <input
@@ -403,13 +440,6 @@ function renderResultState(state: InvitationQRState, dispatch: Function) {
               Status: {message}
             </b>
           </span>
-          <div className="flex flex-1 flex-wrap justify-evenly items-start">
-            {rows.map(([key, value]) => (
-              <div key={key + value} className="p-1 mr-1">
-                [{key}: {renderValue(value)}]
-              </div>
-            ))}
-          </div>
           <PrimaryButton
             onClick={() => dispatch({ type: "reset", payload: undefined })}
           >
