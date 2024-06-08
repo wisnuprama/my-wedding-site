@@ -3,6 +3,7 @@ import { PrimaryLink } from "@/components/Link";
 import { UserManager } from "@/modules/Admin";
 import {
   getAllGuestData,
+  setGuestIsAttending,
   updateGuestIsAttending,
 } from "@/modules/Admin/GuestBookService";
 import { AdminPanel } from "@/modules/Admin/components/AdminPanel";
@@ -41,7 +42,8 @@ export default async function GuestBookAdmin(_: AdminProps) {
       <Navbar />
       <AdminPanel
         guestListData={guestListResponse.data}
-        sendResult={updateGuestIsAttending}
+        sendScannerResult={updateGuestIsAttending}
+        setManualAttendance={setGuestIsAttending}
       />
     </main>
   );

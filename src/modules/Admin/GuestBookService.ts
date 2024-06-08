@@ -122,6 +122,14 @@ export async function updateGuestIsAttending(
   return service.updateGuestAttendance(id, true);
 }
 
+export async function setGuestIsAttending(
+  id: string,
+  isAttending: boolean,
+): Promise<UpdateGuestSuccessResponse | UpdateGuestErrorResponse> {
+  const service = await GuestBookService.create();
+  return service.updateGuestAttendance(id, Boolean(isAttending));
+}
+
 export async function updateGuestIsCollectingSouvenir(
   id: string,
 ): Promise<UpdateGuestSuccessResponse | UpdateGuestErrorResponse> {
