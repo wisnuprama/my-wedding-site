@@ -334,22 +334,19 @@ function makeGuestRow(
             <li>VIP={String(guestData.vip)}</li>
             <li>Reason={guestData.reason}</li>
           </ul>
-          <ul style={{ flex: 1 }}>
+          <ul>
             <li>Will attend={String(guestData.willAttend)}</li>
             <li>Attended={String(guestData.isAttending)}</li>
-            <li>
-              <button
-                onClick={debouncedOnClick}
-                className={`${
-                  guestData.isAttending
-                    ? "bg-red-500 hover:bg-red-700"
-                    : "bg-green-500 hover:bg-green-700"
-                } text-white font-bold py-1 px-2 rounded`}
-              >
-                {guestData.isAttending ? "Revert" : "Accept"}
-              </button>
-            </li>
           </ul>
+          <div className="flex items-center justify-center">
+            <input
+              type="checkbox"
+              onClick={debouncedOnClick}
+              checked={Boolean(guestData.isAttending)}
+              style={{ width: 24, height: 24 }}
+              className={`py-1 px-2 rounded`}
+            />
+          </div>
         </div>
       </div>
     );
