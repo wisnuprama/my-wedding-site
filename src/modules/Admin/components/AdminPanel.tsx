@@ -4,7 +4,6 @@ import { Scanner } from "@yudiel/react-qr-scanner";
 import debounce from "lodash.debounce";
 import {
   memo,
-  useCallback,
   useLayoutEffect,
   useMemo,
   useReducer,
@@ -41,12 +40,63 @@ type AdminPanelProps = {
 };
 
 export function AdminPanel(props: AdminPanelProps) {
-  const [state, dispatch] = useReducer(adminPanelReducer, getInitialState());
+  const [isScannerEnabled, toggleScanner] = useState(false);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useLayoutEffect(() => {
+    document.body.style.overflow = "hidden";
+
+    if (typeof window !== "undefined" && "URLSearchParams" in window) {
+      const url = new URL(String(window.location));
+
+      if (url.searchParams.has("s")) {
+        toggleScanner(url.searchParams.get("s") === "1");
+      } else {
+        toggleScanner(true);
+      }
+    }
+  }, []);
+
+  function handleToggleClick() {
+    toggleScanner(!isScannerEnabled);
+    if (typeof window !== "undefined" && "URLSearchParams" in window) {
+      const url = new URL(String(window.location));
+      url.searchParams.set("s", isScannerEnabled ? "0" : "1");
+      history.pushState(null, "", url);
+    }
+  }
+
+  return (
+    <div className="h-screen font-sans flex flex-col">
+      <div className="flex flex-col justify-center items-center">
+        <button
+          onClick={handleToggleClick}
+          className="rounded-lg p-2 bg-blue-500 text-white font-bold cursor-pointer"
+        >
+          {isScannerEnabled ? "Disable" : "Enable"} Scanner
+        </button>
+        {isScannerEnabled ? (
+          <RSVPScanner sendScannerResult={props.sendScannerResult} />
+        ) : null}
+      </div>
+      <GuestList
+        guestListData={props.guestListData}
+        setManualAttendance={props.setManualAttendance}
+        extraData={isScannerEnabled}
+      />
+    </div>
+  );
+}
+
+function RSVPScanner({
+  sendScannerResult,
+}: {
+  sendScannerResult: AdminPanelProps["sendScannerResult"];
+}) {
   const sendResultProp: (
     result: string,
   ) => Promise<SendResultSuccessResponse | SendResultErrorResponse> =
-    useStableCallback(props.sendScannerResult);
+    useStableCallback(sendScannerResult);
 
   const sendResult = useMemo(() => {
     return debounce(async (result: string) => {
@@ -66,36 +116,27 @@ export function AdminPanel(props: AdminPanelProps) {
     }, 1000);
   }, [sendResultProp]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useLayoutEffect(() => {
-    document.body.style.overflow = "hidden";
-  }, []);
+  const [state, dispatch] = useReducer(rsvpScannerReducer, getInitialState());
 
   return (
-    <div className="h-screen font-sans flex flex-col">
-      <div className="flex flex-col justify-center items-center">
-        <h1 className="text-xl">Scan invitation QR</h1>
-        <div style={{ height: 200, width: 200 }}>
-          <Scanner
-            key={state.scanTimestamp}
-            scanDelay={1000}
-            constraints={{ frameRate: 24, facingMode: "environment" }}
-            formats={["qr_code"]}
-            onScan={(result) => {
-              Promise.all(result.map((r) => sendResult(r.rawValue)));
-            }}
-            allowMultiple={true}
-          />
-        </div>
-        <div className="w-full" style={{ maxHeight: 200 }}>
-          {renderResultState(state, dispatch)}
-        </div>
+    <>
+      <h1 className="text-xl">Scan invitation QR</h1>
+      <div style={{ height: 200, width: 200 }}>
+        <Scanner
+          key={state.scanTimestamp}
+          scanDelay={1000}
+          constraints={{ frameRate: 24, facingMode: "environment" }}
+          formats={["qr_code"]}
+          onScan={(result) => {
+            Promise.all(result.map((r) => sendResult(r.rawValue)));
+          }}
+          allowMultiple={true}
+        />
       </div>
-      <GuestList
-        guestListData={props.guestListData}
-        setManualAttendance={props.setManualAttendance}
-      />
-    </div>
+      <div className="w-full" style={{ maxHeight: 200 }}>
+        {renderResultState(state, dispatch)}
+      </div>
+    </>
   );
 }
 
@@ -104,12 +145,14 @@ const GuestList = memo(
   ({
     guestListData,
     setManualAttendance,
+    extraData,
   }: {
     guestListData: GuestData[];
     setManualAttendance: (
       id: string,
       isAttending: boolean,
     ) => Promise<SendResultSuccessResponse | SendResultErrorResponse>;
+    extraData: unknown;
   }) => {
     const [isLoading, toggleLoading] = useReducer((state) => !state, false);
 
@@ -132,7 +175,7 @@ const GuestList = memo(
         (bottomRef.current?.clientHeight || 0);
 
       setContainerHeight(height);
-    }, []);
+    }, [extraData]);
 
     const filteredData = searchText
       ? guestListData.filter((data) => {
@@ -419,7 +462,7 @@ function getInitialState(): InvitationQRState {
   };
 }
 
-function adminPanelReducer(
+function rsvpScannerReducer(
   state: InvitationQRState,
   action: { type: string; payload: unknown },
 ): InvitationQRState {
