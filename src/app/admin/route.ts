@@ -46,9 +46,9 @@ export async function GET(request: Request) {
   headers.append(
     "Set-Cookie",
     cookie.serialize("ws_a", token, {
-      // httpOnly: true,
-      // secure: true,
-      // sameSite: "strict",
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
       path: "/",
 
       // 10 years
