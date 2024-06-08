@@ -235,12 +235,14 @@ const GuestList = memo(
 
     const filteredData = searchText
       ? guestListData.filter((data) => {
-          const query = searchText.trim().toLowerCase();
-          return (
-            data.id.includes(searchText) ||
-            data.name.toLowerCase().includes(query) ||
-            data.reason?.toLowerCase().includes(query)
-          );
+          if (data.id.includes(searchText)) {
+            return true;
+          }
+
+          const query = searchText.trim().toLowerCase().split(" ");
+          const searchableText = `${data.name} ${data.reason}`;
+
+          return query.every((q) => searchableText.toLowerCase().includes(q));
         })
       : guestListData;
 
