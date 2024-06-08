@@ -10,6 +10,12 @@ type UpdateGuestSuccessResponse = {
   message: string;
 };
 
+type UpdateGuestListSuccessResponse = {
+  status: "success";
+  data: GuestData[];
+  message: string;
+};
+
 type UpdateGuestErrorResponse = {
   status: "error";
   message: string;
@@ -83,6 +89,25 @@ class GuestBookService {
     };
   }
 
+  public async getAllGuestData(): Promise<
+    UpdateGuestListSuccessResponse | UpdateGuestErrorResponse
+  > {
+    const [guests, err] = await this.rsvpService.getAllGuestData();
+
+    if (err) {
+      return {
+        status: "error",
+        message: err.errorMsg || "Unknown error",
+      };
+    }
+
+    return {
+      status: "success",
+      message: "Success",
+      data: guests,
+    };
+  }
+
   public static async create(): Promise<GuestBookService> {
     const service = new GuestBookService();
     service.setRSVPService(await getRSVPService());
@@ -102,4 +127,11 @@ export async function updateGuestIsCollectingSouvenir(
 ): Promise<UpdateGuestSuccessResponse | UpdateGuestErrorResponse> {
   const service = await GuestBookService.create();
   return service.updateGuestSouvenirCollection(id, true);
+}
+
+export async function getAllGuestData(): Promise<
+  UpdateGuestListSuccessResponse | UpdateGuestErrorResponse
+> {
+  const service = await GuestBookService.create();
+  return service.getAllGuestData();
 }

@@ -2,12 +2,13 @@
 import { useStableCallback } from "@/common/hooks";
 import { Scanner } from "@yudiel/react-qr-scanner";
 import debounce from "lodash.debounce";
-import { useLayoutEffect, useMemo, useReducer } from "react";
+import { memo, useLayoutEffect, useMemo, useReducer, useState } from "react";
 import IcSuccess from "@material-ui/icons/CheckCircle";
 import IcError from "@material-ui/icons/Error";
 import { GuestData } from "@/modules/Admin/types";
-import invariant from "invariant";
 import { PrimaryButton } from "@/components/Link";
+import AutoSizer from "react-virtualized-auto-sizer";
+import { FixedSizeList, ListChildComponentProps } from "react-window";
 
 type SendResultSuccessResponse = {
   status: "success";
@@ -21,7 +22,7 @@ type SendResultErrorResponse = {
 };
 
 type AdminPanelProps = {
-  spreadsheetId: string;
+  guestListData: GuestData[];
   sendResult: (
     result: string,
   ) => Promise<SendResultSuccessResponse | SendResultErrorResponse>;
@@ -65,8 +66,6 @@ export function AdminPanel(props: AdminPanelProps) {
     document.body.style.overflow = "hidden";
   }, []);
 
-  invariant(props.spreadsheetId, "GOOGLE_DOCUMENT_ID is required");
-
   return (
     <div className="h-screen">
       <div className="flex flex-col justify-center items-center">
@@ -87,13 +86,90 @@ export function AdminPanel(props: AdminPanelProps) {
           {renderResultState(state, dispatch)}
         </div>
       </div>
-      <center>
-        <iframe
-          className="w-full md:w-3/4 self-center"
-          height={500}
-          src={`https://docs.google.com/spreadsheets/d/${props.spreadsheetId}/edit?gid=0&single=true&rm=minimal&widget=true&headers=false`}
+      <GuestList guestListData={props.guestListData} />
+    </div>
+  );
+}
+
+// eslint-disable-next-line react/display-name
+const GuestList = memo(({ guestListData }: { guestListData: GuestData[] }) => {
+  const [searchText, setSearchText] = useState("");
+
+  const filteredData = searchText
+    ? guestListData.filter((data) => {
+        return (
+          data.id.includes(searchText) ||
+          data.name.toLowerCase().includes(searchText.toLowerCase())
+        );
+      })
+    : guestListData;
+
+  return (
+    <>
+      <div className="w-full flex p-1">
+        <label htmlFor="search-name" className="mr-2">
+          Search
+        </label>
+        <input
+          style={{ color: "black" }}
+          className="flex-grow px-1"
+          id="search-name"
+          type="text"
+          placeholder="Enter 6 digit ID or Person Name or Group Name"
+          onChange={(e) => setSearchText(e.target.value)}
         />
-      </center>
+      </div>
+      <div className="bg-white w-full h-full">
+        <AutoSizer>
+          {({ height, width }) => (
+            <FixedSizeList<GuestData[]>
+              itemCount={filteredData.length}
+              width={width}
+              height={height}
+              itemSize={150}
+              itemKey={(index, data) => data[index].id}
+              itemData={filteredData}
+            >
+              {GuestRow}
+            </FixedSizeList>
+          )}
+        </AutoSizer>
+      </div>
+    </>
+  );
+});
+
+function GuestRow({
+  data,
+  index,
+  style,
+}: ListChildComponentProps<GuestData[]>) {
+  const guestData = data[index];
+  return (
+    <div
+      style={{ ...style, color: "black" }}
+      className="p-1 border-y-2 border-gray-300"
+    >
+      <div>
+        <b>{guestData.name}</b>
+      </div>
+      <div className="flex flex-row gap-5">
+        <ul className="flex-1">
+          <li>ID={guestData.id}</li>
+          <li>Pax={guestData.pax}</li>
+          <li>VIP={String(guestData.vip)}</li>
+          <li>Reason={guestData.reason}</li>
+        </ul>
+        <ul style={{ flex: 1 }}>
+          <li>Will attend={String(guestData.willAttend)}</li>
+          <li>Attended={String(guestData.isAttending)}</li>
+          <li>
+            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">
+              {guestData.isAttending ? "Revert" : "Accept"}
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }
@@ -149,7 +225,7 @@ function renderResultState(state: InvitationQRState, dispatch: Function) {
           <div className="flex flex-1 flex-wrap justify-evenly items-start">
             {rows.map(([key, value]) => (
               <div key={key + value} className="p-1 mr-1">
-                {key}={renderValue(value)}
+                [{key}: {renderValue(value)}]
               </div>
             ))}
           </div>

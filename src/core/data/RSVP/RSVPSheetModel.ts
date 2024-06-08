@@ -19,6 +19,7 @@ export type RSVPRow = {
   source: string;
   personal_message: string;
   has_collected_souvenir: "TRUE" | "FALSE";
+  reason: string;
 };
 
 export class RSVPSheetModel {

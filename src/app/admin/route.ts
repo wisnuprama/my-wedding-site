@@ -17,21 +17,17 @@ export async function GET(request: Request) {
   if (userToken && userManager.isValidToken(userToken)) {
     const headers = new Headers();
     headers.set("Content-Type", "text/html");
-    return new Response(
-      `<html>
-        <body>
-          <h1>Admin</h1>
-          <p>Logged in as ${userManager.getUser(userToken)?.username}</p>
-          <a href="/admin/guest-book">Guest Book</a> |
-          <a href="/admin/souvenir">Souvenir</a> |
-          <a href="/admin?logout=1">Logout</a>
-        </body>
-      </html>`,
+
+    const redirectURL = new URL("/admin/guest-book", getHostname());
+
+    const response = new Response(
+      `<script>window.location.href = '${redirectURL.toString()}'</script>`,
       {
         status: 200,
         headers,
       },
     );
+    return response;
   }
 
   const url = new URL(request.url);

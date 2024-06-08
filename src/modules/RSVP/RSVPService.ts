@@ -316,15 +316,40 @@ export class RSVPService {
     }
 
     return [
-      deserializeSheetData({
+      {
         id: rsvp.get("id"),
-        name: rsvp.get("nama"),
-        pax: rsvp.get("actual_pax") || rsvp.get("estimated_pax"),
-        vip: rsvp.get("vip"),
-        willAttend: rsvp.get("will_attend"),
-        hasCollectedSouvenir: rsvp.get("has_collected_souvenir"),
-        isAttending: rsvp.get("attended"),
-      }),
+        ...deserializeSheetData({
+          name: rsvp.get("nama"),
+          pax: rsvp.get("actual_pax") || rsvp.get("estimated_pax"),
+          vip: rsvp.get("vip"),
+          willAttend: rsvp.get("will_attend"),
+          hasCollectedSouvenir: rsvp.get("has_collected_souvenir"),
+          isAttending: rsvp.get("attended"),
+          reason: rsvp.get("reason"),
+        }),
+      },
+      null,
+    ];
+  }
+
+  public async getAllGuestData(): Promise<
+    [RSVPGuestData[], null] | [null, ServiceError]
+  > {
+    const rsvpArr = await this.rsvpModel.findAll();
+
+    return [
+      rsvpArr.map((rsvp) => ({
+        id: rsvp.get("id"),
+        ...deserializeSheetData({
+          name: rsvp.get("nama"),
+          pax: rsvp.get("actual_pax") || rsvp.get("estimated_pax"),
+          vip: rsvp.get("vip"),
+          willAttend: rsvp.get("will_attend"),
+          hasCollectedSouvenir: rsvp.get("has_collected_souvenir"),
+          isAttending: rsvp.get("attended"),
+          reason: rsvp.get("reason"),
+        }),
+      })),
       null,
     ];
   }

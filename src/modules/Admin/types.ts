@@ -6,4 +6,5 @@ export type GuestData = {
   willAttend?: boolean;
   hasCollectedSouvenir?: boolean;
   isAttending?: boolean;
+  reason?: string;
 };
