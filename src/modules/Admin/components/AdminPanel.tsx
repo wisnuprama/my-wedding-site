@@ -201,7 +201,6 @@ const GuestList = memo(
     const [searchText, setSearchText] = useState(() => {
       if (typeof window !== "undefined" && "URLSearchParams" in window) {
         const url = new URL(String(window.location));
-        console.log(url.searchParams.get("q"));
         return url.searchParams.get("q") || "";
       }
 

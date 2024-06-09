@@ -57,7 +57,13 @@ export async function GET(request: Request) {
     }),
   );
   const response = new Response(
-    `<script>window.location.href = '${redirectURL.toString()}'</script>`,
+    `<html>
+    <head>
+      <title>Admin</title>
+      <meta name="description" content="Admin Panel" />
+    </head>
+    <script>window.location.href = '${redirectURL.toString()}'</script>
+    </html>`,
     {
       status: 200,
       headers,

@@ -103,16 +103,6 @@ export async function GET(request: Request) {
       headers,
     },
   );
-  // const response = NextResponse.redirect(new URL("/", getHostname()));
-  // response.cookies.set("ws_r", rsvpToken, {
-  //   httpOnly: true,
-  //   secure: true,
-  //   sameSite: "strict",
-  //   path: "/",
-  //   // 10 years
-  //   expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365 * 10),
-  //   maxAge: 60 * 60 * 24 * 365 * 10,
-  // });
 
   return response;
 }
