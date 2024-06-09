@@ -37,13 +37,19 @@ export default async function GuestBookAdmin(_: AdminProps) {
       </div>
     );
   }
+  // @wisnuprama - temporary limit for testing purpose. TODO: Remove before the event.
+  const TEMP_LIMIT = 10;
+  const listData =
+    user.role === "edit"
+      ? guestListResponse.data.slice(0, TEMP_LIMIT)
+      : guestListResponse.data;
 
   return (
     <main>
       <Navbar username={user.username} />
       <AdminPanel
         userRole={user.role}
-        guestListData={guestListResponse.data}
+        guestListData={listData}
         sendScannerResult={updateGuestIsAttending}
         setManualAttendance={setGuestIsAttending}
       />
