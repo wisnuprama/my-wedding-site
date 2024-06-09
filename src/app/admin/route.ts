@@ -9,44 +9,20 @@ export async function GET(request: Request) {
   const userManager = UserManager.createUserManagerUsingEnvVariable();
 
   if (request.url.includes("logout")) {
-    cookies().delete("ws_a");
+    cookies().delete("ws_u");
     return NextResponse.redirect(new URL("/", getHostname()));
   }
 
+  // new token from param
+  const url = new URL(request.url);
+  const newToken = url.searchParams.get("p");
+
   const userToken = userManager.getCurrentUser()?.token;
-  if (userToken && userManager.isValidToken(userToken)) {
-    const headers = new Headers();
-    headers.set("Content-Type", "text/html");
-    headers.append(
-      "Set-Cookie",
-      cookie.serialize("ws_a", userToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "lax",
-        path: "/",
-
-        // 24 hours
-        expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
-        maxAge: 60 * 60 * 24,
-      }),
-    );
-
-    const redirectURL = new URL("/admin/guest-book", getHostname());
-
-    const response = new Response(
-      `<script>window.location.href = '${redirectURL.toString()}'</script>`,
-      {
-        status: 200,
-        headers,
-      },
-    );
-    return response;
+  if (!newToken && userToken && userManager.isValidToken(userToken)) {
+    return NextResponse.redirect(new URL("/admin/guest-book", getHostname()));
   }
 
-  const url = new URL(request.url);
-  const token = url.searchParams.get("p");
-
-  if (!userManager.isValidToken(token)) {
+  if (!userManager.isValidToken(newToken)) {
     return NextResponse.json({ error: "Invalid" }, { status: 401 });
   }
 
@@ -58,10 +34,10 @@ export async function GET(request: Request) {
   headers.set("Content-Type", "text/html");
   headers.append(
     "Set-Cookie",
-    cookie.serialize("ws_a", token, {
+    cookie.serialize("ws_u", newToken, {
       httpOnly: true,
       secure: true,
-      sameSite: "lax",
+      sameSite: "strict",
       path: "/",
 
       // 24 hours

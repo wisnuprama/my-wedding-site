@@ -29,7 +29,7 @@ export class UserManager {
   }
 
   public getCurrentUser() {
-    const userToken = cookies().get("ws_a")?.value;
+    const userToken = cookies().get("ws_u")?.value;
 
     if (!userToken) {
       return undefined;
