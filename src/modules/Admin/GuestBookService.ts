@@ -92,6 +92,8 @@ class GuestBookService {
   public async getAllGuestData(): Promise<
     UpdateGuestListSuccessResponse | UpdateGuestErrorResponse
   > {
+    const TEMP_LIMIT = 10; // @wisnuprama - temporary limit for testing purpose. Remove before the event.
+
     const [guests, err] = await this.rsvpService.getAllGuestData();
 
     if (err) {
@@ -104,7 +106,7 @@ class GuestBookService {
     return {
       status: "success",
       message: "Success",
-      data: guests,
+      data: guests.slice(0, TEMP_LIMIT),
     };
   }
 
