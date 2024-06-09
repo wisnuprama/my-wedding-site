@@ -37,7 +37,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Invalid" }, { status: 401 });
   }
 
-  const redirectURL = new URL("/admin", getHostname());
+  const redirectURL = new URL("/admin/guest-book", getHostname());
   // NOTE: https://github.com/vercel/next.js/discussions/48434#discussioncomment-7843884
   // Issue: https://github.com/wisnuprama/my-wedding-site/issues/46
   // workaround solution
