@@ -1,6 +1,10 @@
 "use server";
 import { AnchorTagSmoothScroll } from "@/components/AnchorTagSmoothScroll";
-import { RSVPContextProvider, RSVPContextValue } from "@/modules/RSVP";
+import {
+  RSVPContextProvider,
+  RSVPContextValue,
+  RSVPMode,
+} from "@/modules/RSVP";
 import { getRSVPViewModel } from "@/modules/RSVP/server";
 import {
   OpeningSection,
@@ -57,7 +61,15 @@ export default async function Home({ searchParams }: HomeProps) {
           <WeddingEventInfoSection />
           <RSVPWishesSection rsvpViewModel={rsvpViewModel} />
           <GallerySection />
-          <LoveGiftSection />
+          {/* only display for invitation */}
+          {![RSVPMode.OFF, RSVPMode.BLESSING].includes(
+            rsvpViewModel.rsvpMode,
+          ) ? (
+            <LoveGiftSection />
+          ) : (
+            // workaround for the layout shift issue
+            <div className="h-52" />
+          )}
         </main>
         <BottomNavigation />
         <Footer />
