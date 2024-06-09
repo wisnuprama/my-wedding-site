@@ -17,6 +17,19 @@ export async function GET(request: Request) {
   if (userToken && userManager.isValidToken(userToken)) {
     const headers = new Headers();
     headers.set("Content-Type", "text/html");
+    headers.append(
+      "Set-Cookie",
+      cookie.serialize("ws_a", userToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        path: "/",
+
+        // 24 hours
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
+        maxAge: 60 * 60 * 24,
+      }),
+    );
 
     const redirectURL = new URL("/admin/guest-book", getHostname());
 
