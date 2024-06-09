@@ -22,7 +22,7 @@ export async function GET(request: Request) {
       cookie.serialize("ws_a", userToken, {
         httpOnly: true,
         secure: true,
-        sameSite: "strict",
+        sameSite: "lax",
         path: "/",
 
         // 24 hours
@@ -61,7 +61,7 @@ export async function GET(request: Request) {
     cookie.serialize("ws_a", token, {
       httpOnly: true,
       secure: true,
-      sameSite: "strict",
+      sameSite: "lax",
       path: "/",
 
       // 24 hours
