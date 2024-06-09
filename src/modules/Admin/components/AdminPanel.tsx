@@ -387,11 +387,12 @@ function makeGuestRow(
             <li>ID: {guestData.id}</li>
             <li>Pax: {guestData.pax}</li>
             <li>VIP: {guestData.vip ? "yes" : "no"}</li>
-            <li>Reason: {guestData.reason}</li>
+            <li>Alasan: {guestData.reason}</li>
           </ul>
           <ul>
-            <li>Will attend: {guestData.willAttend ? "yes" : "no"}</li>
-            <li>Attended: {guestData.isAttending ? "yes" : "no"}</li>
+            <li>Isi RSVP: {guestData.rsvpDone ? "Sudah" : "Belum"}</li>
+            <li>Akan Datang: {guestData.willAttend ? "Ya" : "Tidak"}</li>
+            <li>Telah Datang: {guestData.isAttending ? "Ya" : "Tidak"}</li>
           </ul>
           {userRole === "edit" ? (
             <div className="flex items-center justify-center">

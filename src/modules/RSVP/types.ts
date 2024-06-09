@@ -71,6 +71,7 @@ export type RSVPGuestData = {
   name: string;
   pax: number;
   vip: boolean;
+  rsvpDone?: boolean;
   willAttend?: boolean;
   hasCollectedSouvenir?: boolean;
   isAttending?: boolean;

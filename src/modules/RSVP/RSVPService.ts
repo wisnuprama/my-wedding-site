@@ -344,6 +344,7 @@ export class RSVPService {
           name: rsvp.get("nama"),
           pax: rsvp.get("actual_pax") || rsvp.get("estimated_pax"),
           vip: rsvp.get("vip"),
+          rsvpDone: rsvp.get("rsvp_done"),
           willAttend: rsvp.get("will_attend"),
           hasCollectedSouvenir: rsvp.get("has_collected_souvenir"),
           isAttending: rsvp.get("attended"),
