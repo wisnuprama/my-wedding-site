@@ -98,7 +98,7 @@ class GoogleSpreadsheetDatabase implements Database<{}> {
 
 export const sheetdb = new GoogleSpreadsheetDatabase(createGoogleSpreadsheet());
 
-schedule.scheduleJob("0 * * * * ", async () => {
+schedule.scheduleJob("0 * * * *", async () => {
   console.info("CRON: Refreshing Google Spreadsheet connection");
   try {
     await sheetdb.reset();
