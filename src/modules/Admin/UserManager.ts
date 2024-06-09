@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 type User = {
   username: string;
   token: string;
+  role?: "edit" | "readonly";
 };
 
 export class UserManager {

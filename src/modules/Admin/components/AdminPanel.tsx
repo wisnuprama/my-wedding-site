@@ -31,6 +31,7 @@ type SendResultErrorResponse = {
 };
 
 type AdminPanelProps = {
+  userRole?: "edit" | "readonly";
   guestListData: GuestData[];
   sendScannerResult: (
     result: string,
@@ -70,33 +71,38 @@ export function AdminPanel(props: AdminPanelProps) {
 
   const searchRef = useRef<{ setQuery(s: string): void }>(null);
 
+  const hasEditRole = props.userRole === "edit";
+
   return (
     <div className="font-sans flex flex-col overflow-auto">
-      <div className="flex flex-col justify-center items-center">
-        {isScannerEnabled ? (
+      {hasEditRole && isScannerEnabled ? (
+        <div className="flex flex-col justify-center items-center">
           <RSVPScanner
             sendScannerResult={props.sendScannerResult}
             setSearchQuery={(query) => {
               searchRef.current?.setQuery(query);
             }}
           />
-        ) : null}
-      </div>
+        </div>
+      ) : null}
       <GuestList
+        userRole={props.userRole}
         searchRef={searchRef}
         guestListData={props.guestListData}
         setManualAttendance={props.setManualAttendance}
         toggleScanner={toggleScanner}
         extraData={isScannerEnabled}
         toggleButton={
-          <button
-            onClick={handleToggleClick}
-            className={`rounded-lg p-2 ml-2 ${
-              isScannerEnabled ? "bg-red-500" : "bg-green-500"
-            } text-white font-bold cursor-pointer`}
-          >
-            <CameraIcon />
-          </button>
+          hasEditRole ? (
+            <button
+              onClick={handleToggleClick}
+              className={`rounded-lg p-2 ml-2 ${
+                isScannerEnabled ? "bg-red-500" : "bg-green-500"
+              } text-white font-bold cursor-pointer`}
+            >
+              <CameraIcon />
+            </button>
+          ) : null
         }
       />
     </div>
@@ -175,6 +181,7 @@ function RSVPScanner({
 // eslint-disable-next-line react/display-name
 const GuestList = memo(
   ({
+    userRole,
     guestListData,
     setManualAttendance,
     extraData,
@@ -182,6 +189,7 @@ const GuestList = memo(
     toggleScanner,
     toggleButton,
   }: {
+    userRole?: "edit" | "readonly";
     searchRef: React.RefObject<{ setQuery(s: string): void }>;
     guestListData: GuestData[];
     setManualAttendance: (
@@ -274,7 +282,7 @@ const GuestList = memo(
       }
 
       // Create a memoized component + inject the dependency
-      const GuestRow = makeGuestRow(setValue);
+      const GuestRow = makeGuestRow(setValue, userRole);
       const Comp = (props: ListChildComponentProps<GuestData[]>) => {
         return <GuestRow {...props} />;
       };
@@ -282,7 +290,7 @@ const GuestList = memo(
       Comp.displayName = "GuestRow";
 
       return Comp;
-    }, [setManualAttendance]);
+    }, [setManualAttendance, userRole]);
 
     return (
       <>
@@ -349,6 +357,7 @@ const GuestList = memo(
 
 function makeGuestRow(
   setValue: (id: string, isAttending: boolean) => unknown,
+  userRole?: "edit" | "readonly",
 ): React.FC<ListChildComponentProps<GuestData[]>> {
   function GuestRow({
     data,
@@ -384,15 +393,17 @@ function makeGuestRow(
             <li>Will attend: {guestData.willAttend ? "yes" : "no"}</li>
             <li>Attended: {guestData.isAttending ? "yes" : "no"}</li>
           </ul>
-          <div className="flex items-center justify-center">
-            <input
-              type="checkbox"
-              onChange={debouncedOnClick}
-              checked={Boolean(guestData.isAttending)}
-              style={{ width: 24, height: 24 }}
-              className={`py-1 px-2 rounded`}
-            />
-          </div>
+          {userRole === "edit" ? (
+            <div className="flex items-center justify-center">
+              <input
+                type="checkbox"
+                onChange={debouncedOnClick}
+                checked={Boolean(guestData.isAttending)}
+                style={{ width: 24, height: 24 }}
+                className={`py-1 px-2 rounded`}
+              />
+            </div>
+          ) : null}
         </div>
       </div>
     );

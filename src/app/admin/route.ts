@@ -39,7 +39,7 @@ export async function GET(request: Request) {
       secure: true,
       sameSite: "strict",
       path: "/",
-      domain: redirectURL.host,
+      domain: redirectURL.hostname,
 
       // 24 hours
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
@@ -48,7 +48,7 @@ export async function GET(request: Request) {
   );
   headers.append(
     "Set-Cookie",
-    cookie.serialize("ws_any", newToken, {
+    cookie.serialize("ws_lt", Date.now(), {
       httpOnly: true,
       secure: true,
       sameSite: "strict",

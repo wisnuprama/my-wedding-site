@@ -13,9 +13,10 @@ type AdminProps = {};
 
 export default async function GuestBookAdmin(_: AdminProps) {
   const userManager = UserManager.createUserManagerUsingEnvVariable();
-  const userToken = userManager.getCurrentUser()?.token;
+  const user = userManager.getCurrentUser();
+  const userToken = user?.token;
 
-  if (!userManager.isValidToken(userToken)) {
+  if (!user || !userManager.isValidToken(userToken)) {
     return (
       <div className="h-screen flex flex-col justify-center items-center">
         <p className="text-2xl mb-4">Not Found</p>
@@ -39,8 +40,9 @@ export default async function GuestBookAdmin(_: AdminProps) {
 
   return (
     <main>
-      <Navbar />
+      <Navbar username={user.username} />
       <AdminPanel
+        userRole={user.role}
         guestListData={guestListResponse.data}
         sendScannerResult={updateGuestIsAttending}
         setManualAttendance={setGuestIsAttending}
