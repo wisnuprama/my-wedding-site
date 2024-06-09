@@ -39,17 +39,33 @@ export async function GET(request: Request) {
       secure: true,
       sameSite: "strict",
       path: "/",
+      domain: redirectURL.host,
 
       // 24 hours
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
       maxAge: 60 * 60 * 24,
     }),
   );
+  headers.append(
+    "Set-Cookie",
+    cookie.serialize("ws_any", newToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      path: "/",
+
+      // 24 hours
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
+      maxAge: 60 * 60 * 24,
+    }),
+  );
+
   const response = new Response(
     `<html>
     <head>
       <title>Admin</title>
       <meta name="description" content="Admin Panel" />
+      <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16">
     </head>
     <script>window.location.href = '${redirectURL.toString()}'</script>
     </html>`,
