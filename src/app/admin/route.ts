@@ -51,9 +51,9 @@ export async function GET(request: Request) {
       sameSite: "strict",
       path: "/",
 
-      // 10 years
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365 * 10),
-      maxAge: 60 * 60 * 24 * 365 * 10,
+      // 24 hours
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
+      maxAge: 60 * 60 * 24,
     }),
   );
   const response = new Response(
