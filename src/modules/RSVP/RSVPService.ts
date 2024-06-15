@@ -320,7 +320,7 @@ export class RSVPService {
         id: rsvp.get("id"),
         ...deserializeSheetData({
           name: rsvp.get("nama"),
-          pax: rsvp.get("actual_pax") || rsvp.get("estimated_pax"),
+          pax: rsvp.get("will_attend") === "TRUE" ?rsvp.get("actual_pax") : rsvp.get("estimated_pax"),
           vip: rsvp.get("vip"),
           willAttend: rsvp.get("will_attend"),
           hasCollectedSouvenir: rsvp.get("has_collected_souvenir"),
@@ -342,7 +342,7 @@ export class RSVPService {
         id: rsvp.get("id"),
         ...deserializeSheetData({
           name: rsvp.get("nama"),
-          pax: rsvp.get("actual_pax") || rsvp.get("estimated_pax"),
+          pax: rsvp.get("will_attend") === "TRUE" ? rsvp.get("actual_pax") : rsvp.get("estimated_pax"),
           vip: rsvp.get("vip"),
           rsvpDone: rsvp.get("rsvp_done"),
           willAttend: rsvp.get("will_attend"),
